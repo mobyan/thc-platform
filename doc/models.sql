@@ -66,7 +66,7 @@ CREATE TABLE `device_data` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100000 DEFAULT CHARSET=utf8 COMMENT='设备信息';
 
-REATE TABLE `station_alert_config` (
+CREATE TABLE `station_alert_config` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `station_id` bigint(20) unsigned NOT NULL COMMENT '设备ID',
   `device_id` bigint(20) unsigned NOT NULL COMMENT '设备ID',
