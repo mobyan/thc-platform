@@ -14,12 +14,9 @@ class DeviceDataController extends Controller
      */
     public function index()
     {
-        $data = DeviceData::find(100000);
-        // var_dump($data->device_config);
-        // die();
-        // return $data->config->data;
-        $datas = DeviceData::all();
-        return $datas;
+        $items = DeviceData::all();
+        $count = count($items);
+        return compact('items', 'count');
     }
 
 
