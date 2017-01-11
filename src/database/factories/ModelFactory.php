@@ -21,3 +21,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\DeviceData::class, function (Faker\Generator $faker) {
+
+    $data = [
+        'ts' => $faker->dateTimeThisMonth,
+        'data' => ['t_30' => [ 'value' => $faker->randomDigitNotNull]],
+        'device_config_id' => $faker->randomDigitNotNull,
+    ];
+    $data['data'] = json_encode($data['data']);
+    return $data;
+});
