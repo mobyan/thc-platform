@@ -16,7 +16,7 @@ class DeviceDataController extends Controller
     {
         $items = DeviceData::all();
         $count = count($items);
-        return compact('items', 'count');
+        return compact('count', 'items');
     }
 
 
