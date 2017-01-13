@@ -15,6 +15,7 @@ class CreateStation extends Migration
     {
         Schema::create('station', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('app_id')->unsigned();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();  
@@ -28,6 +29,6 @@ class CreateStation extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('station');
     }
 }

@@ -28,7 +28,29 @@ $factory->define(App\DeviceData::class, function (Faker\Generator $faker) {
         'ts' => $faker->dateTimeThisMonth,
         'data' => ['t_30' => [ 'value' => $faker->randomDigitNotNull]],
         'device_config_id' => $faker->randomDigitNotNull,
+        'device_id' => $faker->randomDigitNotNull,
     ];
     $data['data'] = json_encode($data['data']);
     return $data;
 });
+
+$factory->define(App\Device::class, function (Faker\Generator $faker) {
+
+    return [
+        'station_id' => $faker->randomDigitNotNull,
+    ];
+});
+
+$factory->define(App\Station::class, function (Faker\Generator $faker) {
+
+    return [
+        'app_id' => $faker->randomDigitNotNull,
+    ];
+});
+
+$factory->define(App\App::class, function (Faker\Generator $faker) {
+
+    return [
+    ];
+});
+

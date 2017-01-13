@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(DeviceDataSeeder::class);
-        factory(App\User::class, 3)->create();
+        factory(App\DeviceData::class, 50)->create();
+        factory(App\User::class, 1)->create();
+        factory(App\Device::class, 10)->create();
+        factory(App\Station::class, 3)->create();
+        factory(App\App::class, 1)->create();
     }
 }
