@@ -16,6 +16,16 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth');
-Route::resource('device/{device_id}/data', 'DeviceDataController', ['only' => [
+
+Route::resource('station', 'StationController', ['only' => [
+    'index'
+]]);
+Route::resource('station/{station_id}/device', 'DeviceController', ['only' => [
+    'index'
+]]);
+Route::resource('station/{station_id}/device/{device_id}/data', 'DeviceDataController', ['only' => [
+    'index'
+]]);
+Route::resource('station/{station_id}/device/{device_id}/config', 'DeviceConfigController', ['only' => [
     'index'
 ]]);
