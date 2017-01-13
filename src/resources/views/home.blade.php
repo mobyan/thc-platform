@@ -14,4 +14,12 @@
         </div>
     </div>
 </div>
+<div>
+@{{ message }}
+    <ol>
+    <li v-for="todo in todos">
+      @{{ todo }}
+    </li>
+  </ol>
+</div>
 @endsection
