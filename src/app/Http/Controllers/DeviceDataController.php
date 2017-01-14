@@ -16,8 +16,26 @@ class DeviceDataController extends Controller
     public function index($station_id, $device_id)
     {
         $app_id = 1;
-        // $ret = DB::select('select count(*) as cnt from app, station, device where app.id = station.app_id and station.id = device.station_id and app.id = ? and station.id = ? and device.id = ? ', compact('app_id', 'station_id', 'device_id'));
-        $sql = "select count(*) as cnt from app, station, device where app.id = station.app_id and station.id = device.station_id and app.id = {$app_id} and station.id = {$station_id} and device.id = ${device_id}";
+        $this->assertOwnership(['app' => $app_id, 'station' => $station_id, 'device' => $device_id]);
+        $items = DeviceData::where('device_id', '=', $device_id)->orderBy('ts', 'asc')->get();
+        $count = count($items);
+        return compact('count', 'items');
+    }
+
+    public function assertOwnership($stack) {
+        $tables = array_keys($stack);
+        $where = [];
+        for ($i=0; $i < count($tables) - 1; $i++) { 
+            $a = $tables[$i];
+            $b = $tables[$i + 1];
+            $where[] = "{$a}.id = {$b}.{$a}_id";
+        }
+        foreach ($stack as $k => $v) {
+            $where[] = "{$k}.id = {$v}";
+        }
+        $where_str = implode(' and ', $where);
+        $from = implode(', ', $tables);
+        $sql = "select count(*) as cnt from {$from} where {$where_str};";
         $statment = DB::getPDO()->prepare($sql);
         $statment->execute();
         $ret = $statment->fetchAll();
@@ -25,11 +43,7 @@ class DeviceDataController extends Controller
         if ($cnt != 1) {
             throw new \Exception("Resouce Not Found", 1);
         }
-        $items = DeviceData::where('device_id', '=', $device_id)->orderBy('ts', 'asc')->get();
-        $count = count($items);
-        return compact('count', 'items');
     }
-
 
     /**
      * Show the form for creating a new resource.
