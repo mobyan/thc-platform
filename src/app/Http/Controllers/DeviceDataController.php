@@ -17,7 +17,7 @@ class DeviceDataController extends Controller
     {
         $app_id = 1;
         $this->assertOwnership(['app' => $app_id, 'station' => $station_id, 'device' => $device_id]);
-        $items = DeviceData::where('device_id', '=', $device_id)->orderBy('ts', 'asc')->get();
+        $items = DeviceData::where('device_id', '=', $device_id)->orderBy('ts', 'asc')->limit(12)->get();
         $count = count($items);
         return compact('count', 'items');
     }
