@@ -15,6 +15,8 @@
     </div>
 </div>
 <div>
+  <highcharts :options="options" ref="highcharts"></highcharts>
+  <button @click="updateCredits">update credits</button>
 @{{ message }}
     <ol>
     <li v-for="todo in todos">
