@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class DeviceDataController extends Controller
 {
+
+    static $model = \App\DeviceData::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,33 +18,10 @@ class DeviceDataController extends Controller
     public function index($station_id, $device_id)
     {
         $app_id = 1;
-        $this->assertOwnership(['app' => $app_id, 'station' => $station_id, 'device' => $device_id]);
-        $items = DeviceData::where('device_id', '=', $device_id)->orderBy('ts', 'asc')->limit(12)->get();
-        $count = count($items);
-        return compact('count', 'items');
-    }
-
-    public function assertOwnership($stack) {
-        $tables = array_keys($stack);
-        $where = [];
-        for ($i=0; $i < count($tables) - 1; $i++) { 
-            $a = $tables[$i];
-            $b = $tables[$i + 1];
-            $where[] = "{$a}.id = {$b}.{$a}_id";
-        }
-        foreach ($stack as $k => $v) {
-            $where[] = "{$k}.id = {$v}";
-        }
-        $where_str = implode(' and ', $where);
-        $from = implode(', ', $tables);
-        $sql = "select count(*) as cnt from {$from} where {$where_str};";
-        $statment = DB::getPDO()->prepare($sql);
-        $statment->execute();
-        $ret = $statment->fetchAll();
-        $cnt = $ret[0]['cnt'];
-        if ($cnt != 1) {
-            throw new \Exception("Resouce Not Found", 1);
-        }
+        $ownership = ['app' => $app_id, 'station' => $station_id, 'device' => $device_id];
+        return $this->_index($ownership, function (&$items) {
+            $items->orderBy('ts', 'asc');
+        });
     }
 
     /**

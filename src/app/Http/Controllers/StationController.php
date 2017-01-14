@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 class StationController extends Controller
 {
+
+    static $model = \App\Station::class;
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +15,9 @@ class StationController extends Controller
      */
     public function index()
     {
-        //
+        $app_id = 1;
+        $ownership = ['app' => $app_id];
+        return $this->_index($ownership);
     }
 
     /**

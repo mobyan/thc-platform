@@ -7,15 +7,19 @@ use App\Device;
 
 class DeviceController extends Controller
 {
+
+    static $model = \App\Device::class;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($station_id)
     {
         //
-        return 'ok';
+        $app_id = 1;
+        $ownership = ['app' => $app_id, 'station' => $station_id];
+        return $this->_index($ownership);
     }
 
     /**
