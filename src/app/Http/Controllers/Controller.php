@@ -14,17 +14,25 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function __construct() {
+        $ownership = Request::route()->parameters();
+        $ownership = array_merge(['app_id' => 1], $ownership);
+        if (is_numeric(last(Request::segments()))) {
+            $ownership = array_slice($ownership, 0, count($ownership) - 1);
+        }
+        $this->assertOwnership($ownership);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function _index($ownership, $callback = null)
+    public function _index($where, $callback = null)
     {
-        $this->assertOwnership($ownership);
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
-        $items = call_user_func([static::$model, 'where'], last(array_keys($ownership)).'_id', '=', last($ownership))->limit($limit)->offset($offset);
+        $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
         if ($callback) {
             $callback($items);
         }
@@ -33,8 +41,20 @@ class Controller extends BaseController
         return compact('count', 'items');
     }
 
+    public function _show($id) {
+        return call_user_func([static::$model, 'find'], $id);
+    }
+
+
     public function assertOwnership($stack) {
+        $tmp = [];
+        foreach ($stack as $k => $v) {
+            $tmp[substr($k, 0, strlen($k)-3)] = $v;
+        }
+        $stack = $tmp;
         $tables = array_keys($stack);
+        // die(json_encode($stack));
+
         $where = [];
         for ($i=0; $i < count($tables) - 1; $i++) { 
             $a = $tables[$i];

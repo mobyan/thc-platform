@@ -15,9 +15,7 @@ class StationController extends Controller
      */
     public function index()
     {
-        $app_id = 1;
-        $ownership = ['app' => $app_id];
-        return $this->_index($ownership);
+        return $this->_index(['app_id', '=', 1]);
     }
 
     /**
@@ -49,7 +47,7 @@ class StationController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->_show($id);
     }
 
     /**

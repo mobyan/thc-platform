@@ -16,9 +16,7 @@ class DeviceConfigController extends Controller
      */
     public function index($station_id, $device_id)
     {
-        $app_id = 1;
-        $ownership = ['app' => $app_id, 'station' => $station_id, 'device' => $device_id];
-        return $this->_index($ownership);
+        return $this->_index(['device_id', '=', $device_id]);
     }
 
     /**
@@ -48,9 +46,9 @@ class DeviceConfigController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($station_id, $device_id, $id)
     {
-        //
+        return $this->_show($id);
     }
 
     /**
