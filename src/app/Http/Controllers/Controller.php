@@ -82,7 +82,7 @@ class Controller extends BaseController
         $ret = $statment->fetchAll();
         $cnt = $ret[0]['cnt'];
         if ($cnt != 1) {
-            throw new \Exception("Resouce Not Found", 1);
+            throw new \Exception("Resource Not Found", 1);
         }
     }
 

@@ -20,4 +20,11 @@ class DeviceConfig extends Model
     public function setControlAttribute($v) {
         $this->attributes['control'] = json_encode($v);
     }
+    public function getDataAttribute($v) {
+        return json_decode($v, true);
+    }
+
+    public function getControlAttribute($v) {
+        return json_decode($v, true);
+    }
 }
