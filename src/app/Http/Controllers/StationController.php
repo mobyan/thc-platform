@@ -75,7 +75,9 @@ class StationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            ]);
+        return $this->_update($id, $request->all());
     }
 
     /**

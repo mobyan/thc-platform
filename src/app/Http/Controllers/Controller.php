@@ -14,12 +14,16 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    static $table_map = [
+        'config' => 'device_config',
+        'data' => 'device_data',
+    ];
     public function __construct() {
         $ownership = Request::route()->parameters();
-        $ownership = array_merge(['app_id' => 1], $ownership);
-        if (is_numeric(last(Request::segments()))) {
-            $ownership = array_slice($ownership, 0, count($ownership) - 1);
-        }
+        $ownership = array_merge(['app' => 1], $ownership);
+        // if (is_numeric(last(Request::segments()))) {
+            // $ownership = array_slice($ownership, 0, count($ownership) - 1);
+        // }
         $this->assertOwnership($ownership);
     }
 
@@ -45,16 +49,22 @@ class Controller extends BaseController
         return call_user_func([static::$model, 'find'], $id);
     }
 
+    public function _update($id, $data) {
+        $model = call_user_func([static::$model, 'find'], $id);
+        $model->fill($data);
+        $model->save();
+        return $model;
+    }
+
 
     public function assertOwnership($stack) {
         $tmp = [];
         foreach ($stack as $k => $v) {
-            $tmp[substr($k, 0, strlen($k)-3)] = $v;
+            $tmp[@static::$table_map[$k]? : $k] = $v;
         }
         $stack = $tmp;
-        $tables = array_keys($stack);
-        // die(json_encode($stack));
 
+        $tables = array_keys($stack);
         $where = [];
         for ($i=0; $i < count($tables) - 1; $i++) { 
             $a = $tables[$i];

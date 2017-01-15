@@ -42,8 +42,6 @@ class DeviceConfigController extends Controller
             ]);
         $body = $request->all();
         $body['device_id'] = $device_id;
-        $body['data'] = json_encode($body['data']);
-        $body['control'] = json_encode($body['control']);
         return DeviceConfig::create($body);
     }
 
@@ -76,9 +74,11 @@ class DeviceConfigController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $station_id, $device_id, $id)
     {
-        //
+        $this->validate($request, [
+            ]);
+        return $this->_update($id, $request->all());
     }
 
     /**
@@ -89,6 +89,6 @@ class DeviceConfigController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DeviceConfig::destroy($id);
     }
 }
