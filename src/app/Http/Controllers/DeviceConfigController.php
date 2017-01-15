@@ -26,7 +26,6 @@ class DeviceConfigController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -35,9 +34,17 @@ class DeviceConfigController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $station_id, $device_id)
     {
-        //
+        $this->validate($request, [
+            'data' => 'required',
+            'control' => 'required',
+            ]);
+        $body = $request->all();
+        $body['device_id'] = $device_id;
+        $body['data'] = json_encode($body['data']);
+        $body['control'] = json_encode($body['control']);
+        return DeviceConfig::create($body);
     }
 
     /**

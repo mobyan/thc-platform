@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Station;
 
 class StationController extends Controller
 {
@@ -36,7 +37,11 @@ class StationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            ]);
+        $body = $request->all();
+        $body['app_id'] = 1;
+        return Station::create($body);
     }
 
     /**

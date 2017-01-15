@@ -35,9 +35,13 @@ class DeviceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $station_id)
     {
-        //
+        $this->validate($request, [
+            ]);
+        $body = $request->all();
+        $body['station_id'] = $station_id;
+        return Device::create($body);
     }
 
     /**

@@ -18,14 +18,14 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth');
 
 Route::resource('station', 'StationController', ['only' => [
-    'index', 'show'
+    'index', 'show', 'store'
 ]]);
 Route::resource('station/{station_id}/device', 'DeviceController', ['only' => [
-    'index', 'show'
+    'index', 'show', 'store'
 ]]);
 Route::resource('station/{station_id}/device/{device_id}/data', 'DeviceDataController', ['only' => [
     'index'
 ]]);
 Route::resource('station/{station_id}/device/{device_id}/config', 'DeviceConfigController', ['only' => [
-    'index', 'show'
+    'index', 'show', 'store'
 ]]);
