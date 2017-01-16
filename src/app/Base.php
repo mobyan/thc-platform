@@ -9,9 +9,8 @@ class Base extends Model
 {
     use SoftDeletes;
 
-    public function __construct() {
-        parent::__construct();
+    public function __construct(array $attributes = []) {
+        parent::__construct($attributes);
         $this->hidden[] = 'deleted_at';
-
     }
 }

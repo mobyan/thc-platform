@@ -66,3 +66,14 @@ $factory->define(App\App::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Alert::class, function (Faker\Generator $faker) {
+
+    $data = [
+        'ts' => $faker->dateTimeThisMonth,
+        'content' => $faker->sentence,
+        'level' => $faker->randomElement(['fatal', 'warning', 'notice']),
+        'status' => $faker->randomElement(['normal', 'abnormal']),
+        'station_id' => $faker->numberBetween(1, 100),
+    ];
+    return $data;
+});

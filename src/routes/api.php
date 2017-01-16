@@ -29,3 +29,6 @@ Route::resource('station/{station}/device/{device}/data', 'DeviceDataController'
 Route::resource('station/{station}/device/{device}/config', 'DeviceConfigController', ['only' => [
     'index', 'show', 'store', 'update'
 ]]);
+Route::resource('station/{station}/alert', 'AlertController', ['only' => [
+    'index'
+]]);

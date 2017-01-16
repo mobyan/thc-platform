@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         factory(App\Device::class, 10)->create();
         factory(App\Station::class, 3)->create();
         factory(App\App::class, 1)->create();
+        factory(App\Alert::class, 200)->create();
     }
 }
