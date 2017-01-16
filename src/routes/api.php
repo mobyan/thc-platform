@@ -27,5 +27,5 @@ Route::resource('station/{station}/device/{device}/data', 'DeviceDataController'
     'index'
 ]]);
 Route::resource('station/{station}/device/{device}/config', 'DeviceConfigController', ['only' => [
-    'index', 'show', 'store', 'update', 'destroy'
+    'index', 'show', 'store', 'update'
 ]]);

@@ -9,9 +9,6 @@ class DeviceData extends Model
 {
     //
     protected $table = 'device_data';
-    use SoftDeletes;
-
-    protected $hidden = ['deleted_at'];
 
     public function getDataAttribute($value) {
         return json_decode($value, true);

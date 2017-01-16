@@ -88,6 +88,6 @@ class StationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Station::destroy($id);
     }
 }

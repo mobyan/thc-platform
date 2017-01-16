@@ -5,10 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DeviceConfig extends Model
+class DeviceConfig extends Base
 {
     //
-    use SoftDeletes;
     protected $fillable = ['data', 'control', 'device_id'];
 
     protected $table = 'device_config';
