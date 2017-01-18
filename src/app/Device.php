@@ -12,4 +12,5 @@ class Device extends Base
     protected $table = 'device';
 
     protected $fillable = ['station_id'];
+
 }

@@ -53,8 +53,16 @@ class StationController extends Controller
      */
     public function show($id)
     {
-        $data = $this->_show($id)->toArray();
-        return  $this->isApi ? $data: view('station-info', compact('data'));
+        $station = $this->_show($id);
+        if ($this->isApi) {
+            return $station;
+        } else {
+            // $devices = $station->devices;
+            // $station = $station->toArray();
+            // $devices = $devices->toArray();
+            // var_dump($devices);die();
+            return  $this->view('station-info', compact('station'));
+        }
     }
 
     /**

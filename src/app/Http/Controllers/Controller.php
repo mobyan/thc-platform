@@ -87,4 +87,8 @@ class Controller extends BaseController
         }
     }
 
+    public function view($file, $data) {
+        return view($file, ['tplData' => $data]);
+    }
+
 }
