@@ -19,6 +19,10 @@ class CreateStation extends Migration
             $table->string('name',50);
             $table->string('type',50);
             $table->string('location',100);
+            $table->decimal('lat', 10, 8);
+            $table->decimal('lon', 11, 8);
+            $table->decimal('alt');
+            $table->enum('status', ['normal', 'abnormal']);
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();  

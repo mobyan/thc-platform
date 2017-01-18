@@ -60,6 +60,10 @@ $factory->define(App\Station::class, function (Faker\Generator $faker) {
         'name' => $faker->word,
         'type' => $faker->word,
         'location' => $faker->city,
+        'lat' => $faker->latitude,
+        'lon' => $faker->longitude,
+        'alt' => $faker->randomFloat()% 10000,
+        'status' => $faker->randomElement(['normal', 'abnormal']),
     ];
 });
 
