@@ -57,6 +57,9 @@ $factory->define(App\Station::class, function (Faker\Generator $faker) {
 
     return [
         'app_id' => $faker->numberBetween(1, 100),
+        'name' => $faker->word,
+        'type' => $faker->word,
+        'location' => $faker->city,
     ];
 });
 

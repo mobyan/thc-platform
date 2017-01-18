@@ -16,6 +16,9 @@ class CreateStation extends Migration
         Schema::create('station', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('app_id')->unsigned();
+            $table->string('name',50);
+            $table->string('type',50);
+            $table->string('location',100);
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();  

@@ -24,6 +24,7 @@ class Controller extends BaseController
         // if (is_numeric(last(Request::segments()))) {
             // $ownership = array_slice($ownership, 0, count($ownership) - 1);
         // }
+        $this->isApi = Request::is('api/*');
         $this->assertOwnership($ownership);
     }
 

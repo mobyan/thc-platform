@@ -16,7 +16,8 @@ class StationController extends Controller
      */
     public function index()
     {
-        return $this->_index(['app_id', '=', 1]);
+        $data = $this->_index(['app_id', '=', 1]);
+        return  $this->isApi ? $data: view('station', $data);
     }
 
     /**

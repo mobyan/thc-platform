@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::resource('station', 'StationController', ['only' => [
+    'index', 'show', 'store', 'update', 'destroy'
+]]);

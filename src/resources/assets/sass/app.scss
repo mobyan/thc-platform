@@ -7,3 +7,15 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+    background-color: #fff;
+}
+
+.navbar-custom {
+    color: #FFF;
+    background: linear-gradient(to bottom, #00aadf 0%,#0d98c7 98%);
+}
+#app > nav > div > div.navbar-header > a,#app-navbar-collapse > ul.nav.navbar-nav.navbar-right > li > a {
+    color: #fff;
+}
