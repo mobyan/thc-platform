@@ -25,7 +25,10 @@
       <td>{{ $item->type }}</td>
       <td>{{ $item->location }}</td>
       <td><img height="20" src="https://et.cern.ac.cn/static/images/3.png" class="signal"></td>
-      <td><a href="/station/{{$item->id}}"><img height="20" src="https://et.cern.ac.cn/static/images/info.png" class="signal"></a></td>
+      <td>
+          <a href="/station/{{$item->id}}"><img height="20" src="https://et.cern.ac.cn/static/images/info.png" class="signal"></a>
+          <a href="/station/{{$item->id}}/dashboard"><img height="20" src="https://et.cern.ac.cn/static/images/dashboard.png" class="signal"></a>
+      </td>
     </tr>
   @endforeach
   </table>

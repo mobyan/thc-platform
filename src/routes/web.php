@@ -22,3 +22,9 @@ Route::get('/home', 'HomeController@index');
 Route::resource('station', 'StationController', ['only' => [
     'index', 'show', 'store', 'update', 'destroy'
 ]]);
+
+Route::resource('station/{station}/device', 'DeviceController', ['only' => [
+    'index', 'show', 'store', 'update', 'destroy'
+]]);
+
+Route::get('/station/{station}/dashboard', 'StationController@dashboard');

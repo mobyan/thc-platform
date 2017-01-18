@@ -50,13 +50,19 @@ $factory->define(App\Device::class, function (Faker\Generator $faker) {
 
     return [
         'station_id' => $faker->numberBetween(1, 100),
+        'name' => $faker->word,
+        'type' => $faker->word,
+        'company' => $faker->company,
+        'model' => $faker->word,
+        'sn' => strval($faker->randomNumber(7)),
+        'version' => 'v'.$faker->numberBetween(0,9).'.'.$faker->numberBetween(0,9),
     ];
 });
 
 $factory->define(App\Station::class, function (Faker\Generator $faker) {
 
     return [
-        'app_id' => $faker->numberBetween(1, 100),
+        'app_id' => 1, //$faker->numberBetween(1, 100),
         'name' => $faker->word,
         'type' => $faker->word,
         'location' => $faker->city,
