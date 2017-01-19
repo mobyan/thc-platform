@@ -17,4 +17,8 @@ class DeviceData extends Model
     public function config() {
         return $this->belongsTo('App\DeviceConfig', 'device_config_id');
     }
+
+    public function setDataAttribute($v) {
+        $this->attributes['data'] = json_encode($v);
+    }
 }

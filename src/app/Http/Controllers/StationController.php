@@ -20,6 +20,12 @@ class StationController extends Controller
         return  $this->isApi ? $data: view('station', $data);
     }
 
+    public function dashboard($station_id) {
+        // devices 
+        // values
+        return Station::with('devices.configs')->find($station_id);
+        // return Station::with('devices.configs')->find($station_id)->getAllDataKeys();
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -13,4 +13,11 @@ class Device extends Base
 
     protected $fillable = ['station_id'];
 
+    public function configs() {
+        return $this->hasMany('App\DeviceConfig');
+    }
+
+    public function config() {
+        return $this->configs()->orderBy('updated_at', 'desc')->limit(1);
+    }
 }

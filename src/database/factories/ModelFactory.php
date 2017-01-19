@@ -23,33 +23,30 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\DeviceData::class, function (Faker\Generator $faker) {
-
+    $key = 't_'.$faker->numberBetween(1, 10);
     $data = [
         'ts' => $faker->dateTimeThisMonth,
-        'data' => ['t_30' => [ 'value' => $faker->numberBetween(1, 100)]],
+        'data' => [$key => [ 'value' => $faker->numberBetween(1, 100)]],
         'device_config_id' => $faker->numberBetween(1, 100),
         'device_id' => $faker->numberBetween(1, 100),
     ];
-    $data['data'] = json_encode($data['data']);
     return $data;
 });
 
 $factory->define(App\DeviceConfig::class, function (Faker\Generator $faker) {
-
+    $key = 't_'.$faker->numberBetween(1, 10);
     $data = [
-        'data' => ['t_30' => [ 'unit' => $faker->numberBetween(1, 100)]],
+        'data' => [$key => [ 'unit' => $faker->numberBetween(1, 100)]],
         'control' => ['t_30' => [ 'value' => $faker->numberBetween(1, 100)]],
-        'device_id' => $faker->numberBetween(1, 100),
+        'device_id' => $faker->numberBetween(1, 10),
     ];
-    $data['data'] = json_encode($data['data']);
-    $data['control'] = json_encode($data['control']);
     return $data;
 });
 
 $factory->define(App\Device::class, function (Faker\Generator $faker) {
 
     return [
-        'station_id' => $faker->numberBetween(1, 100),
+        'station_id' => $faker->numberBetween(1, 10),
         'name' => $faker->word,
         'type' => $faker->word,
         'company' => $faker->company,
@@ -86,7 +83,7 @@ $factory->define(App\Alert::class, function (Faker\Generator $faker) {
         'content' => $faker->sentence,
         'level' => $faker->randomElement(['fatal', 'warning', 'notice']),
         'status' => $faker->randomElement(['normal', 'abnormal']),
-        'station_id' => $faker->numberBetween(1, 100),
+        'station_id' => $faker->numberBetween(1, 10),
     ];
     return $data;
 });

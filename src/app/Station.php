@@ -14,4 +14,13 @@ class Station extends Base
         return $this->hasMany('App\Device');
     }
 
+    public function getAllDataKeys() {
+        $keys = [];
+        foreach ($this->devices as $device) {
+            foreach ($device->configs as $config) {
+                $keys = array_merge($keys, array_keys($config->data));
+            }
+        }
+        return $keys;
+    }
 }
