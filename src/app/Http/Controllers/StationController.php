@@ -23,7 +23,8 @@ class StationController extends Controller
     public function dashboard($station_id) {
         // devices 
         // values
-        return Station::with('devices.configs')->find($station_id);
+        $station = Station::with('devices.configs')->find($station_id);
+        return $this->view('dashboard', compact('station'));
         // return Station::with('devices.configs')->find($station_id)->getAllDataKeys();
     }
     /**

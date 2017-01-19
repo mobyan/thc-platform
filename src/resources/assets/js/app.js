@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * include Vue and Vue Resource. This gives a great starting point for
@@ -28,9 +27,8 @@ var options = {
     x: -20
   },
   xAxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ]
+    type: 'datetime',
+    tickInterval: 3600 * 1000,
   },
   yAxis: {
     title: {
@@ -52,52 +50,51 @@ var options = {
     borderWidth: 0
   },
   series: []
-  // series: [{
-  //   name: 'Tokyo',
-  //   data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-  // }, {
-  //   name: 'New York',
-  //   data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-  // }, {
-  //   name: 'Berlin',
-  //   data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-  // }, {
-  //   name: 'London',
-  //   data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-  // }]
 };
 
-
+var dataKeys = [];
+tplData.station.devices.forEach(function(d) {
+  d.configs.forEach(function(c) {
+    // console.log(Object.dataKeys(c.data));
+    dataKeys = dataKeys.concat(Object.keys(c.data));
+  });
+})
 window.app = new Vue({
-    el: '#app',
-    data: {
-        message: 'fuck off',
-        todos: [1,2,3,'abc'],
-        options: options
+  el: '#app',
+  data: {
+    message: 'fuck off',
+    todos: [1, 2, 3, 'abc'],
+    options: options,
+    dataKeys: dataKeys,
+    currentDataKey: dataKeys[0]
   },
   methods: {
     updateCredits: function() {
-        var chart = this.$refs.highcharts.chart;
+      var chart = this.$refs.highcharts.chart;
       chart.credits.update({
         style: {
           color: '#' + (Math.random() * 0xffffff | 0).toString(16)
         }
       });
+    },
+    selectDataKey: function (key) {
+      alert('fuck');
     }
   }
 });
 
-$(function () {
-    $.get('/api/station/1/device/3/data', function (data) {
-        // console.log(data)
-        var d = data.items.map(function (v) {
-            return v.data.t_30.value;
-        })
-        window.app.options.series.push({
-        name: 'Beijing',
-        data: d
+$(function() {
+  $.get('/api/station/2/device/8/data?limit=100', function(data) {
+    // console.log(data)
+    var d = data.items.reduce(function(memo, v) {
+      if(v.data.t_10) 
+        memo.push([v.ts, v.data.t_10.value]);
+      return memo;
+    },[])
+    window.app.options.series.push({
+      name: 'Beijing',
+      data: d
         // data: [6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6, 10]
     });
   });
 });
-
