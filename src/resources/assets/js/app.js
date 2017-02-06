@@ -61,7 +61,8 @@ var options = {
             exporting: {
                 enabled: true
             },
-            series: [],//format [{name: "name", data: [[x1,y1],[x2,y2]]},{name: "name", data:[[x1,y1],[x2,y2]]}]
+            series: demoDatas,
+            // series: [],//format [{name: "name", data: [[x1,y1],[x2,y2]]},{name: "name", data:[[x1,y1],[x2,y2]]}]
     };
 var dataKeys = [];
 tplData.station.devices.forEach(function(d) {
@@ -77,7 +78,12 @@ window.app = new Vue({
     todos: [1, 2, 3, 'abc'],
     options: options,
     dataKeys: dataKeys,
-    currentDataKey: dataKeys[0]
+    currentDataKey: dataKeys[0],
+    devices: tplData.station.devices,
+    checkedKeys: [],
+  },
+  computed: {
+
   },
   methods: {
     updateCredits: function() {

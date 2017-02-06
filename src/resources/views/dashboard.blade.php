@@ -150,12 +150,21 @@
     var tplData = {!! json_encode($tplData) !!};
   </script>
 
-  <select v-bind:value="currentDataKey" @change="selectDataKey()">
+<!--   <select v-bind:value="currentDataKey" @change="selectDataKey()">
     <option v-for="dataKey in dataKeys">
       @{{ dataKey }}
     </option>
-  </select>
-    <highcharts :options="options" ref="highcharts"></highcharts>
+  </select> -->
+  <ul id="example-1">
+  total keys: @{{ checkedKeys.length }}
+  <li v-for="device in devices" >
+    @{{ device.name }}：
+    <span  v-for="(v,k) in device.configs[0].data">
+      <input type="checkbox" :id="k" name="" :value="k" v-model="checkedKeys"><label> @{{ k }}</label>
+    </span>
+  </li>
+</ul>
+    <highcharts v-for="i in checkedKeys" :options="options" ref="highcharts"></highcharts>
 
 </div>
 @endsection

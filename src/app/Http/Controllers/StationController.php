@@ -24,6 +24,9 @@ class StationController extends Controller
         // devices 
         // values
         $station = Station::with('devices.configs')->find($station_id);
+        $station = $station->toArray();
+        $station['devices'] = array_slice($station['devices'], 0, 2);
+        // return $station;
         return $this->view('dashboard', compact('station'));
         // return Station::with('devices.configs')->find($station_id)->getAllDataKeys();
     }
