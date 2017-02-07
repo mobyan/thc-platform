@@ -155,7 +155,7 @@
       @{{ dataKey }}
     </option>
   </select> -->
-  <ul id="example-1">
+<!-- <ul id="example-1">
   total keys: @{{ checkedKeys.length }}
   <li v-for="device in devices" >
     @{{ device.name }}：
@@ -163,8 +163,10 @@
       <input type="checkbox" :id="k" name="" :value="k" v-model="checkedKeys"><label> @{{ k }}</label>
     </span>
   </li>
+</ul> -->
+<ul>
+  <li v-for="chart in charts">@{{ JSON.stringify(chart) }}</li>
+  <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
 </ul>
-    <highcharts v-for="i in checkedKeys" :options="options" ref="highcharts"></highcharts>
-
 </div>
 @endsection
