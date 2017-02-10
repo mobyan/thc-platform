@@ -22,9 +22,19 @@ window.app = new Vue({
   el: '#app',
   data: {
     devices: tplData.station.devices,
+    station: tplData.station,
+    datas: []
   },
   computed: {
     charts: function() {
+      return this.datas.map(function (v, k) {
+        var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
+        var chart = defaultOptions[type];
+        chart.series = v;
+        return chart;
+      })
+    },
+    chartsx: function() {
       var charts = {};
       this.devices.forEach(function(d) {
         d.configs.forEach(function(c) {
@@ -45,8 +55,34 @@ window.app = new Vue({
         });
       })
       return charts;
-    }
+    },
+  },
+  watch: {
+
   },
   methods: {
   }
 });
+function formatData(items) {
+  var data = {};
+  items.forEach(function (v) {
+    _.forIn(v.data, function (value, key) {
+      data[key] = data[key] || [];
+      data[key].push([new Date(v.ts).getTime(), value.value]);
+    })
+  })
+  return _.map(data, function (v, k) {
+    return {
+      name: k,
+      data: v,
+    }
+  })
+}
+$(function () {
+  var requests = app.devices.map(function (v) {
+    return $.get('/api/station/'+app.station.id+'/device/'+v.id+'/data');
+  })
+  $.when.apply($, requests).done(function (d1, d2) {
+    app.datas = [formatData(d1[0].items),formatData(d2[0].items)];
+  })
+})

@@ -155,21 +155,22 @@
       @{{ dataKey }}
     </option>
   </select> -->
-<ul id="example-1">
+<select class="form-control">
   <!-- total keys: @{{ checkedKeys.length }} -->
-  <li v-for="device in devices" >
-    @{{ device.name }}：
-    <template v-for="config in device.configs">
-    <span  v-for="(v,k) in config.data">
-    @{{ k }}
+  <option v-for="device in devices" @change="loadDeviceData(device)">
+    @{{ device.name }}
+    <!-- <template v-for="config in device.configs"> -->
+    <!-- <span  v-for="(v,k) in config.data"> -->
+    <!-- @{{ k }} -->
       <!-- <input type="checkbox" :id="k" name="" :value="k" v-model="checkedKeys"><label> @{{ k }}</label> -->
-    </span>
-    </template>
-  </li>
-</ul>
+    <!-- </span> -->
+    <!-- </template> -->
+  </option>
+</select>
 <ul>
   <!-- <li v-for="chart in charts">@{{ JSON.stringify(chart) }}</li> -->
   <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
 </ul>
+<div>@{{ datas }}</div>
 </div>
 @endsection
