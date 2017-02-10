@@ -23,44 +23,32 @@ window.app = new Vue({
   data: {
     devices: tplData.station.devices,
     station: tplData.station,
-    datas: []
+    selectedDevice: 0,
+    datas: [],
   },
   computed: {
     charts: function() {
-      return this.datas.map(function (v, k) {
-        var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
-        var chart = defaultOptions[type];
-        chart.series = v;
-        return chart;
-      })
-    },
-    chartsx: function() {
       var charts = {};
-      this.devices.forEach(function(d) {
-        d.configs.forEach(function(c) {
-          for (var k in c.data) {
-            c.data[k].name = k;
-            var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
-            c.data[k].type = type;
-            charts[type] = charts[type] || defaultOptions[type];
-            charts[type].series.push({
-              name: k,
-              data: [
-                [1486369987823.3499, Math.random()],
-                [1486371949927.53, Math.random()],
-                [1486373893430.49, Math.random()]
-              ]
-            })
-          }
-        });
+      this.datas.forEach(function (v) {
+        var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
+        charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
+        charts[type].series.push(v);
       })
       return charts;
     },
   },
   watch: {
-
+    selectedDevice: function () {
+      this.loadDeviceData(this.devices[this.selectedDevice])
+    }
   },
   methods: {
+    loadDeviceData: function (device) {
+      var app = this;
+      $.get('/api/station/'+this.station.id+'/device/'+device.id+'/data', function (data) {
+        app.datas = formatData(data.items);
+      });
+    }
   }
 });
 function formatData(items) {
@@ -78,11 +66,11 @@ function formatData(items) {
     }
   })
 }
-$(function () {
-  var requests = app.devices.map(function (v) {
-    return $.get('/api/station/'+app.station.id+'/device/'+v.id+'/data');
-  })
-  $.when.apply($, requests).done(function (d1, d2) {
-    app.datas = [formatData(d1[0].items),formatData(d2[0].items)];
-  })
-})
+// $(function () {
+//   var requests = app.devices.map(function (v) {
+//     return $.get('/api/station/'+app.station.id+'/device/'+v.id+'/data');
+//   })
+//   $.when.apply($, requests).done(function (d1, d2) {
+//     app.datas = [formatData(d1[0].items),formatData(d2[0].items)];
+//   })
+// })
