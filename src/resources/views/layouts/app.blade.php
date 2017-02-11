@@ -85,7 +85,10 @@
         </nav>
 
         @yield('content')
-          <router-view></router-view>
+        <router-view name="header"></router-view>
+        <div class="" style="width: 90%;margin: auto;">
+            <router-view ></router-view>
+        </div>
     </div>
 
     <!-- Scripts -->

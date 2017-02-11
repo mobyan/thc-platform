@@ -1,14 +1,6 @@
 <template>
   <div>
-    <div id="head" style="border-bottom: 1px solid #cacfda;margin-bottom: 1em;">
-      <div id="header" style="width: 90%;margin: auto;">
-        <div id="title">
-          <h3>Station 信息</h3>
-          <!-- <h3>xxxxxx</h3> -->
-        </div>
-      </div>
-    </div>
-    <div class="" style="width: 90%;margin: auto;">
+    <div class="">
       <p><label>id</label>: {{station.id}}</p>
       <p><label>name</label>: {{station.name}}</p>
       <p><label>type</label>: {{station.type}}</p>
@@ -18,15 +10,7 @@
       <p><label>alt</label>: {{station.alt}}</p>
       <p><label>status</label>: {{station.status}}</p>
     </div>
-    <div id="head" style="border-bottom: 1px solid #cacfda;margin-bottom: 1em;">
-      <div id="header" style="width: 90%;margin: auto;">
-        <div id="title">
-          <h4>Device 列表</h4>
-          <!-- <h3>xxxxxx</h3> -->
-        </div>
-      </div>
-    </div>
-    <div class="" style="width: 90%;margin: auto;">
+    <div class="">
       <table class="table table-bordered table-striped table-hover">
         <tbody>
           <tr>
