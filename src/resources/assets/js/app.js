@@ -20,18 +20,12 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.use(VueHighcharts);
 Vue.use(VueRouter);
 
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
-
-console.log(dashboard)
 const routes = [
-  { path: '/xx', component: dashboard},
-  { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar }
+  { path: '/dashboard', component: dashboard},
 ]
 
 const router = new VueRouter({
-  routes // （缩写）相当于 routes: routes
+  routes
 })
 
 window.app = new Vue({

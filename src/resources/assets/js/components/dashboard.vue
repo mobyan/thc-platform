@@ -9,15 +9,10 @@
   </div>
 
   <div class="" style="width: 90%;margin: auto;">
-
-      selectd: {{ selectedDevice }}
-      <select class="form-control" v-model="selectedDevice">
+      <label>设备：</label><select class="form-control" v-model="selectedDevice">
         <option v-for="(device,k) in devices" :value="k" >{{ device.name }}</option>
     </select>
-    <ul>
-        <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
-    </ul>
-    <div>{{ JSON.stringify(datas, null, 4) }}</div>
+    <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
   </div>
 </div>
 </template>

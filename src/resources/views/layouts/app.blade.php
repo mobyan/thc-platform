@@ -44,6 +44,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
+                        <li>
+                            <router-link to="/dashboard">dashboard</router-link>
+                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -79,6 +83,7 @@
         </nav>
 
         @yield('content')
+          <router-view></router-view>
     </div>
 
     <!-- Scripts -->
