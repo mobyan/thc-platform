@@ -32,7 +32,7 @@
                 devices: [],
             }
         },
-        mounted: function () {
+        created: function () {
             var self = this;
             $.get('/api/station/' + this.station + '/device', function (devices) {
                 self.devices = devices.items;

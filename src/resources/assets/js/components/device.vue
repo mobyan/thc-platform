@@ -17,7 +17,7 @@
         device: {}
     }
 },
-mounted: function () {
+created: function () {
   var self = this;
   var deviceId = this.$route.params.device;
   $.get(this.apiURI(), function (device) {

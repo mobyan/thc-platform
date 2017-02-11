@@ -45,7 +45,7 @@ export default  {
       });
     }
   },
-  mounted:function () {
+  created:function () {
     var self = this;
     $.get('/api/station/'+ this.$route.params.station+'?with=devices.configs', function (station) {
       station.devices = _.map(station.devices, function (v) {

@@ -21,7 +21,7 @@
         station: {}
       }
     },
-    mounted: function () {
+    created: function () {
       var self = this;
       $.get('/api/station/'+this.$route.params.station, function (station) {
         self.station = station;

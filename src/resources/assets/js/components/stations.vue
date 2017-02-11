@@ -31,7 +31,7 @@
         stations: []
       }
     },
-    mounted: function () {
+    created: function () {
       var self = this;
       $.get('/api/station', function (stations) {
         self.stations = stations.items;
