@@ -43,7 +43,9 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li>
+                            <router-link to="/stations">stations</router-link>
+                        </li>
                         <li>
                             <router-link to="/dashboard">dashboard</router-link>
                         </li>

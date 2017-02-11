@@ -15,6 +15,7 @@ import VueHighcharts from 'vue-highcharts';
 import highcharts from 'highcharts';
 import VueRouter from 'vue-router'
 import dashboard from './components/dashboard.vue'
+import stations from './components/stations.vue'
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.use(VueHighcharts);
@@ -22,6 +23,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/dashboard', component: dashboard},
+  { path: '/stations', component: stations},
 ]
 
 const router = new VueRouter({
