@@ -16,20 +16,9 @@ class StationController extends Controller
      */
     public function index()
     {
-        $data = $this->_index(['app_id', '=', 1]);
-        return  $this->isApi ? $data: view('station', $data);
+        return $this->_index(['app_id', '=', 1]);
     }
 
-    public function dashboard($station_id) {
-        // devices 
-        // values
-        // $station = Station::with('devices.configs')->find($station_id);
-        // $station = $station->toArray();
-        // $station['devices'] = array_slice($station['devices'], 0, 2);
-        // return $station;
-        return $this->view('dashboard');
-        // return Station::with('devices.configs')->find($station_id)->getAllDataKeys();
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -63,16 +52,7 @@ class StationController extends Controller
      */
     public function show($id)
     {
-        $station = $this->_show($id);
-        if ($this->isApi) {
-            return $station;
-        } else {
-            // $devices = $station->devices;
-            // $station = $station->toArray();
-            // $devices = $devices->toArray();
-            // var_dump($devices);die();
-            return  $this->view('station-info', compact('station'));
-        }
+        return $this->_show($id);
     }
 
     /**
