@@ -57,7 +57,7 @@ export default  {
   },
   mounted:function () {
     var self = this;
-    $.get('/api/station/2?with=devices.configs', function (station) {
+    $.get('/api/station/'+ this.$route.params.station+'?with=devices.configs', function (station) {
       station.devices = _.map(station.devices, function (v) {
         v.config = _.last(v.configs);
         return v;

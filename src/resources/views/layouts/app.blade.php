@@ -44,12 +44,12 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li>
-                            <router-link to="/stations">stations</router-link>
+                            <router-link to="/station">stations</router-link>
                         </li>
-                        <li>
+<!--                         <li>
                             <router-link to="/dashboard">dashboard</router-link>
                         </li>
-
+ -->
                     </ul>
 
                     <!-- Right Side Of Navbar -->
