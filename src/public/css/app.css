@@ -7703,4 +7703,8 @@ body {
   color: #fff;
 }
 
+.navbar-nav > li > a {
+  color: #fff !important;
+}
+
 /*# sourceMappingURL=app.css.map */

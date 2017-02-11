@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <div id="head" style="border-bottom: 1px solid #cacfda;margin-bottom: 1em;">
       <div id="header" style="width: 90%;margin: auto;">
         <div id="title">
@@ -8,18 +8,18 @@
         </div>
       </div>
     </div>
+
     <div class="" style="width: 90%;margin: auto;">
       <table class="table table-bordered table-striped table-hover">
-        <tr class="fatal">
-          <th>名称</th>
-          <th>类型</th>
-          <th>地址</th>
-          <th>状态</th>
-          <th>操作</th>
-        </tr>
-        <template v-for="station in stations">
-          <tr class="">
-            <!-- <td>{{ station.id }}</td> -->
+        <tbody>
+          <tr class="fatal">
+            <th>名称</th>
+            <th>类型</th>
+            <th>地址</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+          <tr v-for="station in stations" class="">
             <td>{{ station.name }}</td>
             <td>{{ station.type }}</td>
             <td>{{ station.location }}</td>
@@ -29,7 +29,7 @@
               <router-link :to="'/station/'+station.id+'/dashboard'"><img height="20" src="http://et.cern.ac.cn/static/images/dashboard.png" class="signal"></router-link>
             </td>
           </tr>
-        </template>
+        </tbody>
       </table>
     </div>
   </div>

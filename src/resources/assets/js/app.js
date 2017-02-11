@@ -23,9 +23,10 @@ Vue.use(VueHighcharts);
 Vue.use(VueRouter);
 
 const routes = [
+  { path: '/station', component: stations},
   { path: '/station/:station', component: station},
   { path: '/station/:station/dashboard', component: dashboard},
-  { path: '/station', component: stations},
+  { path: '/station/:station/device/:device', component: require('./components/device.vue')},
 ]
 
 const router = new VueRouter({
