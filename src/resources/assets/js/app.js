@@ -13,24 +13,36 @@ require('./bootstrap');
  */
 import VueHighcharts from 'vue-highcharts';
 import highcharts from 'highcharts';
+import VueRouter from 'vue-router'
+
 var defaultOptions = require('./chartOptions');
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.use(VueHighcharts);
+Vue.use(VueRouter);
 
-window.app = new Vue({
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+const router = new VueRouter({
+  routes // （缩写）相当于 routes: routes
+})
+
+var options = {
   el: '#app',
-  data: {
-    devices: tplData.station.devices,
-    station: tplData.station,
-    selectedDevice: 0,
-    datas: [],
-  },
+  router,
   computed: {
     charts: function() {
       var charts = {};
       this.datas.forEach(function (v) {
-        var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
+        // var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
+        var type = v._type;
         charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
         charts[type].series.push(v);
       })
@@ -46,12 +58,12 @@ window.app = new Vue({
     loadDeviceData: function (device) {
       var app = this;
       $.get('/api/station/'+this.station.id+'/device/'+device.id+'/data', function (data) {
-        app.datas = formatData(data.items);
+        app.datas = formatData(data.items, device.config);
       });
     }
   }
-});
-function formatData(items) {
+};
+function formatData(items, config) {
   var data = {};
   items.forEach(function (v) {
     _.forIn(v.data, function (value, key) {
@@ -63,14 +75,23 @@ function formatData(items) {
     return {
       name: k,
       data: v,
+      _type: config.data[k] ? config.data[k].type : 'temp',
     }
   })
 }
-// $(function () {
-//   var requests = app.devices.map(function (v) {
-//     return $.get('/api/station/'+app.station.id+'/device/'+v.id+'/data');
-//   })
-//   $.when.apply($, requests).done(function (d1, d2) {
-//     app.datas = [formatData(d1[0].items),formatData(d2[0].items)];
-//   })
-// })
+
+$(function () {
+  $.get('/api/station/2?with=devices.configs', function (station) {
+    station.devices = _.map(station.devices, function (v) {
+      v.config = _.last(v.configs);
+      return v;
+    })
+    options.data = {
+      devices: station.devices,
+      station: station,
+      selectedDevice: 0,
+      datas: [],
+    },
+    window.app = new Vue(options);
+  })
+})

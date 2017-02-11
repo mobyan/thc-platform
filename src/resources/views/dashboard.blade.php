@@ -10,9 +10,6 @@
 </div>
 
 <div class="" style="width: 90%;margin: auto;">
-  <script type="text/javascript">
-    var tplData = {!! json_encode($tplData) !!};
-  </script>
 
 selectd: @{{ selectedDevice }}
 <select class="form-control" v-model="selectedDevice">
@@ -21,6 +18,11 @@ selectd: @{{ selectedDevice }}
 <ul>
   <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
 </ul>
-<div>@{{ datas }}</div>
+<div>@{{ JSON.stringify(datas, null, 4) }}</div>
 </div>
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+      <router-view></router-view>
+
+
 @endsection

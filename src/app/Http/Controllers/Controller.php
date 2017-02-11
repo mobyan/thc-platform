@@ -37,7 +37,11 @@ class Controller extends BaseController
     {
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
+        $with = Request::input('with');
         $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
+        if ($with) {
+            $items = $items->with($with);
+        }
         if ($callback) {
             $callback($items);
         }
@@ -47,7 +51,12 @@ class Controller extends BaseController
     }
 
     public function _show($id) {
-        return call_user_func([static::$model, 'find'], $id);
+        $model = static::$model;
+        $with = Request::input('with');
+        if ($with) {
+            $model = call_user_func([$model, 'with'], $with);
+        }
+        return call_user_func([$model, 'find'], $id);
     }
 
     public function _update($id, $data) {
@@ -87,8 +96,7 @@ class Controller extends BaseController
         }
     }
 
-    public function view($file, $data) {
+    public function view($file, $data=null) {
         return view($file, ['tplData' => $data]);
     }
-
 }
