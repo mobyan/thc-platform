@@ -18,7 +18,7 @@
          <td>{{device.model}}</td>
          <td>{{device.sn}}</td>
          <td>{{device.version}}</td>
-         <td><router-link :to="'/station/'+ station + '/device/' + device.id"><img height="20" src="https://et.cern.ac.cn/static/images/info.png" class="signal"></router-link></td>
+         <td><router-link :to="'/station/'+ station + '/device/' + device.id"><img height="20" src="/image/info.png" class="signal"></router-link></td>
      </tr>
  </tbody>
 </table>
