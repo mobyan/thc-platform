@@ -19,6 +19,8 @@ class Controller extends BaseController
         'data' => 'device_data',
     ];
     public function __construct() {
+        $this->middleware('auth');
+
         $ownership = Request::route()->parameters();
         $ownership = array_merge(['app' => 1], $ownership);
         // if (is_numeric(last(Request::segments()))) {

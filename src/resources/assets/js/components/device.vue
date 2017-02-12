@@ -5,6 +5,10 @@
               <label for="name">Name</label>
               <input type="text" v-model="device.name" class="form-control" id="name" placeholder="name">
           </div>
+          <div class="form-group">
+              <label for="type">type</label>
+              <input type="text" v-model="device.type" class="form-control" id="type" placeholder="type">
+          </div>
           <button type="submit" @click.prevent="save()" class="btn btn-default">Submit</button>
       </form>
   </div>
@@ -34,6 +38,7 @@ methods: {
             method: 'put',
             data: {
                 name: this.device.name,
+                type: this.device.type,
             },
             success: function (data, res) {
                 console.log(res)

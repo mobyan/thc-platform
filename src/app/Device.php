@@ -11,7 +11,7 @@ class Device extends Base
 
     protected $table = 'device';
 
-    protected $fillable = ['station_id', 'name'];
+    protected $fillable = ['station_id', 'name', 'type'];
 
     public function configs() {
         return $this->hasMany('App\DeviceConfig');

@@ -76,6 +76,7 @@ class DeviceController extends Controller
     public function update(Request $request, $station_id, $id)
     {
         $this->validate($request, [
+            'type' => 'string',
             ]);
         return $this->_update($id, $request->all());
     }
