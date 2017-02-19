@@ -9,9 +9,9 @@
       <h3>基站图片</h3>
     </div>
     <div class="row">
-      <div v-for="image in images" class="col-xs-6 col-md-3">
+      <div v-for="url in gallery" class="col-xs-6 col-md-3">
         <div class="thumbnail">
-          <img :src="image.url" alt="image.alt">
+          <img src="/image/1.jpg" alt="alt">
         </div>
       </div>
     </div>
@@ -30,27 +30,6 @@
         station: null,
         selectedDevice: 0,
         datas: [],
-        images: [
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-        {url:'/image/1.jpg'},
-
-        ]
       }
     },
     computed: {
@@ -59,11 +38,16 @@
         this.datas.forEach(function (v) {
         // var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
         var type = v._type;
+        if (type == 'image') return;
         charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
         charts[type].series.push(v);
       })
         return charts;
       },
+      gallery: function () {
+        var image = _.find(this.datas, {_type:'image'}) || {};
+        return image.data;
+      }
     },
     watch: {
       selectedDevice: function () {
@@ -91,6 +75,7 @@
     }
   };
   function formatData(items, config) {
+    console.log(config)
     var data = {};
     items.forEach(function (v) {
       _.forIn(v.data, function (value, key) {
