@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Station;
+use Entrust;
 
 class StationController extends Controller
 {
 
     static $model = \App\Station::class;
+
+    static $permissions = ['update' => ['manage-stations']];
     /**
      * Display a listing of the resource.
      *

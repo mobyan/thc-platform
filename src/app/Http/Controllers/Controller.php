@@ -18,14 +18,15 @@ class Controller extends BaseController
         'config' => 'device_config',
         'data' => 'device_data',
     ];
+
+    static $permissions = [];
+
     public function __construct() {
         $this->middleware('auth');
 
         $ownership = Request::route()->parameters();
         $ownership = array_merge(['app' => 1], $ownership);
-        // if (is_numeric(last(Request::segments()))) {
-            // $ownership = array_slice($ownership, 0, count($ownership) - 1);
-        // }
+
         $this->isApi = Request::is('api/*');
         $this->assertOwnership($ownership);
     }
@@ -37,6 +38,7 @@ class Controller extends BaseController
      */
     public function _index($where, $callback = null)
     {
+        $this->assertPermissions('index');
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
         $with = Request::input('with');
@@ -53,6 +55,7 @@ class Controller extends BaseController
     }
 
     public function _show($id) {
+        $this->assertPermissions('show');
         $model = static::$model;
         $with = Request::input('with');
         if ($with) {
@@ -62,6 +65,7 @@ class Controller extends BaseController
     }
 
     public function _update($id, $data) {
+        $this->assertPermissions('update');
         $model = call_user_func([static::$model, 'find'], $id);
         $model->fill($data);
         $model->save();
@@ -100,5 +104,12 @@ class Controller extends BaseController
 
     public function view($file, $data=null) {
         return view($file, ['tplData' => $data]);
+    }
+
+    public function assertPermissions($action) {
+        if (isset(static::$permissions[$action])) {
+            $permissions = static::$permissions[$action];
+            call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
+        }
     }
 }
