@@ -20,6 +20,7 @@
 </template>
 
 <script>
+  import api from '../api'
   var defaultOptions = require('../chartOptions');
 
   export default  {
@@ -58,7 +59,7 @@
       loadDeviceData: function (device) {
         var app = this;
         $.get('/api/station/'+this.station.id+'/device/'+device.id+'/data', function (data) {
-          app.datas = formatData(data.items, device.config);
+          app.datas = api.formatData(data.items, device.config);
         });
       }
     },
@@ -74,22 +75,5 @@
       });
     }
   };
-  function formatData(items, config) {
-    console.log(config)
-    var data = {};
-    items.forEach(function (v) {
-      _.forIn(v.data, function (value, key) {
-        data[key] = data[key] || [];
-        data[key].push([new Date(v.ts).getTime(), value.value]);
-      })
-    })
-    return _.map(data, function (v, k) {
-      return {
-        name: k,
-        data: v,
-        _type: config.data[k] ? config.data[k].type : 'temp',
-      }
-    })
-  }
 
 </script>

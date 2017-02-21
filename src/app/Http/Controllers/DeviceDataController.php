@@ -17,9 +17,21 @@ class DeviceDataController extends Controller
      */
     public function index($station_id, $device_id)
     {
-        return $this->_index(['device_id', '=', $device_id], function (&$items) {
-            $items->orderBy('ts', 'asc');
+        $res = $this->_index(['device_id', '=', $device_id], function (&$items) {
+            $items->orderBy('ts', 'asc')->with('config');
         });
+        // foreach ($res['items'] as $item) {
+        //     if (!isset($item->config)) continue;
+        //     $config = $item->config->data;
+        //     $data = $item->data;
+        //     foreach ($data as $key => $value) {
+        //         $data[$key] += (@$config[$key]?:[]);
+        //     }
+        //     $item->data = $data;
+        // }
+        // foreach ($res['items'] as $item) {
+        // }
+        return $res;
     }
 
     /**
