@@ -1,7 +1,9 @@
 import defaultOptions from './chartOptions'
 export default {
-    getDeviceData(uri, callback) {
-        $.get('/api' + uri + '?with=config', function(data) {
+    getDeviceData(uri, query, callback) {
+        query = query || {}
+        query.with = 'config';
+        $.get('/api' + uri , query, function(data) {
             var keys = {};
             _.forIn(data.items, function(item) {
                 var config = item.config ? item.config.data : {};

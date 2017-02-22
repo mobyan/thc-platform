@@ -1,11 +1,5 @@
 export default {
     datepicker: {
-        startTime: {
-          time: '2017-02-11'
-      },
-      endtime: {
-          time: '2017-11-01'
-      },
       option: {
           type: 'day',
           week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
@@ -47,11 +41,5 @@ export default {
         month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         format:"YYYY-MM-DD HH:mm"
     },
-    limit: [
-    {
-        type: 'fromto',
-        from: '2017-02-01',
-        to: '2017-12-20'
-    }],
 }
 }

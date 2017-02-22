@@ -15,10 +15,16 @@ class DeviceDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($station_id, $device_id)
+    public function index($station_id, $device_id, Request $req)
     {
-        $res = $this->_index(['device_id', '=', $device_id], function (&$items) {
+        $res = $this->_index(['device_id', '=', $device_id], function (&$items) use ($req) {
             $items->orderBy('ts', 'asc')->with('config');
+            if ($req->input('start_at')) {
+                $items->where('ts', '>=', $req->input('start_at'));
+            }
+            if ($req->input('end_at')) {
+                $items->where('ts', '<=', $req->input('end_at'));
+            }
         });
         // foreach ($res['items'] as $item) {
         //     if (!isset($item->config)) continue;
