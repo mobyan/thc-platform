@@ -21,11 +21,11 @@ export default {
             return callback(null, keys);
         });
     },
-    data2charts (data) {
+    data2charts (data, type) {
+        data = _.filter(data, {type: type})
         var charts = {};
         _.forIn(data, function (v) {
             var type = v.type;
-            if (type == 'image') return;
             charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
             charts[type].series.push({
                     name: v.name,
@@ -37,7 +37,6 @@ export default {
         return charts;
     },
     formatData(items, config) {
-        console.log(config)
         var data = {};
         items.forEach(function(v) {
             _.forIn(v.data, function(value, key) {

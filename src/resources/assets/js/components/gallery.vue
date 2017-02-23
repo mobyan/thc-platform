@@ -1,0 +1,38 @@
+<template>
+    <div>
+        <div v-for="device in devices">
+            <div v-for="gallery in device">
+                <div>
+                  <h3>Date: {{gallery.date}}</h3>
+              </div>
+              <div class="row">
+                  <div v-for="image in gallery.images" class="col-xs-6 col-md-3">
+                    <div class="thumbnail">
+                      <img src="/image/1.jpg" alt="alt">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</template>
+
+<script >
+    export default {
+        props: ['images'],
+        computed: {
+            devices: function () {
+                return _.map(this.images, function (v,k) {
+                    var res = _.reduce(v.data, function (memo, value) {
+                        memo[value.ts] = memo[value.ts] || {date: value.ts, images:[]};
+                        memo[value.ts].images.push(value)
+                        return memo;
+                    },{});
+                    return res;
+                })
+            }
+        },
+        created: function () {
+        }
+    }
+</script>

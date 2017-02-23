@@ -17,6 +17,7 @@ import VueRouter from 'vue-router'
 import routes from './routes'
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('gallery', require('./components/gallery.vue'));
 Vue.use(VueHighcharts);
 Vue.use(VueRouter);
 
