@@ -1,17 +1,32 @@
 <template>
   <div class="">
-    <label>设备：</label><select class="form-control" v-model="selectedDevice">
-    <option v-for="(device,k) in devices" :value="k" >{{ device.name }}</option>
-  </select>
-  <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
-  <div>
-    <div>
-      <h3>基站图片</h3>
+    <div style="margin-bottom:10px;">
+      <label>设备：</label><select class="form-control" v-model="selectedDevice">
+      <option v-for="(device,k) in devices" :value="k" >{{ device.name }}</option>
+    </select>
+  </div>
+  <div class="panel panel-default panel-primary" v-for="(chart,type) in charts" >
+    <div class="panel-heading" >
+      <router-link :to="dataUrl + type">
+        <h3 class="panel-title">&nbsp;</h3>
+      </router-link>
     </div>
-    <div class="row">
-      <div v-for="url in gallery" class="col-xs-6 col-md-3">
-        <div class="thumbnail">
-          <img src="/image/1.jpg" alt="alt">
+    <div class="panel-body">
+      <highcharts :options="chart" ref="highcharts"></highcharts>
+    </div>
+  </div>
+  <div class="panel panel-default panel-primary"  >
+    <div class="panel-heading" >
+      <router-link :to="dataUrl + 'image'">
+        <h3 class="panel-title">&nbsp;</h3>
+      </router-link>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div v-for="url in gallery" class="col-xs-6 col-md-3">
+          <div class="thumbnail">
+            <img src="/image/1.jpg" alt="alt">
+          </div>
         </div>
       </div>
     </div>
@@ -29,7 +44,7 @@
       return {
         devices: [],
         station: null,
-        selectedDevice: 0,
+        selectedDevice: null,
         datas: [],
       }
     },
@@ -44,6 +59,9 @@
         charts[type].series.push(v);
       })
         return charts;
+      },
+      dataUrl: function () {
+        return this.station ? '/station/' + this.station.id + '/device/' + this.devices[this.selectedDevice].id + '/data?type=' : '';
       },
       gallery: function () {
         var image = _.find(this.datas, {_type:'image'}) || {};
@@ -72,6 +90,7 @@
         })
         self.devices = station.devices;
         self.station = station;
+        self.selectedDevice = 0;
       });
     }
   };
