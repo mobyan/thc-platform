@@ -15,7 +15,8 @@ export default {
   data() {
     return {
       zoom: 14,
-      center: [121.5273285, 31.21515044],
+      // center: [121.5273285, 31.21515044],
+      center: [116.405285,39.904989],
       markers: [
         
       ]

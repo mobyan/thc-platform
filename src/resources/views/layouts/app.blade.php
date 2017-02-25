@@ -44,6 +44,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li>
+                            <router-link to="/map">map</router-link>
+                        </li>
+                        <li>
                             <router-link to="/station">stations</router-link>
                         </li>
 <!--                         <li>

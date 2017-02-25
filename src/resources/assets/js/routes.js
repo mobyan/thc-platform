@@ -16,7 +16,7 @@ const routes = [{
     header: {title: '站点列表'},
   }
 }, {
-  path: '/station/map',
+  path: '/map',
   components: {
     default: map,
     header: header,
