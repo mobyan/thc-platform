@@ -4,6 +4,7 @@ import station from './components/station.vue'
 import header from './components/header.vue'
 import devices from './components/devices.vue'
 import analyze from './components/analyze.vue'
+import map from './components/map.vue'
 
 const routes = [{
   path: '/station',
@@ -13,6 +14,15 @@ const routes = [{
   },
   props: {
     header: {title: '站点列表'},
+  }
+}, {
+  path: '/station/map',
+  components: {
+    default: map,
+    header: header,
+  },
+  props: {
+    header: {title: '站点地图'},
   }
 }, {
   path: '/station/:station',

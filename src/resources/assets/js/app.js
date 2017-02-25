@@ -15,6 +15,13 @@ import VueHighcharts from 'vue-highcharts';
 import highcharts from 'highcharts';
 import VueRouter from 'vue-router'
 import routes from './routes'
+import AMap from 'vue-amap';
+Vue.use(AMap);
+
+AMap.initAMapApiLoader({
+  key: '5d7513412b713a3d6daf2fa69bc31c6e',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
+});
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('gallery', require('./components/gallery.vue'));
