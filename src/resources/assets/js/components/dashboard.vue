@@ -36,7 +36,7 @@
 
 <script>
   import api from '../api'
-  var defaultOptions = require('../chartOptions');
+  import defaultOptions from '../chartOptions';
 
   export default  {
     name: 'my-dashboard',

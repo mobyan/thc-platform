@@ -1,6 +1,6 @@
 import highcharts from 'highcharts';
-
-var tempOptions = {
+var _ = require('lodash');;
+var defaultOption = {
   chart: {
     type: 'spline', //曲线样式
     animation: highcharts.svg, // don't animate in old IE
@@ -44,51 +44,16 @@ var tempOptions = {
   series: [], //format [{name: "name", data: [[x1,y1],[x2,y2]]},{name: "name", data:[[x1,y1],[x2,y2]]}]
 };
 
-var speedOptions = {
-  chart: {
-    type: 'spline', //曲线样式
-    animation: highcharts.svg, // don't animate in old IE
-    marginRight: 10,
-  },
-  title: {
-    text: '速度'
-  },
-
-  xAxis: {
-    type: 'datetime',
-    minRange: 60 * 60 * 1000
-      //minRange:60*1000
-  },
-  yAxis: {
-    title: {
-      text: 'm/s'
-    },
-    plotLines: [{
-      value: 0,
-      width: 1,
-      color: 'blue'
-        //color: '#808080'
-    }]
-  },
-  tooltip: {
-    backgroundColor: '#fff',
-    borderColor: 'black',
-    formatter: function() { //数据提示框中单个点的格式化函数
-      return '<b>' + this.series.name + '</b><br/>' +
-        highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-        highcharts.numberFormat(this.y, 3); //小数后几位
-    }
-  },
-  legend: {
-    enabled: true
-  },
-  exporting: {
-    enabled: true
-  },
-  series: [], //format [{name: "name", data: [[x1,y1],[x2,y2]]},{name: "name", data:[[x1,y1],[x2,y2]]}]
-};
-
-module.exports = {
-  'temp': tempOptions,
-  'speed': speedOptions,
+export default {
+  'temp': _.merge({}, defaultOption, {title:{text:'温度'}, yAxis:{title:{text:'摄制度'}}}),
+  'speed': _.merge({}, defaultOption, {title:{text:'速度'}, yAxis:{title:{text:'m/s'}}}),
+  'temperature': _.merge({}, defaultOption, {title:{text:'温度'}, yAxis:{title:{text:'摄制度'}}}),
+  'humility': _.merge({}, defaultOption, {title:{text:'湿度'}, yAxis:{title:{text:'%'}}}),
+  'solar-radiation': _.merge({}, defaultOption, {title:{text:'光照'}, yAxis:{title:{text:'lux'}}}),
+  'wind-velocity': _.merge({}, defaultOption, {title:{text:'风速'}, yAxis:{title:{text:'m/s'}}}),
+  'wind-direction': _.merge({}, defaultOption, {title:{text:'风向'}, yAxis:{title:{text:'°'}}}),
+  'solar radiation': _.merge({}, defaultOption, {title:{text:'光照'}, yAxis:{title:{text:'lux'}}}),
+  'wind velocity': _.merge({}, defaultOption, {title:{text:'风速'}, yAxis:{title:{text:'m/s'}}}),
+  'wind direction': _.merge({}, defaultOption, {title:{text:'风向'}, yAxis:{title:{text:'°'}}}),
+  'rainfall': _.merge({}, defaultOption, {title:{text:'降雨量'}, yAxis:{title:{text:'mm'}}}),
 }
