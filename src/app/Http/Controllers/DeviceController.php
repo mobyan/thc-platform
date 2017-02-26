@@ -9,6 +9,9 @@ class DeviceController extends Controller
 {
 
     static $model = \App\Device::class;
+
+    static $permissions = ['update' => ['manage-stations']];
+
     /**
      * Display a listing of the resource.
      *

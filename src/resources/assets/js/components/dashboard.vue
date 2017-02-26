@@ -15,7 +15,7 @@
       <highcharts :options="chart" ref="highcharts"></highcharts>
     </div>
   </div>
-  <div class="panel panel-default panel-primary"  >
+  <div v-if="selectedDevice!==null" class="panel panel-default panel-primary"  >
     <div class="panel-heading" >
       <router-link :to="dataUrl + 'image'">
         <h3 class="panel-title">&nbsp;</h3>
