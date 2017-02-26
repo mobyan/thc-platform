@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DeviceData extends Model
+class DeviceData extends Base
 {
     //
     protected $table = 'device_data';
