@@ -5,6 +5,7 @@ import header from './components/header.vue'
 import devices from './components/devices.vue'
 import analyze from './components/analyze.vue'
 import map from './components/map.vue'
+import user from './components/user.vue'
 
 const routes = [{
   path: '/station',
@@ -57,6 +58,15 @@ const routes = [{
   },
   props: {
     header: {title: '设备信息'}
+  }
+}, {
+  path: '/user/:user',
+  components: {
+    default: require('./components/user.vue'),
+    header: header,
+  },
+  props: {
+    header: {title: '用户管理'}
   }
 }, {
   path: '/station/:station/device/:device/data',

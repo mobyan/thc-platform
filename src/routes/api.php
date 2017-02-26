@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth');
+Route::resource('user', 'UserController', ['only' => [
+    'index', 'show', 'store', 'update',
+]]);
 
 Route::resource('station', 'StationController', ['only' => [
     'index', 'show', 'store', 'update', 'destroy'

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
-
+use Auth;
 
 class Controller extends BaseController
 {
@@ -36,12 +36,15 @@ class Controller extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function _index($where, $callback = null)
+    public function _index($where = null, $callback = null)
     {
         $this->assertPermissions('index');
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
         $with = Request::input('with');
+        if ($where === null) {
+            $where = [DB::raw('1'), 1];
+        }
         $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
         if ($with) {
             $items = $items->with($with);
@@ -108,6 +111,9 @@ class Controller extends BaseController
 
     public function assertPermissions($action) {
         if (isset(static::$permissions[$action])) {
+            if (Auth::user()->hasRole('super')) {
+                return ;
+            }
             $permissions = static::$permissions[$action];
             call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
         }
