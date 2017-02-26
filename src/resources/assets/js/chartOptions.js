@@ -55,5 +55,5 @@ export default {
   'solar radiation': _.merge({}, defaultOption, {title:{text:'光照'}, yAxis:{title:{text:'lux'}}}),
   'wind velocity': _.merge({}, defaultOption, {title:{text:'风速'}, yAxis:{title:{text:'m/s'}}}),
   'wind direction': _.merge({}, defaultOption, {title:{text:'风向'}, yAxis:{title:{text:'°'}}}),
-  'rainfall': _.merge({}, defaultOption, {title:{text:'降雨量'}, yAxis:{title:{text:'mm'}}}),
+  'rainfall': _.merge({}, defaultOption, {chart:{type:'column'},title:{text:'降雨量'}, yAxis:{title:{text:'mm'}}}),
 }

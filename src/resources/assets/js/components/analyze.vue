@@ -23,7 +23,7 @@
     data () {
       return {
         dp: configs.datepicker,
-        start_at: {time:moment().subtract(1,'day').format('YYYY-MM-DD')},
+        start_at: {time:moment().subtract(100,'day').format('YYYY-MM-DD')},
         end_at: {time:moment().format('YYYY-MM-DD')},
         charts: {},
         limit: [{
@@ -75,7 +75,8 @@
             }
             console.log(self.images)
           } else {
-            self.charts = api.data2charts(data, type);
+            console.log(data)
+            self.charts = api.data2charts(_.filter(data, {type: type}));
           }
         })
       },

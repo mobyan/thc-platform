@@ -21,20 +21,33 @@ export default {
             return callback(null, keys);
         });
     },
-    data2charts (data, type) {
-        data = _.filter(data, {type: type})
+    data2charts (data) {
+        self = this;
         var charts = {};
         _.forIn(data, function (v) {
             var type = v.type;
             charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
-            charts[type].series.push({
+            var serie = {
                     name: v.name,
                     data: _.map(v.data, function (dd) {
                         return [new Date(dd.ts).getTime(), dd.value];
                     })
-            });
+            }
+            if (type == 'rainfall') {
+                serie.data = self.accumlateByTime(serie.data);
+            }
+            charts[type].series.push(serie);
         })
         return charts;
+    },
+    accumlateByTime (data) {
+        var res = _.reduce(data, function (result, v, k) {
+            var t = moment(v[0]).format("YYYY-MM-DD HH:00:00");
+            result[t] = result[t] || 0;
+            result[t] += v[1];
+            return result;
+        }, {});
+        return _.map(res, function (v,k) {return [new Date(k).getTime(),v]});
     },
     formatData(items, config) {
         var data = {};
