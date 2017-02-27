@@ -18,7 +18,7 @@ class AppController extends Controller
      */
     public function index()
     {
-        //
+        return $this->_index();
     }
 
     /**
@@ -50,7 +50,7 @@ class AppController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->_show($id);
     }
 
     /**

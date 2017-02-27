@@ -17,6 +17,10 @@ Route::resource('user', 'UserController', ['only' => [
     'index', 'show', 'store', 'update',
 ]]);
 
+Route::resource('app', 'AppController', ['only' => [
+    'index', 'show', 'store', 'update',
+]]);
+
 Route::resource('station', 'StationController', ['only' => [
     'index', 'show', 'store', 'update', 'destroy'
 ],

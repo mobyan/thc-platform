@@ -17,7 +17,10 @@ class Controller extends BaseController
     static $table_map = [
         'config' => 'device_config',
         'data' => 'device_data',
+        'user' => 'users',
     ];
+
+    static $root_model = ['user', 'app'];
 
     static $permissions = [];
 
@@ -25,9 +28,9 @@ class Controller extends BaseController
         $this->middleware('auth');
 
         $ownership = Request::route()->parameters();
-        $ownership = array_merge(['app' => 1], $ownership);
 
         $this->isApi = Request::is('api/*');
+        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$root_model)) return;
         $this->assertOwnership($ownership);
     }
 
@@ -77,6 +80,7 @@ class Controller extends BaseController
 
 
     public function assertOwnership($stack) {
+        $stack = array_merge(['app' => 1], $stack);
         $tmp = [];
         foreach ($stack as $k => $v) {
             $tmp[@static::$table_map[$k]? : $k] = $v;

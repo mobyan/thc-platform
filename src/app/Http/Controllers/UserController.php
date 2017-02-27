@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->_show($id);
     }
 
     /**
