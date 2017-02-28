@@ -1,6 +1,7 @@
 <template>
     <div>
-        <form>
+      <div id="alert" class="alert" role="alert" style="display:none;">xxxxxxxx</div>
+      <form>
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" v-model="user.name" disabled class="form-control" id="name" placeholder="name">
@@ -15,14 +16,14 @@
               <option v-for="app in apps" :value="app.id" >{{app.name}}</option>
           </select>
       </div>
-        <div class="form-group">
-            <label for="type">Roles</label>
-            <select class="form-control" v-model="user.roles" multiple>
-              <option v-for="role in roles" :value="role.id" >{{role.name}}</option>
-          </select>
-      </div>
-      <button type="submit" @click.prevent="save()" class="btn btn-default">Submit</button>
-  </form>
+      <div class="form-group">
+        <label for="type">Roles</label>
+        <select class="form-control" v-model="user.roles" multiple>
+          <option v-for="role in roles" :value="role.id" >{{role.name}}</option>
+      </select>
+  </div>
+  <button type="submit" @click.prevent="save()" class="btn btn-default">Submit</button>
+</form>
 </div>
 </template>
 <script >
@@ -47,12 +48,19 @@
         },
         methods: {
             save: function () {
-                this.$http.put('/api/user/' + this.$route.params.user, {
+                this.$http.put('/api/user/111' + this.$route.params.user, {
                     app_id: this.user.app_id,
                     roles: this.user.roles,
                 }).then(res => {
-
+                    this.alert('success' , res.statusText);
+                }, res => {
+                    this.alert('danger' , res.statusText);
                 })
+            },
+            alert: function (type, msg) {
+                $('#alert').addClass('alert-'+type).text(msg).fadeTo(2000, 1).slideUp(2000, function(){
+                    $("#alert").slideUp(500);
+                });
             }
         }
     }
