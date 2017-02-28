@@ -15,6 +15,12 @@
               <option v-for="app in apps" :value="app.id" >{{app.name}}</option>
           </select>
       </div>
+        <div class="form-group">
+            <label for="type">Roles</label>
+            <select class="form-control" v-model="user.roles" multiple>
+              <option v-for="role in roles" :value="role.id" >{{role.name}}</option>
+          </select>
+      </div>
       <button type="submit" @click.prevent="save()" class="btn btn-default">Submit</button>
   </form>
 </div>
@@ -23,14 +29,19 @@
     export default {
         data : () => {
             return {
-                user: {app_id:1},
+                user: {app_id:1, roles:[]},
                 apps:[],
+                roles:[],
             }
         },
         created: function () {
             var self = this;
-            $.when(this.$http.get('/api/app/'), this.$http.get('/api/user/' + this.$route.params.user)).then(function (apps, user) {
+            $.when(this.$http.get('/api/app/'),this.$http.get('/api/role/'), this.$http.get('/api/user/' + this.$route.params.user+'?with=roles')).then(function (apps, roles, user) {
+                user.body.roles = _.map(user.body.roles, (v) => {
+                    return v.id
+                });
                 self.apps = apps.body.items;
+                self.roles = roles.body.items;
                 self.user = user.body;
             })
         },
@@ -38,6 +49,7 @@
             save: function () {
                 this.$http.put('/api/user/' + this.$route.params.user, {
                     app_id: this.user.app_id,
+                    roles: this.user.roles,
                 }).then(res => {
 
                 })

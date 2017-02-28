@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
+    static $model = \App\Role::class;
 
-    static $model = \App\User::class;
-
-    static $permissions = ['index' => ['manage-user']];
+    static $permissions = ['update' => ['manage-roles']];
 
     /**
      * Display a listing of the resource.
@@ -51,7 +49,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return $this->_show($id);
+        //
     }
 
     /**
@@ -74,10 +72,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->input('roles')) {
-            Auth::user()->roles()->sync($request->input('roles'));
-        }
-        return $this->_update($id, $request->all());
+        //
     }
 
     /**
