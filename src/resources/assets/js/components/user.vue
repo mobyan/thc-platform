@@ -48,7 +48,7 @@
         },
         methods: {
             save: function () {
-                this.$http.put('/api/user/111' + this.$route.params.user, {
+                this.$http.put('/api/user/' + this.$route.params.user, {
                     app_id: this.user.app_id,
                     roles: this.user.roles,
                 }).then(res => {
@@ -58,7 +58,7 @@
                 })
             },
             alert: function (type, msg) {
-                $('#alert').addClass('alert-'+type).text(msg).fadeTo(2000, 1).slideUp(2000, function(){
+                $('#alert').addClass('alert-'+type).text(msg).fadeTo(1000, 1).slideUp(2000, function(){
                     $("#alert").slideUp(500);
                 });
             }
