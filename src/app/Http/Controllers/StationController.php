@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Station;
 use Entrust;
+use DB;
 
 class StationController extends Controller
 {
@@ -93,4 +94,5 @@ class StationController extends Controller
     {
         Station::destroy($id);
     }
+
 }

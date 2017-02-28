@@ -122,4 +122,8 @@ class Controller extends BaseController
             call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
         }
     }
+
+    public function schema() {
+        return (new static::$model)->schema();
+    }
 }

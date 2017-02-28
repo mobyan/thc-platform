@@ -21,10 +21,12 @@ Route::resource('role', 'RoleController', ['only' => [
     'index', 'show', 'store', 'update',
 ]]);
 
+Route::get('app/schema', 'AppController@schema');
 Route::resource('app', 'AppController', ['only' => [
     'index', 'show', 'store', 'update',
 ]]);
 
+Route::get('station/schema', 'StationController@schema');
 Route::resource('station', 'StationController', ['only' => [
     'index', 'show', 'store', 'update', 'destroy'
 ],

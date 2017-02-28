@@ -6,8 +6,19 @@ import devices from './components/devices.vue'
 import analyze from './components/analyze.vue'
 import map from './components/map.vue'
 import user from './components/user.vue'
+import index from './components/index.vue'
 
 const routes = [{
+  path: '/admin/:model',
+  components: {
+    // default: stations,
+    default: index,
+    header: header,
+  },
+  props: {
+    header: {title: '站点列表'},
+  }
+}, {
   path: '/station',
   components: {
     default: stations,
