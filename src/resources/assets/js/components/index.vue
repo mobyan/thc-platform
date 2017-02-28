@@ -9,7 +9,9 @@
             <th width="110px">操作</th>
           </tr>
           <tr class="">
-            <td v-if="!schema[k].hidden" v-for="(v,k) in item">{{ v }}</td>
+            <td v-if="!schema[k].hidden" v-for="(v,k) in item" @dblclick="toggle">
+              <input type="text" class="form-control" :value="v" name="" disabled="">
+            </td>
             <td width="110px">
             <span><button type="button" class="btn btn-primary btn-sm">edit</button></span>
               <span><button type="button" class="btn btn-danger btn-sm">del</button></span>
@@ -36,6 +38,12 @@
           self.items = stations[0].items;
           self.schema = schema[0];
         })
+      },
+      methods: {
+        toggle (e) {
+          // alert('ff')
+          $(e.target).children('input').prop('disabled', function(i, v) { return !v; });
+        }
       }
     }
   </script>
