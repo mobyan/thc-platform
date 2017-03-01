@@ -76,7 +76,7 @@
     methods: {
       loadDeviceData: function (device) {
         var app = this;
-        $.get('/api/station/'+this.station.id+'/device/'+device.id+'/data', function (data) {
+        $.get('/api/station/'+this.station.id+'/device/'+device.id+'/data', {limit:1000}, function (data) {
           app.datas = api.formatData(data.items, device.config);
         });
       }

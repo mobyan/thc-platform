@@ -3,6 +3,7 @@ export default {
     getDeviceData(uri, query, callback) {
         query = query || {}
         query.with = 'config';
+        query.limit = 1000;
         $.get('/api' + uri , query, function(data) {
             var keys = {};
             _.forIn(data.items, function(item) {
