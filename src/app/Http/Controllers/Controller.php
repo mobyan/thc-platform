@@ -20,7 +20,8 @@ class Controller extends BaseController
         'user' => 'users',
     ];
 
-    static $root_models = ['user', 'app'];
+    static $sys_root_models = ['user', 'app'];
+    static $user_root_models = [\App\Station::class];
 
     static $permissions = [];
 
@@ -29,7 +30,7 @@ class Controller extends BaseController
         $this->isApi = Request::is('api/*');
 
         $ownership = Request::route()->parameters();
-        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$root_models)) return;
+        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$sys_root_models)) return;
 
         $this->middleware(function ($request, $next) use ($ownership) {
             $this->assertOwnership($ownership);
@@ -47,6 +48,10 @@ class Controller extends BaseController
     public function _index($where = null, $callback = null)
     {
         $this->assertPermissions('index');
+        // check scope
+        if (in_array(static::$model, static::$user_root_models) && !Auth::user()->hasRole(['super', 'admin'])) {
+            $where = ['app_id', '=', Auth::user()->app_id];
+        }
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
         $with = Request::input('with');
@@ -86,7 +91,11 @@ class Controller extends BaseController
 
     public function assertOwnership($stack) {
         $user = Auth::user();
-        $stack = array_merge(['app' => $user->app_id], $stack);
+        // check scope
+        if (!$user->hasRole(['super', 'admin'])) {
+            $stack = array_merge(['app' => $user->app_id], $stack);
+        }
+        if (empty($stack)) return;
         $tmp = [];
         foreach ($stack as $k => $v) {
             $tmp[@static::$table_map[$k]? : $k] = $v;
@@ -124,7 +133,8 @@ class Controller extends BaseController
             if (Auth::user()->hasRole('super')) {
                 return ;
             }
-            $permissions = @static::$permissions['all'] ? : static::$permissions[$action];
+            $permissions = @static::$permissions['all'] ? : @static::$permissions[$action];
+            if (!$permissions) return;
             call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
         }
     }

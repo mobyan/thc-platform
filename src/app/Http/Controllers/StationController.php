@@ -21,7 +21,7 @@ class StationController extends Controller
      */
     public function index()
     {
-        return $this->_index(['app_id', '=', Auth::user()->app_id]);
+        return $this->_index();
     }
 
     /**
