@@ -20,18 +20,23 @@ class Controller extends BaseController
         'user' => 'users',
     ];
 
-    static $root_model = ['user', 'app'];
+    static $root_models = ['user', 'app'];
 
     static $permissions = [];
 
     public function __construct() {
         $this->middleware('auth');
+        $this->isApi = Request::is('api/*');
 
         $ownership = Request::route()->parameters();
+        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$root_models)) return;
 
-        $this->isApi = Request::is('api/*');
-        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$root_model)) return;
-        $this->assertOwnership($ownership);
+        $this->middleware(function ($request, $next) use ($ownership) {
+            $this->assertOwnership($ownership);
+
+            return $next($request);
+        });
+
     }
 
     /**
@@ -80,7 +85,8 @@ class Controller extends BaseController
 
 
     public function assertOwnership($stack) {
-        $stack = array_merge(['app' => 1], $stack);
+        $user = Auth::user();
+        $stack = array_merge(['app' => $user->app_id], $stack);
         $tmp = [];
         foreach ($stack as $k => $v) {
             $tmp[@static::$table_map[$k]? : $k] = $v;

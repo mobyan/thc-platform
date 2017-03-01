@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Station;
 use Entrust;
 use DB;
+use Auth;
 
 class StationController extends Controller
 {
@@ -20,7 +21,7 @@ class StationController extends Controller
      */
     public function index()
     {
-        return $this->_index(['app_id', '=', 1]);
+        return $this->_index(['app_id', '=', Auth::user()->app_id]);
     }
 
     /**

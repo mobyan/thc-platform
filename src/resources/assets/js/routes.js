@@ -71,7 +71,7 @@ const routes = [{
     header: {title: '设备信息'}
   }
 }, {
-  path: '/user/:user',
+  path: '/admin/user/:user',
   components: {
     default: require('./components/user.vue'),
     header: header,
