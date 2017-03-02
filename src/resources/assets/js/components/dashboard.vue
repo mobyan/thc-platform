@@ -46,10 +46,11 @@
         station: null,
         selectedDevice: null,
         datas: [],
+        charts: {},
       }
     },
     computed: {
-      charts: function() {
+      chartsx: function() {
         var charts = {};
         this.datas.forEach(function (v) {
         // var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
@@ -74,12 +75,16 @@
       }
     },
     methods: {
-      loadDeviceData: function (device) {
-        var app = this;
-        $.get('/api/station/'+this.station.id+'/device/'+device.id+'/data', {limit:1000}, function (data) {
-          app.datas = api.formatData(data.items, device.config);
+      loadDeviceData (device) {
+        var query = {
+          limit: 1000,
+        };
+        var self = this;
+        var station = this.$route.params.station;
+        api.getDeviceData('/station/'+station+'/device/'+device.id+'/data' , query, function (err, data) {
+          self.charts = api.data2charts(data);
         });
-      }
+      },
     },
     created:function () {
       var self = this;

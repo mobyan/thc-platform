@@ -26,6 +26,7 @@ export default {
         self = this;
         var charts = {};
         _.forIn(data, function (v) {
+            if (v.type == 'image') return;
             var type = v.type;
             charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
             var serie = {
@@ -62,7 +63,7 @@ export default {
             return {
                 name: k,
                 data: v,
-                _type: config.data[k] ? config.data[k].type : 'temp',
+                _type: config.data[k] ? config.data[k].type : null ,
             }
         })
     }
