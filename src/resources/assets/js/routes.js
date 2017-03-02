@@ -9,6 +9,9 @@ import user from './components/user.vue'
 import index from './components/index.vue'
 
 const routes = [{
+  path: '/',
+  redirect: '/map'
+}, {
   path: '/admin/:model',
   components: {
     // default: stations,
