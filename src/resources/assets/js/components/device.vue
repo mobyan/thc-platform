@@ -1,7 +1,11 @@
 <template>
-  <div>
-
-    <form>
+<div>
+    <div class="panel panel-default panel-primary">
+      <div class="panel-heading" >
+        <h3 class="panel-title">基本信息</h3>
+      </div>
+      <div class="panel-body">
+      <form>
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" v-model="device.name" class="form-control" id="name" placeholder="name">
@@ -12,17 +16,29 @@
       </div>
       <button type="submit" @click.prevent="save()" class="btn btn-default">Submit</button>
     </form>
-    <form>
-      <div class="form-group">
-        <label for="name">Name</label>
-        <textarea rows="3" v-model="activeConfig.data" class="form-control" id="name" placeholder="name">
-      </textarea>
-      <div class="form-group">
-        <label for="type">type</label>
-        <textarea rows="3" v-model="activeConfig.control" class="form-control" id="type" placeholder="type">
-      </textarea>
-      <button type="submit" @click.prevent="addConfig()" class="btn btn-default">Submit</button>
-    </form>
+      </div>
+      </div>
+
+    <div class="panel panel-default panel-primary">
+      <div class="panel-heading" >
+        <h3 class="panel-title">配置</h3>
+      </div>
+      <div class="panel-body">
+        <form>
+          <div class="form-group">
+            <label for="name">Data</label>
+            <textarea rows="3" v-model="activeConfig.data" class="form-control" id="name" placeholder="name">
+            </textarea>
+          </div>
+          <div class="form-group">
+            <label for="type">Controller</label>
+            <textarea rows="3" v-model="activeConfig.control" class="form-control" id="type" placeholder="type">
+            </textarea>
+          </div>
+          <button type="submit" @click.prevent="addConfig()" class="btn btn-default">Submit</button>
+        </form>    
+      </div>
+    </div>
   </div>
 </template>
 
