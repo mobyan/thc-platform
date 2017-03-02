@@ -8,7 +8,7 @@
               <div class="row">
                   <div v-for="image in gallery.images" class="col-xs-6 col-md-3">
                     <div class="thumbnail">
-                      <img src="/image/1.jpg" alt="alt">
+                      <img :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt">
                   </div>
               </div>
           </div>

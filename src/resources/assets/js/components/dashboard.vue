@@ -21,11 +21,11 @@
         <h3 class="panel-title">&nbsp;</h3>
       </router-link>
     </div>
-    <div class="panel-body">
+    <div v-for="gallery in gallerise" class="panel-body">
       <div class="row">
-        <div v-for="url in gallery" class="col-xs-6 col-md-3">
+        <div v-for="image in gallery.data" class="col-xs-6 col-md-3">
           <div class="thumbnail">
-            <img src="/image/1.jpg" alt="alt">
+            <img :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt">
           </div>
         </div>
       </div>
@@ -45,29 +45,15 @@
         devices: [],
         station: null,
         selectedDevice: null,
-        datas: [],
+        gallerise: [],
         charts: {},
       }
     },
     computed: {
-      chartsx: function() {
-        var charts = {};
-        this.datas.forEach(function (v) {
-        // var type = ['temp', 'speed'][Math.floor(Math.random() * 10) % 2]; // fortest
-        var type = v._type;
-        if (type == 'image') return;
-        charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
-        charts[type].series.push(v);
-      })
-        return charts;
-      },
       dataUrl: function () {
         return this.station ? '/station/' + this.station.id + '/device/' + this.devices[this.selectedDevice].id + '/data?type=' : '';
       },
-      gallery: function () {
-        var image = _.find(this.datas, {_type:'image'}) || {};
-        return image.data;
-      }
+
     },
     watch: {
       selectedDevice: function () {
@@ -83,6 +69,7 @@
         var station = this.$route.params.station;
         api.getDeviceData('/station/'+station+'/device/'+device.id+'/data' , query, function (err, data) {
           self.charts = api.data2charts(data);
+          self.gallerise = _.filter(data, {type:'image'});
         });
       },
     },
