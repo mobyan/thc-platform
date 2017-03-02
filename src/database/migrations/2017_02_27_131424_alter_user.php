@@ -15,7 +15,7 @@ class AlterUser extends Migration
     {
         Schema::table('users', function($table)
         {
-            $table->string('app_id');
+            $table->integer('app_id')->unsigned()->default(0);
         });
     }
 

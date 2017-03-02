@@ -24,8 +24,9 @@
             devices: function () {
                 return _.map(this.images, function (v,k) {
                     var res = _.reduce(v.data, function (memo, value) {
-                        memo[value.ts] = memo[value.ts] || {date: value.ts, images:[]};
-                        memo[value.ts].images.push(value)
+                        var ts = moment(value.ts).format('YYYY-MM-DD');
+                        memo[ts] = memo[ts] || {date: ts, images:[]};
+                        memo[ts].images.push(value)
                         return memo;
                     },{});
                     return res;
