@@ -8,7 +8,7 @@
   <div class="panel panel-default panel-primary" v-for="(chart,type) in charts" >
     <div class="panel-heading" >
       <router-link :to="dataUrl + type">
-        <h3 class="panel-title">&nbsp;</h3>
+        <h3 class="panel-title" style="color: #fff;text-align:right;">详细>></h3>
       </router-link>
     </div>
     <div class="panel-body">
@@ -18,7 +18,7 @@
   <div v-if="selectedDevice!==null" class="panel panel-default panel-primary"  >
     <div class="panel-heading" >
       <router-link :to="dataUrl + 'image'">
-        <h3 class="panel-title">&nbsp;</h3>
+        <h3 class="panel-title" style="color: #fff;text-align:right;">详细>></h3>
       </router-link>
     </div>
     <div v-for="gallery in gallerise" class="panel-body">
