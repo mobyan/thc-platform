@@ -63,7 +63,9 @@
     methods: {
       loadDeviceData (device) {
         var query = {
-          limit: 1000,
+          start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
+          end_at: moment().format('YYYY-MM-DD'),
+          limit: 10000,
         };
         var self = this;
         var station = this.$route.params.station;
