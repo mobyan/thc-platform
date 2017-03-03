@@ -7699,7 +7699,7 @@ body {
   background: linear-gradient(to bottom, #00aadf 0%, #0d98c7 98%);
 }
 
-#app > nav > div > div.navbar-header > a, #app-navbar-collapse > ul.nav.navbar-nav.navbar-right > li > a {
+#header > nav > div > div.navbar-header > a {
   color: #fff;
 }
 
