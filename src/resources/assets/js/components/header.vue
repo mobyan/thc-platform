@@ -1,8 +1,8 @@
 <template>
     <div id="head" style="border-bottom: 1px solid #cacfda;margin-bottom: 1em;">
-      <div id="header" style="width: 90%;margin: auto;">
+      <div >
         <div id="title">
-          <h3>{{title}}</h3>
+          <h4>{{title}}</h4>
           <!-- <h3>xxxxxx</h3> -->
       </div>
   </div>

@@ -14,7 +14,7 @@
 export default {
   data() {
     return {
-      zoom: 14,
+      zoom: 5,
       // center: [121.5273285, 31.21515044],
       center: [116.405285,39.904989],
       markers: [
@@ -41,7 +41,7 @@ export default {
           title: v.name,
         };
       });
-      self.center = [stations.items[0].lon,stations.items[0].lat];
+      // self.center = [stations.items[0].lon,stations.items[0].lat];
     })
   },
   methods: {
