@@ -42,18 +42,25 @@
                   <th>Max</th>
                   <th>Min</th>
                   <th>备注</th>
+                  <th>操作</th>
                 </tr>
                 <tr v-for="(v,k) in activeConfig.data">
-                  <td><input type="text" :value="k" class="form-control" :id="k" :placeholder="k" ></td>
-                  <td><input type="text" v-model="activeConfig.data[k].type" class="form-control" :id="k" :placeholder="k" ></td>
-                  <td><input type="text" v-model="activeConfig.data[k].port" class="form-control" :id="k" :placeholder="k" ></td>
-                  <td><input type="text" v-model="activeConfig.data[k].unit" class="form-control" :id="k" :placeholder="k" ></td>
-                  <td><input type="text" v-model="activeConfig.data[k].max_v" class="form-control" :id="k" :placeholder="k" ></td>
-                  <td><input type="text" v-model="activeConfig.data[k].min_v" class="form-control" :id="k" :placeholder="k" ></td>
-                  <td><input type="text" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
+                  <template v-if="v !== null">
+                    <td><input type="text" :value="k" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td><input type="text" v-model="activeConfig.data[k].type" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td><input type="text" v-model="activeConfig.data[k].port" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td><input type="text" v-model="activeConfig.data[k].unit" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td><input type="text" v-model="activeConfig.data[k].max_v" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td><input type="text" v-model="activeConfig.data[k].min_v" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td><input type="text" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td style="vertical-align: middle;"><div @click="removeData(k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+
+                  </template>
                 </tr>
               </tbody>
             </table>
+            <div style="text-align: right;" ><img @click="addDataConfig()" width="16px" height="16px" src="/image/add.png"></div>
+
           </div>
           <div class="form-group">
             <label for="control">Controller</label>
@@ -83,7 +90,16 @@
     },
     computed: {
       activeConfig: function () {
-        return _.last(this.device.configs) || {};
+        var res = _.last(this.device.configs);
+        if (res) {
+          if (res.data.length == 0) {
+            res.data = {};
+          }
+          if (res.control.length == 0) {
+            res.control = {};
+          }
+        } 
+        return res || {};
       }
     },
     created: function () {
@@ -117,6 +133,26 @@
         }
         this.$http.post(this.apiURI()+'/config', body).then(function (res) {
           this.device.configs.push(res.body)
+        })
+      },
+      removeData: function (k) {
+        // this.device.configs[this.device.configs.length - 1].data[k] = null;
+        // this.activeConfig.data[k] = null;
+        Vue.delete(this.activeConfig.data, k);
+      },
+      addDataConfig: function () {
+        console.log(this.activeConfig)
+        var key = 'new';
+        do {
+          key = 'new_' + _.random(1,100);
+        } while(key in this.activeConfig.data)
+        Vue.set(this.activeConfig.data, key, {
+          type: '',
+          unit: '',
+          port: '',
+          max_v: '',
+          min_v: '',
+          desc: '',
         })
       }
     }
