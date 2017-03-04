@@ -89,6 +89,7 @@
 </nav>
 </div>
 <div class="container">
+@yield('content')
     <router-view name="header"></router-view>
     <div>
         <router-view ></router-view>

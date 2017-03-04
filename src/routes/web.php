@@ -11,13 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('home');
-});
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
 Route::resource('station', 'StationController', ['only' => [
     'index', 'show', 'store', 'update', 'destroy'
