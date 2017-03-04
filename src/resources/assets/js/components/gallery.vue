@@ -8,8 +8,8 @@
               <div class="row">
                   <div v-for="image in gallery.images" class="col-xs-6 col-md-3">
                     <div class="thumbnail">
-                      <img :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt">
-                      <div>{{image.ts}}</div>
+                      <img :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt" >
+                      <div><span>{{image.ts}}</span><span style="float: right;" @click="download" ><img height="16px" width="16px" src="/image/dl.png"></span></div>
                   </div>
               </div>
           </div>
@@ -33,6 +33,18 @@
                     return res;
                 })
             }
+        },
+        methods: {
+          download: function (e) {
+            var url = $(e.target).parent().parent().siblings('img').attr('src');
+            console.log(url)
+            var a = $("<a>")
+              .attr("href", url)
+              .attr("download", "img.png")
+              .appendTo("body");
+            a[0].click();
+            a.remove();
+          }
         },
         created: function () {
         }

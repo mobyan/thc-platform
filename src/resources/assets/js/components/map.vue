@@ -38,7 +38,7 @@ export default {
           },
           visible: true,
           // content: 'xxxx',
-          title: v.name,
+          title: "名称："+v.name+"\n地址："+v.location+"\n状态："+v.status,
         };
       });
       // self.center = [stations.items[0].lon,stations.items[0].lat];

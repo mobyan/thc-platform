@@ -45,10 +45,10 @@
                             <!-- Left Side Of Navbar -->
                             <ul class="nav navbar-nav">
                                 <li>
-                                    <router-link to="/map">map</router-link>
+                                    <router-link to="/map">站点地图</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/station">stations</router-link>
+                                    <router-link to="/station">站点列表</router-link>
                                 </li>
 <!--                         <li>
                             <router-link to="/dashboard">dashboard</router-link>
