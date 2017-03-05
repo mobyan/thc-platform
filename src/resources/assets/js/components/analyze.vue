@@ -1,14 +1,21 @@
 <template>
   <div class="card">
     <!-- for Vue 2.0 -->
-    <div class="row" style="margin-bottom: 10px;">
-      <span><!-- Departure --> Date：</span>
+    <div style="margin-bottom: 10px;">
+    <form class="form-inline">
+      <label>类型</label>
+
+    <select class="form-control" v-model="selectedType">
+      <option v-for="(v,t) in types" :value="t">{{t}}</option>
+    </select>
+      <label>Date</label>
       <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> - 
       <date-picker id="end_at" :date="end_at" :option="dp.option" :limit="limit"></date-picker>
-      <button type="button" class="btn btn-primary btn-md" @click="loadDeviceData()">
+      <button type="button" class="btn btn-primary btn-md" @click="loadDeviceData(selectedType)">
         <!-- <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star -->
         确定
       </button>
+      </form>
     </div>
     <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
     <gallery :images="images"></gallery>
@@ -33,23 +40,33 @@
           to: moment().add(1,'day').format('YYYY-MM-DD'),
         }],
         images: {},
+        types: [],
+        selectedType: null,
       }
     },
     components: {
       'date-picker': myDatepicker
     },
     created () {
-      this.loadDeviceData();
+      var type = this.$route.query.type;
+      this.selectedType = type;
+      this.loadDeviceData(type);
     },
     methods: {
-      loadDeviceData () {
+      loadDeviceData (type) {
+        this.images = {};
+        this.charts = {};
         var query = {
           start_at: this.start_at.time,
           end_at: this.end_at.time,
         };
         var self = this;
-        var type = this.$route.query.type;
         api.getDeviceData(this.$route.path, query, function (err, data) {
+          self.types = _.reduce(data, (res, v)=> {
+            res[v.type] = true;
+            return res;
+          }, {});
+          // console.log(data)
           if (type == 'image') {
             self.images = _.filter(data, {type});
           } else {
