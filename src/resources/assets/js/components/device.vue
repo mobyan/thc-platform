@@ -14,7 +14,7 @@
             <label for="type">type</label>
             <input type="text" v-model="device.type" class="form-control" id="type" placeholder="type">
           </div>
-          <button type="submit" @click.prevent="save()" class="btn btn-default">Submit</button>
+          <button type="submit"  @click.prevent="save()" class="btn btn-default btn-primary">Submit</button>
         </form>
       </div>
     </div>
@@ -57,9 +57,11 @@
 
                   </template>
                 </tr>
+                <tr><td colspan="8">
+                  <div style="text-align: right;" ><img @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
+                </td></tr>
               </tbody>
             </table>
-            <div style="text-align: right;" ><img @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
 
           </div>
           <div class="form-group">
@@ -70,15 +72,17 @@
                 <tr v-for="(v,k) in activeConfig.control">
                   <td><input type="text" :value="k" class="form-control" :id="k" :placeholder="k" ></td>
                   <td><input type="text" v-model="activeConfig.control[k]" class="form-control" :id="k" :placeholder="k" ></td>
-                  <td style="vertical-align: middle;"><div @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+                  <td style="vertical-align: middle;width:33px;"><div @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
                 </tr>
+                <tr><td colspan="3">
+                  <div style="text-align: right;" ><img @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
+                </td></tr>
               </tbody>
             </table>
-            <div style="text-align: right;" ><img @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
 
           </div>
-          <button type="submit" @click.prevent="addConfig()" class="btn btn-default">Submit</button>
+          <button type="submit" @click.prevent="addConfig()" class="btn btn-default btn-primary">Submit</button>
         </form>    
       </div>
     </div>
