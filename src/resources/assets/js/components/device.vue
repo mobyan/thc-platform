@@ -36,22 +36,27 @@
               <tbody>
                 <tr>
                   <th>名称</th>
-                  <th>类型</th>
                   <th>端口</th>
-                  <th>单位</th>
-                  <th>Max</th>
-                  <th>Min</th>
+                  <!-- <th>类型</th> -->
+                  <!-- <th>单位</th> -->
+                  <th>传感器</th>
                   <th>备注</th>
                   <th>操作</th>
                 </tr>
                 <tr v-for="(v,k) in activeConfig.data">
                   <template v-if="v !== null">
-                    <td><input type="text" :value="k" class="form-control" :id="k" :placeholder="k" ></td>
-                    <td><input type="text" v-model="activeConfig.data[k].type" class="form-control" :id="k" :placeholder="k" ></td>
-                    <td><input type="text" v-model="activeConfig.data[k].port" class="form-control" :id="k" :placeholder="k" ></td>
-                    <td><input type="text" v-model="activeConfig.data[k].unit" class="form-control" :id="k" :placeholder="k" ></td>
-                    <td><input type="text" v-model="activeConfig.data[k].max_v" class="form-control" :id="k" :placeholder="k" ></td>
-                    <td><input type="text" v-model="activeConfig.data[k].min_v" class="form-control" :id="k" :placeholder="k" ></td>
+                    <td>{{k}}</td>
+                    <td><select class="form-control" v-model="activeConfig.data[k].port">
+                      <option v-for="port in ports" :value="port">{{port}}</option>
+                    </select></td>
+                    <!-- <td><input type="text" v-model="activeConfig.data[k].port" class="form-control" :id="k" :placeholder="k" ></td> -->
+                    <!-- <td><input type="text" v-model="activeConfig.data[k].type" class="form-control" :id="k" :placeholder="k" ></td> -->
+                    <!-- <td><input type="text" v-model="activeConfig.data[k].unit" class="form-control" :id="k" :placeholder="k" ></td> -->
+                    <td>
+                      <select v-model="activeConfig.data[k].sensor_type" class="form-control">
+                        <option v-for="sensor in sensors" :value="sensor.name">{{sensor.desc}}</option>
+                      </select>
+                    </td>
                     <td><input type="text" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
                     <td style="vertical-align: middle;"><div @click="removeData('data', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
@@ -70,7 +75,7 @@
               <tbody>
                 <tr><th>名称</th><th>设置</th><th>操作</th></tr>
                 <tr v-for="(v,k) in activeConfig.control">
-                  <td><input type="text" :value="k" class="form-control" :id="k" :placeholder="k" ></td>
+                  <td>{{k}}</td>
                   <td><input type="text" v-model="activeConfig.control[k]" class="form-control" :id="k" :placeholder="k" ></td>
                   <td style="vertical-align: middle;width:33px;"><div @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
@@ -90,10 +95,14 @@
 </template>
 
 <script >
+import sensors from '../configs/sensors'
+import ports from '../configs/ports'
   export default {
     data: function () {
       return {
         device: {},
+        sensors,
+        ports,
       };
     },
     computed: {
@@ -135,8 +144,16 @@
         })
       },
       addConfig: function() {
+        var self = this;
+        var data = _.reduce(this.activeConfig.data, function (res, v, k) {
+          var sensor = _.find(sensors, {name:v.sensor_type});
+          v.type = sensor.type;
+          v.unit = sensor.unit;
+          res[k] = v;
+          return res;
+        }, {})
         var body = {
-          data: this.activeConfig.data,
+          data,
           control: this.activeConfig.control,
         }
         this.$http.post(this.apiURI()+'/config', body).then(function (res) {
