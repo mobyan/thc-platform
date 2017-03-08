@@ -90,10 +90,12 @@
 </div>
 <div class="container">
 @yield('content')
+@if (!Auth::guest())
     <router-view name="header"></router-view>
     <div>
         <router-view ></router-view>
     </div>
+@endif
 </div>
 </div>
 <div id="footer" >
