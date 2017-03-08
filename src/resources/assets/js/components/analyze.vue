@@ -5,16 +5,14 @@
     <form class="form-inline">
       <label>类型</label>
 
-    <select class="form-control" v-model="selectedType">
+    <select class="form-control" v-model="selectedType" style="width: 120px;">
       <option v-for="(v,t) in types" :value="t">{{t}}</option>
     </select>
       <label>Date</label>
       <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> - 
       <date-picker id="end_at" :date="end_at" :option="dp.option" :limit="limit"></date-picker>
-      <button type="button" class="btn btn-primary btn-md" @click="loadDeviceData(selectedType)">
-        <!-- <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star -->
-        确定
-      </button>
+      <button type="button" class="btn btn-primary btn-md" @click="loadDeviceData(selectedType)">确定</button>
+      <button type="button" class="btn btn-md btn-default" v-for="shortcut in shortcuts" @click="loadDeviceData(selectedType, shortcut.offset)" style="margin-left:5px;">{{shortcut.name}}</button>
       </form>
     </div>
     <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
@@ -42,6 +40,13 @@
         images: {},
         types: [],
         selectedType: null,
+        shortcuts: [
+          {name: '1天',offset: 1,},
+          {name: '3天',offset: 3,},
+          {name: '7天',offset: 7,},
+          {name: '15天',offset: 15,},
+          {name: '30天',offset: 30,},
+        ],
       }
     },
     components: {
@@ -53,20 +58,23 @@
       this.loadDeviceData(type);
     },
     methods: {
-      loadDeviceData (type) {
+      loadDeviceData (type, offset) {
         this.images = {};
         this.charts = {};
-        var query = {
-          start_at: this.start_at.time,
-          end_at: this.end_at.time,
-        };
+        var query = {};
+        if (offset) {
+          query.start_at = moment().subtract(offset,'day').format('YYYY-MM-DD');
+          query.end_at = moment().format('YYYY-MM-DD');
+        } else {
+          query.start_at = this.start_at.time;
+          query.end_at = this.end_at.time;
+        }
         var self = this;
         api.getDeviceData(this.$route.path, query, function (err, data) {
           self.types = _.reduce(data, (res, v)=> {
             res[v.type] = true;
             return res;
           }, {});
-          // console.log(data)
           if (type == 'image') {
             self.images = _.filter(data, {type});
           } else {
