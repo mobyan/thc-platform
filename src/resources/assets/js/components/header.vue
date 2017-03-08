@@ -6,6 +6,8 @@
           <!-- <h3>xxxxxx</h3> -->
       </div>
   </div>
+        <div id="alert" class="alert" role="alert" >xxxxxxxx</div>
+
 </div>
 </template>
 <script >

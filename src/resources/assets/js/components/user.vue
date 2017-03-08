@@ -1,6 +1,5 @@
 <template>
     <div>
-      <div id="alert" class="alert" role="alert" style="display:none;">xxxxxxxx</div>
       <form>
           <div class="form-group">
             <label for="name">Name</label>
@@ -27,6 +26,7 @@
 </div>
 </template>
 <script >
+    import utils from '../utils'
     export default {
         data : () => {
             return {
@@ -52,16 +52,11 @@
                     app_id: this.user.app_id,
                     roles: this.user.roles,
                 }).then(res => {
-                    this.alert('success' , res.statusText);
+                    utils.alert('success' , res.statusText);
                 }, res => {
-                    this.alert('danger' , res.statusText);
+                    utils.alert('danger' , res.statusText);
                 })
             },
-            alert: function (type, msg) {
-                $('#alert').addClass('alert-'+type).text(msg).fadeTo(1000, 1).slideUp(2000, function(){
-                    $("#alert").slideUp(500);
-                });
-            }
         }
     }
 </script>

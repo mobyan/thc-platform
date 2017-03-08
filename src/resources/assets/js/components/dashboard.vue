@@ -23,12 +23,27 @@
     </div>
     <div v-for="gallery in gallerise" class="panel-body">
       <div class="row">
-        <div v-for="image in gallery.data" class="col-xs-6 col-md-3">
+        <div v-for="image in page(gallery.data, pn, ps)" class="col-xs-6 col-md-3">
           <div class="thumbnail">
             <img :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt">
           </div>
         </div>
       </div>
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li v-for="i in 10"><a href="#">{{i}}</a></li>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </div>
@@ -47,6 +62,8 @@
         selectedDevice: null,
         gallerise: [],
         charts: {},
+        pn: 1,
+        ps: 10,
       }
     },
     computed: {
@@ -63,7 +80,7 @@
     methods: {
       loadDeviceData (device) {
         var query = {
-          start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
+          start_at: moment().subtract(700,'day').format('YYYY-MM-DD'),
           end_at: moment().format('YYYY-MM-DD'),
           limit: 10000,
         };
@@ -74,6 +91,12 @@
           self.gallerise = _.filter(data, {type:'image'});
         });
       },
+      page(items, pn, ps) {
+        alert('fff')
+        var res = _.slice(items, ps*(pn-1), ps);
+        console.log(res)
+        return res;
+      }
     },
     created:function () {
       var self = this;

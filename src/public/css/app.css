@@ -7738,4 +7738,13 @@ body {
   padding: 0;
 }
 
+#alert {
+  display: block;
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  opacity: 0.0;
+  width: 240px;
+}
+
 /*# sourceMappingURL=app.css.map */
