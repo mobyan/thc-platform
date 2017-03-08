@@ -19,6 +19,11 @@ export default {
                     keys[key].type = item.data[key].type || 'temp';
                 });
             });
+            _.each(keys, (v)=> {
+                if (v.type == 'image') {
+                    v.data = _.orderBy(v.data, ['ts'], ['desc']);
+                }
+            })
             return callback(null, keys);
         });
     },
