@@ -99,7 +99,7 @@
 </div>
 </div>
 <div id="footer" >
-    <div class="container" style="text-align: center;"><p>© 2017 THC, Inc.</p></div>
+    <div class="container" style="text-align: center;"><p>Copyright 2017 THC, Inc.</p></div>
 </div>
 
 <!-- Scripts -->
