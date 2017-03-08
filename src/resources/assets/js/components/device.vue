@@ -97,6 +97,7 @@
 <script >
 import sensors from '../configs/sensors'
 import ports from '../configs/ports'
+import utils from '../utils'
   export default {
     data: function () {
       return {
@@ -139,7 +140,7 @@ import ports from '../configs/ports'
             type: this.device.type,
           },
           success: function (data, res) {
-            console.log(res)
+            utils.alert('success' , '设备信息保存成功');
           }
         })
       },
@@ -158,6 +159,7 @@ import ports from '../configs/ports'
         }
         this.$http.post(this.apiURI()+'/config', body).then(function (res) {
           this.device.configs.push(res.body)
+          utils.alert('success' , '保存设备配置成功');
         })
       },
       removeData: function (type, k) {
