@@ -21,30 +21,7 @@
         <h3 class="panel-title" style="color: #fff;text-align:right;">详细>></h3>
       </router-link>
     </div>
-    <div v-for="gallery in gallerise" class="panel-body">
-      <div class="row">
-        <div v-for="image in page(gallery.data, pn, ps)" class="col-xs-6 col-md-3">
-          <div class="thumbnail">
-            <img :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt">
-          </div>
-        </div>
-      </div>
-      <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <li>
-            <a href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li v-for="i in 10"><a href="#">{{i}}</a></li>
-          <li>
-            <a href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <gallery :images="images"></gallery>
   </div>
 </div>
 </template>
@@ -62,8 +39,7 @@
         selectedDevice: null,
         gallerise: [],
         charts: {},
-        pn: 1,
-        ps: 10,
+        images: {},
       }
     },
     computed: {
@@ -88,15 +64,9 @@
         var station = this.$route.params.station;
         api.getDeviceData('/station/'+station+'/device/'+device.id+'/data' , query, function (err, data) {
           self.charts = api.data2charts(data);
-          self.gallerise = _.filter(data, {type:'image'});
+          self.images = _.filter(data, {type:'image'});
         });
       },
-      page(items, pn, ps) {
-        alert('fff')
-        var res = _.slice(items, ps*(pn-1), ps);
-        console.log(res)
-        return res;
-      }
     },
     created:function () {
       var self = this;
