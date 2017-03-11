@@ -34,8 +34,8 @@
         },
         created: function () {
             var self = this;
-            $.get('/api/station/' + this.station + '/device', function (devices) {
-                self.devices = devices.items;
+            this.$http.get('/api/station/' + this.station + '/device').then(function (res) {
+                this.devices = res.body.items;
             })
         }
     }

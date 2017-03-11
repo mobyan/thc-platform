@@ -33,8 +33,8 @@
     },
     created: function () {
       var self = this;
-      $.get('/api/station', function (stations) {
-        self.stations = stations.items;
+      this.$http.get('/api/station').then(function (res) {
+        this.stations = res.body.items;
       })
     }
   }

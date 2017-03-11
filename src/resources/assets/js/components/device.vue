@@ -123,8 +123,9 @@ import utils from '../utils'
     created: function () {
       var self = this;
       var deviceId = this.$route.params.device;
-      $.get(this.apiURI() +  '?with=configs', function (device) {
-        self.device = device;
+      this.$http.get(this.apiURI() +  '?with=configs').then(function (res) {
+        this.device = res.body;
+        console.log(this.device)
       })
     },
     methods: {
@@ -132,17 +133,10 @@ import utils from '../utils'
         return '/api' + this.$route.path ;
       },
       save: function () {
-        $.ajax({
-          url: this.apiURI(),
-          method: 'put',
-          data: {
+        this.$http.put(this.apiURI(),{
             name: this.device.name,
             type: this.device.type,
-          },
-          success: function (data, res) {
-            utils.alert('success' , '设备信息保存成功');
-          }
-        })
+          }).then(()=>{});
       },
       addConfig: function() {
         var self = this;

@@ -23,10 +23,10 @@ export default {
     };
   },
     created: function () {
-    var self = this;
-    $.get('/api/station/', function (stations) {
-      self.markers = _.map(stations.items, function (v) {
-
+    this.$http.get('/api/station/').then(function (res) {
+      var stations = res.body;
+      this.markers = _.map(stations.items, function (v) {
+        var self = this;
         return {
           position: [v.lon, v.lat],
           events: {

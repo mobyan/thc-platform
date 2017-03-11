@@ -69,15 +69,15 @@
       },
     },
     created:function () {
-      var self = this;
-      $.get('/api/station/'+ this.$route.params.station+'?with=devices.configs', function (station) {
+      this.$http.get('/api/station/'+ this.$route.params.station+'?with=devices.configs').then(function (res) {
+        var station = res.body
         station.devices = _.map(station.devices, function (v) {
           v.config = _.last(v.configs);
           return v;
         })
-        self.devices = station.devices;
-        self.station = station;
-        self.selectedDevice = 0;
+        this.devices = station.devices;
+        this.station = station;
+        this.selectedDevice = 0;
       });
     }
   };

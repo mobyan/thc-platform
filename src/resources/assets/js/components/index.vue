@@ -34,7 +34,7 @@
       created: function () {
         var self = this;
         var model = this.$route.params.model;
-        $.when($.get('/api/'+ model +'/schema'), $.get('/api/'+ model +'')).then(function (schema, stations) {
+        $.when(this.$http.get('/api/'+ model +'/schema'), this.$http.get('/api/'+ model +'')).then(function (schema, stations) {
           self.items = stations[0].items;
           self.schema = schema[0];
         })

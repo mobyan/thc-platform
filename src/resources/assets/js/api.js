@@ -4,7 +4,8 @@ export default {
         query = query || {}
         query.with = 'config';
         query.limit = 1000;
-        $.get('/api' + uri , query, function(data) {
+        Vue.http.get('/api' + uri , query).then(function(res) {
+            var data = res.body
             var keys = {};
             _.forIn(data.items, function(item) {
                 var config = item.config ? item.config.data : {};
