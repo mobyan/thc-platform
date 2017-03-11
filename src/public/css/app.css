@@ -7817,4 +7817,10 @@ body {
   text-align: center;
 }
 
+#loading {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}
+
 /*# sourceMappingURL=app.css.map */

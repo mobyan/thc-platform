@@ -22,6 +22,8 @@
     </head>
     <body>
         <div id="app">
+<pulse-loader id="loading" :loading="loading" color="#00aadf" ></pulse-loader>
+
             <div id="header" class="container">
                 <nav class="navbar navbar-default navbar-custom navbar-static-top">
                     <div class="container">

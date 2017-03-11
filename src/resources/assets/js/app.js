@@ -16,6 +16,8 @@ import highcharts from 'highcharts';
 import VueRouter from 'vue-router'
 import routes from './routes'
 import AMap from 'vue-amap';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+
 Vue.use(AMap);
 
 AMap.initAMapApiLoader({
@@ -35,5 +37,11 @@ const router = new VueRouter({
 
 window.app = new Vue({
   el: '#app',
+  data: {
+    loading: false,
+  },
+  components: {
+    PulseLoader
+},
   router
 })
