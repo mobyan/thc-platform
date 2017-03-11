@@ -38,4 +38,9 @@ export default [{
     "desc": "电压传感器，采集的数据为电压V",
     "unit": "V",
     "type": "voltage"
+}, {
+    "name": "DAVIS785_R",
+    "desc": "雨量传感器，采集的数据为降雨量R",
+    "unit": "mm",
+    "type": "rainfall"
 }]
