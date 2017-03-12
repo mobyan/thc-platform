@@ -47,9 +47,11 @@ class MakeRoles extends Command
         // permissions
         $app_w = Permission::updateOrCreate(['name' => 'app_w']);
         $app_r = Permission::updateOrCreate(['name' => 'app_r']);
+        $sys_w = Permission::updateOrCreate(['name' => 'sys_w']);
+        $sys_r = Permission::updateOrCreate(['name' => 'sys_r']);
 
         // role permission
-        $super->perms()->sync([$app_r->id, $app_w->id]);
+        $super->perms()->sync([$app_r->id, $app_w->id, $sys_r->id, $sys_w->id]);
         $app_user->perms()->sync([$app_r->id]);
 
         // user role

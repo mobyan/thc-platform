@@ -10,8 +10,11 @@ class UserController extends Controller
 
     static $model = \App\User::class;
 
-    // static $permissions = ['all' => ['manage-user']];
-
+    static $permissions = [
+    'all' => ['sys_r'],
+    'update' => ['sys_w'],
+    'store' => ['sys_w'],
+    ];
     /**
      * Display a listing of the resource.
      *

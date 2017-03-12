@@ -8,8 +8,11 @@ class RoleController extends Controller
 {
     static $model = \App\Role::class;
 
-    static $permissions = ['all' => ['manage-roles']];
-
+    static $permissions = [
+    'all' => ['sys_r'],
+    'update' => ['sys_w'],
+    'store' => ['sys_w'],
+    ];
     /**
      * Display a listing of the resource.
      *

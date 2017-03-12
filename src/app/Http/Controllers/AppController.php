@@ -10,8 +10,9 @@ class AppController extends Controller
     static $model = \App\App::class;
 
     static $permissions = [
-    'all' => ['app_r'],
-    'update' => ['app_w'],
+    'all' => ['sys_r'],
+    'update' => ['sys_w'],
+    'store' => ['sys_w'],
     ];
 
     /**
