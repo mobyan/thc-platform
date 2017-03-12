@@ -134,9 +134,6 @@ class Controller extends BaseController
 
     public function assertPermissions($action) {
         if (!empty(static::$permissions)) {
-            if (Auth::user()->hasRole('super')) {
-                return ;
-            }
             $permissions = @static::$permissions[$action] ? : @static::$permissions['all'];
             if (!$permissions) return;
             call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
