@@ -27,6 +27,7 @@ AMap.initAMapApiLoader({
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('gallery', require('./components/gallery.vue'));
+Vue.component('viewer', require('./components/viewer.vue'));
 Vue.use(VueHighcharts);
 Vue.use(VueRouter);
 

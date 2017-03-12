@@ -15,12 +15,23 @@
           </div>
       </div>
   </div>
+  <!-- <viewer :images="testImages" index="1"></viewer> -->
 </div>
 </template>
 
 <script >
     export default {
         props: ['images'],
+        data: function () {
+          return {
+            testImages: [
+            {src: '/image/dl.png'},
+            {src: '/image/dl.png'},
+            {src: '/image/dl.png'},
+            {src: '/image/dl.png'},
+            ]
+          };
+        },
         computed: {
             devices: function () {
                 return _.map(this.images, function (v,k) {

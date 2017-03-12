@@ -9,6 +9,12 @@ class DeviceConfigController extends Controller
 {
 
     static $model = \App\DeviceConfig::class;
+
+    static $permissions = [
+    'all' => ['app_r'],
+    'update' => ['app_w'],
+    'store' => ['app_w'],
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +48,7 @@ class DeviceConfigController extends Controller
             ]);
         $body = $request->all();
         $body['device_id'] = $device_id;
-        return DeviceConfig::create($body);
+        return $this->_store($body);
     }
 
     /**

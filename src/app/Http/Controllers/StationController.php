@@ -13,7 +13,12 @@ class StationController extends Controller
 
     static $model = \App\Station::class;
 
-    static $permissions = ['update' => ['manage-stations']];
+    static $permissions = [
+    'all' => ['app_r'],
+    'update' => ['app_w'],
+    'store' => ['app_w'],
+    ];
+
     /**
      * Display a listing of the resource.
      *

@@ -88,6 +88,10 @@ class Controller extends BaseController
         return $model;
     }
 
+    public function _store($data) {
+        $this->assertPermissions('store');
+        return call_user_func([static::$model, 'create'], $data);
+    }
 
     public function assertOwnership($stack) {
         $user = Auth::user();
@@ -133,7 +137,7 @@ class Controller extends BaseController
             if (Auth::user()->hasRole('super')) {
                 return ;
             }
-            $permissions = @static::$permissions['all'] ? : @static::$permissions[$action];
+            $permissions = @static::$permissions[$action] ? : @static::$permissions['all'];
             if (!$permissions) return;
             call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
         }

@@ -40,30 +40,20 @@ class MakeRoles extends Command
      */
     public function handle()
     {
-        echo 'fff';
-        $admin = new Role;
-        $admin->name = 'Admin';
-        $admin->save();
+        // roles
+        $super = Role::updateOrCreate(['name' => 'super']);
+        $app_user = Role::updateOrCreate(['name' => 'app_user']);
 
-        // $owner = new Role;
-        // $owner->name = 'Owner';
-        // $owner->save();
-        // $manageUsers = new Permission;
-        // $manageUsers->name = 'manage_users';
-        // $manageUsers->display_name = 'Manage Users';
-        // $manageUsers->save();
+        // permissions
+        $app_w = Permission::updateOrCreate(['name' => 'app_w']);
+        $app_r = Permission::updateOrCreate(['name' => 'app_r']);
 
-        $managePosts = new Permission;
-        $managePosts->name = 'manage_posts';
-        $managePosts->display_name = 'Manage Posts';
-        $managePosts->save();
+        // role permission
+        $super->perms()->sync([$app_r->id, $app_w->id]);
+        $app_user->perms()->sync([$app_r->id]);
 
-        // $owner->perms()->sync(array($managePosts->id, $manageUsers->id));
-        $admin->perms()->sync(array($managePosts->id));
-
+        // user role
         $user = User::where('name','=','yanlong')->first();
-
-        $user->attachRole( $admin ); 
-        // $user->roles()->attach( $admin->id ); // id only
+        $user->roles()->sync([$super->id]); 
     }
 }

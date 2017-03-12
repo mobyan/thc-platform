@@ -297,8 +297,8 @@ th {
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url("../static/fonts/bootstrap/glyphicons-halflings-regular.eot");
-  src: url("../static/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../static/fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../static/fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../static/fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../static/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot");
+  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
 }
 
 .glyphicon {
@@ -7824,6 +7824,42 @@ body {
   position: fixed;
   left: 50%;
   top: 50%;
+}
+
+#mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+  background-color: gray;
+  opacity: 0.5;
+}
+
+#mask #mask-content {
+  overflow: hidden;
+  position: relative;
+}
+
+#mask #mask-content #mask-left {
+  width: 15%;
+  height: 100%;
+  float: left;
+}
+
+#mask #mask-content #mask-middle {
+  width: 70%;
+  height: 100%;
+  text-align: center;
+  float: left;
+  vertical-align: middle;
+}
+
+#mask #mask-content #mask-right {
+  width: 15%;
+  height: 100%;
+  float: right;
 }
 
 /*# sourceMappingURL=app.css.map */
