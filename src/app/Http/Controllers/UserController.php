@@ -14,6 +14,7 @@ class UserController extends Controller
     'all' => ['sys_r'],
     'update' => ['sys_w'],
     'store' => ['sys_w'],
+    'my' => ['app_r'],
     ];
     /**
      * Display a listing of the resource.
@@ -92,5 +93,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function my(Request $req) {
+        $this->assertPermissions('my');
+        return $req->user()->load('roles');
     }
 }

@@ -40,9 +40,15 @@ window.app = new Vue({
   el: '#app',
   data: {
     loading: false,
+    user: null,
   },
   components: {
     PulseLoader
 },
-  router
+  router,
+  created: function () {
+    this.$http.get('/api/user/my').then(function (res) {
+      this.user = res.body;
+    })
+  }
 })

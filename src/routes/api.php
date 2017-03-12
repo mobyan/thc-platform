@@ -12,6 +12,7 @@ use App\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('user/my', 'UserController@my');
 
 Route::resource('user', 'UserController', ['only' => [
     'index', 'show', 'store', 'update',

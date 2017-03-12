@@ -21,8 +21,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        return view('home');
+        return view('home', ['user' => $req->user()->with('roles')]);
     }
 }
