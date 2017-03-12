@@ -26,8 +26,8 @@
       <div class="panel-body">
         <form>
           <div class="form-group">
-            <label for="version">Version</label>
-            <input type="text" v-model="activeConfig.id" class="form-control" id="version" placeholder="version" disabled>
+<!--             <label for="version">Version</label>
+            <input type="text" v-model="activeConfig.id" class="form-control" id="version" placeholder="version" disabled> -->
 
           </div>
           <div class="form-group">
@@ -54,7 +54,7 @@
                     <!-- <td><input type="text" v-model="activeConfig.data[k].unit" class="form-control" :id="k" :placeholder="k" ></td> -->
                     <td>
                       <select v-model="activeConfig.data[k].sensor_type" class="form-control">
-                        <option v-for="sensor in sensors" :value="sensor.name">{{sensor.desc}}</option>
+                        <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
                       </select>
                     </td>
                     <td><input type="text" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
