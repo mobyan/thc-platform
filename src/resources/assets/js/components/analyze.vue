@@ -64,7 +64,7 @@
         var query = {};
         if (offset) {
           query.start_at = moment().subtract(offset,'day').format('YYYY-MM-DD');
-          query.end_at = moment().format('YYYY-MM-DD');
+          query.end_at = moment().add(1,'day').format('YYYY-MM-DD');
         } else {
           query.start_at = this.start_at.time;
           query.end_at = this.end_at.time;

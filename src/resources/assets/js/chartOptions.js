@@ -47,10 +47,12 @@ var defaultOption = {
 export default {
   'temp': _.merge({}, defaultOption, {title:{text:'温度'}, yAxis:{title:{text:'摄制度'}}}),
   'speed': _.merge({}, defaultOption, {title:{text:'速度'}, yAxis:{title:{text:'m/s'}}}),
+  'voltage': _.merge({}, defaultOption, {title:{text:'电压'}, yAxis:{title:{text:'V'}}}),
   'temperature': _.merge({}, defaultOption, {title:{text:'温度'}, yAxis:{title:{text:'摄制度'}}}),
   'humility': _.merge({}, defaultOption, {title:{text:'湿度'}, yAxis:{title:{text:'%'}}}),
   'solar-radiation': _.merge({}, defaultOption, {title:{text:'光照'}, yAxis:{title:{text:'lux'}}}),
   'wind-velocity': _.merge({}, defaultOption, {title:{text:'风速'}, yAxis:{title:{text:'m/s'}}}),
+  'wind-speed': _.merge({}, defaultOption, {title:{text:'风速'}, yAxis:{title:{text:'m/s'}}}),
   'wind-direction': _.merge({}, defaultOption, {title:{text:'风向'}, yAxis:{title:{text:'°'}}}),
   'solar radiation': _.merge({}, defaultOption, {title:{text:'光照'}, yAxis:{title:{text:'lux'}}}),
   'wind velocity': _.merge({}, defaultOption, {title:{text:'风速'}, yAxis:{title:{text:'m/s'}}}),
