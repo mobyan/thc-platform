@@ -49,7 +49,7 @@ export default {
             }
             charts[type].series.push(serie);
         })
-        return charts;
+        return JSON.parse(JSON.stringify(charts));
     },
     accumlateByTime (data) {
         var res = _.reduce(data, function (result, v, k) {
