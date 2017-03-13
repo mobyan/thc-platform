@@ -3,8 +3,11 @@ export default {
     getDeviceData(uri, query, callback) {
         query = query || {}
         query.with = 'config';
-        query.limit = 1000;
-        Vue.http.get('/api' + uri , query).then(function(res) {
+        query.limit = 10000;
+	var options = {
+		params: query,
+	}
+        Vue.http.get('/api' + uri, options).then(function(res) {
             var data = res.body
             var keys = {};
             _.forIn(data.items, function(item) {

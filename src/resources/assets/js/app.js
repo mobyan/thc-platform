@@ -25,6 +25,8 @@ AMap.initAMapApiLoader({
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
 });
 
+highcharts.setOptions({ global: { useUTC: false } });   
+
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('gallery', require('./components/gallery.vue'));
 Vue.component('viewer', require('./components/viewer.vue'));
