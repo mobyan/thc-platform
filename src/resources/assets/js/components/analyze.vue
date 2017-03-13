@@ -67,7 +67,7 @@
           query.end_at = moment().add(1,'day').format('YYYY-MM-DD');
         } else {
           query.start_at = this.start_at.time;
-          query.end_at = this.end_at.time;
+          query.end_at = moment(this.end_at.time).add(1,'day').format('YYYY-MM-DD');
         }
         var self = this;
         api.getDeviceData(this.$route.path, query, function (err, data) {
