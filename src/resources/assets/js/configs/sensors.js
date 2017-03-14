@@ -43,4 +43,9 @@ export default [{
     "desc": "雨量传感器，采集的数据为降雨量R",
     "unit": "mm",
     "type": "rainfall"
+}, {
+    "name": "HIKVISION_CAM_I",
+    "desc": "图像传感器，采集数据为图像I",
+    "unit": "",
+    "type": "image"
 }]
