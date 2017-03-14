@@ -41,7 +41,7 @@ export default {
             var serie = {
                     name: v.name,
                     data: _.map(v.data, function (dd) {
-                        return [new Date(dd.ts).getTime(), dd.value];
+                        return [new Date(dd.ts).getTime(), parseFloat(dd.value)];
                     })
             }
             if (type == 'rainfall') {
