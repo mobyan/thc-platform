@@ -2,17 +2,21 @@
   <div class="card">
     <!-- for Vue 2.0 -->
     <div style="margin-bottom: 10px;">
-    <form class="form-inline">
-      <label>类型</label>
+      <form class="form">
+              <div class="form-group">
 
-    <select class="form-control" v-model="selectedType" style="width: 120px;">
-      <option v-for="(v,t) in types" :value="t">{{t}}</option>
-    </select>
-      <label>Date</label>
-      <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> - 
-      <date-picker id="end_at" :date="end_at" :option="dp.option" :limit="limit"></date-picker>
-      <button type="button" class="btn btn-primary btn-md" @click="loadDeviceData(selectedType)">确定</button>
-      <button type="button" class="btn btn-md btn-default" v-for="shortcut in shortcuts" @click="loadDeviceData(selectedType, shortcut.offset)" style="margin-left:5px;">{{shortcut.name}}</button>
+          <label>类型：</label>
+          <select class="form-control" v-model="selectedType">
+            <option v-for="(v,t) in types" :value="t">{{v.type_desc}}</option>
+          </select>
+          </div>
+        <div class="form-group">
+          <label style="width: 100%;">时间：</label>
+          <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> to  
+          <date-picker id="end_at" :date="end_at" :option="dp.option" :limit="limit"></date-picker>
+        </div>
+        <button type="button" class="btn btn-primary" @click="loadDeviceData(selectedType)">确定</button>
+        <button type="button" class="btn btn-default" v-for="shortcut in shortcuts" @click="loadDeviceData(selectedType, shortcut.offset)" style="margin-right: 5px;" >{{shortcut.name}}</button>
       </form>
     </div>
     <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
@@ -24,6 +28,7 @@
   import myDatepicker from 'vue-datepicker'
   import api from '../api'
   import configs from '../configs'
+  import sensors from '../configs/sensors'
   export default {
     data () {
       return {
@@ -41,11 +46,11 @@
         types: [],
         selectedType: null,
         shortcuts: [
-          {name: '1天',offset: 1,},
-          {name: '3天',offset: 3,},
-          {name: '7天',offset: 7,},
-          {name: '15天',offset: 15,},
-          {name: '30天',offset: 30,},
+        {name: '1天',offset: 1,},
+        {name: '3天',offset: 3,},
+        {name: '7天',offset: 7,},
+        {name: '15天',offset: 15,},
+        {name: '30天',offset: 30,},
         ],
       }
     },
@@ -72,7 +77,7 @@
         var self = this;
         api.getDeviceData(this.$route.path, query, function (err, data) {
           self.types = _.reduce(data, (res, v)=> {
-            res[v.type] = true;
+            res[v.type] = _.find(sensors, {type:v.type}) || {};
             return res;
           }, {});
           if (type == 'image') {
