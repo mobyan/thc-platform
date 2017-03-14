@@ -33,7 +33,7 @@
     data () {
       return {
         dp: configs.datepicker,
-        start_at: {time:moment().subtract(100,'day').format('YYYY-MM-DD')},
+        start_at: {time:moment().subtract(1,'day').format('YYYY-MM-DD')},
         end_at: {time:moment().format('YYYY-MM-DD')},
         charts: {},
         limit: [{
