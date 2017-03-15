@@ -73,14 +73,23 @@
             <label for="control">Controller</label>
             <table class="table table-bordered table-striped table-hover">
               <tbody>
-                <tr><th>名称</th><th>设置</th><th>操作</th></tr>
+                <tr>
+                <th>名称</th>
+                <th>分</th>
+                <th>时</th>
+                <th>日</th>
+                <th>月</th>
+                <th>周</th>
+                <th>操作</th>
+                </tr>
                 <tr v-for="(v,k) in activeConfig.control">
                   <td>{{k}}</td>
-                  <td><input type="text" v-model="activeConfig.control[k]" class="form-control" :id="k" :placeholder="k" ></td>
+                  <!-- <td><input type="text" v-model="activeConfig.control[k]" class="form-control" :id="k" :placeholder="k" ></td> -->
+                  <td v-for="(v, key) in activeConfig.control[k]" ><input type="text" class="form-control" name="" v-model="activeConfig.control[k][key]"></td>
                   <td style="vertical-align: middle;width:33px;"><div @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
                 </tr>
-                <tr><td colspan="3">
+                <tr><td colspan="7">
                   <div style="text-align: right;" ><img @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
                 </td></tr>
               </tbody>
@@ -116,6 +125,17 @@ import utils from '../utils'
           if (res.control.length == 0) {
             res.control = {};
           }
+          res.control = _.reduce(res.control, function(carry, v,k) {
+            var job = _.split(v, ' ');
+            carry[k] = {
+              minute: job[0],
+              hour: job[1],
+              day: job[2],
+              month: job[3],
+              week: job[4],
+            }
+            return carry;
+          }, {})
         } 
         return res || {};
       }

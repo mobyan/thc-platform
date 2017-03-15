@@ -41,14 +41,14 @@ class MakeRoles extends Command
     public function handle()
     {
         // roles
-        $super = Role::updateOrCreate(['name' => 'super']);
-        $app_user = Role::updateOrCreate(['name' => 'app_user']);
+        $super = Role::updateOrCreate(['name' => 'super'], ['display_name' => '系统管理员']);
+        $app_user = Role::updateOrCreate(['name' => 'app_user'], ['display_name' => '用户']);
 
         // permissions
-        $app_w = Permission::updateOrCreate(['name' => 'app_w']);
-        $app_r = Permission::updateOrCreate(['name' => 'app_r']);
-        $sys_w = Permission::updateOrCreate(['name' => 'sys_w']);
-        $sys_r = Permission::updateOrCreate(['name' => 'sys_r']);
+        $app_w = Permission::updateOrCreate(['name' => 'app_w'], ['display_name' => '应用写']);
+        $app_r = Permission::updateOrCreate(['name' => 'app_r'], ['display_name' => '应用读']);
+        $sys_w = Permission::updateOrCreate(['name' => 'sys_w'], ['display_name' => '系统写']);
+        $sys_r = Permission::updateOrCreate(['name' => 'sys_r'], ['display_name' => '系统读']);
 
         // role permission
         $super->perms()->sync([$app_r->id, $app_w->id, $sys_r->id, $sys_w->id]);

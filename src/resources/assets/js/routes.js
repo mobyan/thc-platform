@@ -7,6 +7,8 @@ import analyze from './components/analyze.vue'
 import map from './components/map.vue'
 import user from './components/user.vue'
 import index from './components/index.vue'
+var apply = require('./components/apply.vue');
+var apply_audit = require('./components/apply_audit.vue');
 
 const routes = [{
   path: '/',
@@ -91,5 +93,27 @@ const routes = [{
   props: {
     header: {title: '数据分析'}
   }
+}, {
+    path: '/apply',
+    components: {
+        default: apply,
+        header: header,
+    },
+    props: {
+        header: {
+            title: 'apply'
+        }
+    }
+}, {
+    path: '/apply_audit',
+    components: {
+        default: apply_audit,
+        header: header,
+    },
+    props: {
+        header: {
+            title: 'apply_audit'
+        }
+    }
 }, ]
 module.exports = routes

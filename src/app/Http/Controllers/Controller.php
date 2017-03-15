@@ -18,9 +18,10 @@ class Controller extends BaseController
         'config' => 'device_config',
         'data' => 'device_data',
         'user' => 'users',
+        'apply' => 'user_apply',
     ];
 
-    static $sys_root_models = ['user', 'app'];
+    static $sys_root_models = ['user', 'app', 'apply'];
     static $user_root_models = [\App\Station::class];
 
     static $permissions = [];
@@ -60,6 +61,9 @@ class Controller extends BaseController
         }
         $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
         if ($with) {
+            if (str_contains($with,',')) {
+                $with = explode(',', $with);
+            }
             $items = $items->with($with);
         }
         if ($callback) {
@@ -134,7 +138,7 @@ class Controller extends BaseController
 
     public function assertPermissions($action) {
         if (!empty(static::$permissions)) {
-            $permissions = @static::$permissions[$action] ? : @static::$permissions['all'];
+            $permissions = isset(static::$permissions[$action]) ? static::$permissions[$action]: @static::$permissions['all'];
             if (!$permissions) return;
             call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
         }

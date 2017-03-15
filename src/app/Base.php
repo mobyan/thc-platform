@@ -29,4 +29,19 @@ class Base extends Model
         }, []);
         return $schema;
     }
+
+    /**
+     * has relationship
+     * @param  string  $model model name
+     * @param  string  $id    object id
+     * @return boolean        
+     */
+    public function has($model, $id) {
+        foreach ($this->$model as $instance) {
+            if ($instance->id == $id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

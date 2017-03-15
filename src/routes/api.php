@@ -14,12 +14,18 @@ use App\User;
 */
 Route::get('user/my', 'UserController@my');
 
+Route::post('apply/{apply}/pass', 'ApplyController@pass');
+Route::post('apply/{apply}/unpass', 'ApplyController@unpass');
+Route::resource('apply', 'ApplyController', ['only' => [
+    'index', 'show', 'store'
+]]);
+
 Route::resource('user', 'UserController', ['only' => [
     'index', 'show', 'store', 'update',
 ]]);
 
 Route::resource('role', 'RoleController', ['only' => [
-    'index', 'show', 'store', 'update',
+    'index', 'show'
 ]]);
 
 Route::get('app/schema', 'AppController@schema');
