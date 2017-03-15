@@ -167,9 +167,13 @@ import utils from '../utils'
           res[k] = v;
           return res;
         }, {})
+        var control = _.reduce(this.activeConfig.control, function (res, v, k) {
+          res[k] = _.join([v.minute||'*', v.hour||'*', v.day||'*', v.month||'*', v.week||'*'], ' ');
+          return res;
+        }, {});
         var body = {
           data,
-          control: this.activeConfig.control,
+          control: control,
         }
         this.$http.post(this.apiURI()+'/config', body).then(function (res) {
           this.device.configs.push(res.body)
