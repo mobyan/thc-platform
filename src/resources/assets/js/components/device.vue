@@ -107,6 +107,7 @@
 import sensors from '../configs/sensors'
 import ports from '../configs/ports'
 import utils from '../utils'
+import bootbox from 'bootbox'
   export default {
     data: function () {
       return {
@@ -126,6 +127,10 @@ import utils from '../utils'
             res.control = {};
           }
           res.control = _.reduce(res.control, function(carry, v,k) {
+            if (_.isObject(v)) {
+              carry[k] = v;
+              return carry;
+            }
             var job = _.split(v, ' ');
             carry[k] = {
               minute: job[0],
@@ -187,17 +192,23 @@ import utils from '../utils'
       },
       addDataConfig: function (type) {
         var key = 'new';
-        do {
-          key = 'new_' + _.random(1,100);
-        } while(key in this.activeConfig[type])
-        Vue.set(this.activeConfig[type], key, type == 'data' ? {
-          type: '',
-          unit: '',
-          port: '',
-          max_v: '',
-          min_v: '',
-          desc: '',
-        } : '* * * * *')
+        // do {
+        //   key = 'new_' + _.random(1,100);
+        // } while(key in this.activeConfig[type])
+        // 
+        var self = this;
+        bootbox.prompt("输入配置项名称：", function(result){ 
+          if (!result || self.activeConfig[type][result]) return;
+
+          Vue.set(self.activeConfig[type], result, type == 'data' ? {
+            type: '',
+            unit: '',
+            port: '',
+            max_v: '',
+            min_v: '',
+            desc: '',
+          } : {minute: '*', hour: '*', day: '*', month: '*', week: '*'});
+        });
       }
     }
   }
