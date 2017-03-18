@@ -7,14 +7,36 @@
       <div class="panel-body">
         <form>
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" v-model="device.name" class="form-control" id="name" placeholder="name">
+            <label for="name">name</label>
+            <input :disabled="!editing" type="text" v-model="device.name" class="form-control" id="name" placeholder="name">
           </div>
           <div class="form-group">
             <label for="type">type</label>
-            <input type="text" v-model="device.type" class="form-control" id="type" placeholder="type">
+            <input :disabled="!editing" type="text" v-model="device.type" class="form-control" id="type" placeholder="type">
           </div>
-          <button type="submit"  @click.prevent="save()" class="btn btn-default btn-primary">Submit</button>
+          <div class="form-group">
+            <label for="nacompanyme">company</label>
+            <input :disabled="!editing" type="text" v-model="device.company" class="form-control" id="company" placeholder="company">
+          </div>
+          <div class="form-group">
+            <label for="model">model</label>
+            <input :disabled="!editing" type="text" v-model="device.model" class="form-control" id="model" placeholder="model">
+          </div>
+          <div class="form-group">
+            <label for="sn">sn</label>
+            <input :disabled="!editing" type="text" v-model="device.sn" class="form-control" id="sn" placeholder="sn">
+          </div>
+          <div class="form-group">
+            <label for="version">version</label>
+            <input :disabled="!editing" type="text" v-model="device.version" class="form-control" id="version" placeholder="version">
+          </div>
+          <template v-if="editable">
+            <button v-if="editing" type="submit" @click.prevent="save()" class="btn btn-primary">确定</button>
+            <button v-if="editing" type="submit" @click.prevent="editing = !editing" class="btn btn-default" >取消</button>
+            <button v-if="!editing" type="submit" @click.prevent="editing = !editing;isCreate = false;" class="btn btn-primary">修改</button>
+            <button v-if="!editing" type="submit" @click.prevent="create" class="btn btn-default">创建</button>
+            <button v-if="!editing" type="submit" @click.prevent="remove" class="btn btn-danger">删除</button>
+          </template>
         </form>
       </div>
     </div>
@@ -26,94 +48,95 @@
       <div class="panel-body">
         <form>
           <div class="form-group">
-<!--             <label for="version">Version</label>
-            <input type="text" v-model="activeConfig.id" class="form-control" id="version" placeholder="version" disabled> -->
+</div>
+<div class="form-group">
+  <label for="data">Data</label>
+  <table class="table table-bordered table-striped table-hover">
+    <tbody>
+      <tr>
+        <th>名称</th>
+        <th>端口</th>
+        <th>传感器</th>
+        <th>备注</th>
+        <th>操作</th>
+      </tr>
+      <tr v-for="(v,k) in activeConfig.data">
+        <template v-if="v !== null">
+          <td>{{k}}</td>
+          <td><select class="form-control" v-model="activeConfig.data[k].port">
+            <option v-for="port in ports" :value="port">{{port}}</option>
+          </select></td>
+          <td>
+            <select v-model="activeConfig.data[k].sensor_type" class="form-control">
+              <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
+            </select>
+          </td>
+          <td><input type="text" :disabled="!editing_config" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
+          <td style="vertical-align: middle;"><div v-if="editing_config" @click="removeData('data', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
-          </div>
-          <div class="form-group">
-            <label for="data">Data</label>
-            <table class="table table-bordered table-striped table-hover">
-              <tbody>
-                <tr>
-                  <th>名称</th>
-                  <th>端口</th>
-                  <!-- <th>类型</th> -->
-                  <!-- <th>单位</th> -->
-                  <th>传感器</th>
-                  <th>备注</th>
-                  <th>操作</th>
-                </tr>
-                <tr v-for="(v,k) in activeConfig.data">
-                  <template v-if="v !== null">
-                    <td>{{k}}</td>
-                    <td><select class="form-control" v-model="activeConfig.data[k].port">
-                      <option v-for="port in ports" :value="port">{{port}}</option>
-                    </select></td>
-                    <!-- <td><input type="text" v-model="activeConfig.data[k].port" class="form-control" :id="k" :placeholder="k" ></td> -->
-                    <!-- <td><input type="text" v-model="activeConfig.data[k].type" class="form-control" :id="k" :placeholder="k" ></td> -->
-                    <!-- <td><input type="text" v-model="activeConfig.data[k].unit" class="form-control" :id="k" :placeholder="k" ></td> -->
-                    <td>
-                      <select v-model="activeConfig.data[k].sensor_type" class="form-control">
-                        <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
-                      </select>
-                    </td>
-                    <td><input type="text" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
-                    <td style="vertical-align: middle;"><div @click="removeData('data', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+        </template>
+      </tr>
+      <tr><td colspan="8">
+        <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
+      </td></tr>
+    </tbody>
+  </table>
 
-                  </template>
-                </tr>
-                <tr><td colspan="8">
-                  <div style="text-align: right;" ><img @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
-                </td></tr>
-              </tbody>
-            </table>
+</div>
+<div class="form-group">
+  <label for="control">Controller</label>
+  <table class="table table-bordered table-striped table-hover">
+    <tbody>
+      <tr>
+        <th>名称</th>
+        <th>分</th>
+        <th>时</th>
+        <th>日</th>
+        <th>月</th>
+        <th>周</th>
+        <th>操作</th>
+      </tr>
+      <tr v-for="(v,k) in activeConfig.control">
+        <td>{{k}}</td>
+        <td v-for="(v, key) in activeConfig.control[k]" ><input :disabled="!editing_config" type="text" class="form-control" name="" v-model="activeConfig.control[k][key]"></td>
+        <td style="vertical-align: middle;width:33px;"><div v-if="editing_config" @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
-          </div>
-          <div class="form-group">
-            <label for="control">Controller</label>
-            <table class="table table-bordered table-striped table-hover">
-              <tbody>
-                <tr>
-                <th>名称</th>
-                <th>分</th>
-                <th>时</th>
-                <th>日</th>
-                <th>月</th>
-                <th>周</th>
-                <th>操作</th>
-                </tr>
-                <tr v-for="(v,k) in activeConfig.control">
-                  <td>{{k}}</td>
-                  <!-- <td><input type="text" v-model="activeConfig.control[k]" class="form-control" :id="k" :placeholder="k" ></td> -->
-                  <td v-for="(v, key) in activeConfig.control[k]" ><input type="text" class="form-control" name="" v-model="activeConfig.control[k][key]"></td>
-                  <td style="vertical-align: middle;width:33px;"><div @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+      </tr>
+      <tr><td colspan="7">
+        <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
+      </td></tr>
+    </tbody>
+  </table>
 
-                </tr>
-                <tr><td colspan="7">
-                  <div style="text-align: right;" ><img @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
-                </td></tr>
-              </tbody>
-            </table>
-
-          </div>
-          <button type="submit" @click.prevent="addConfig()" class="btn btn-default btn-primary">Submit</button>
-        </form>    
-      </div>
-    </div>
-  </div>
+</div>
+<template v-if="editable">
+  <button type="submit" v-if="editing_config" @click.prevent="addConfig()" class="btn btn-default btn-primary">确认</button>
+  <button type="submit" v-if="editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-default">取消</button>
+  <button type="submit" v-if="!editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-primary">修改</button>
+</template>
+</form>    
+</div>
+</div>
+</div>
 </template>
 
 <script >
-import sensors from '../configs/sensors'
-import ports from '../configs/ports'
-import utils from '../utils'
-import bootbox from 'bootbox'
+  import sensors from '../configs/sensors'
+  import ports from '../configs/ports'
+  import utils from '../utils'
+  import bootbox from 'bootbox'
   export default {
     data: function () {
       return {
         device: {},
         sensors,
         ports,
+        editing: false,
+        editing_config: false,
+        editable: false,
+        isCreate: false,
+        fillable: ['name', 'type', 'company', 'model', 'sn', 'version'],
+
       };
     },
     computed: {
@@ -146,6 +169,7 @@ import bootbox from 'bootbox'
       }
     },
     created: function () {
+      this.editable = thc.can('app_w');
       var self = this;
       var deviceId = this.$route.params.device;
       this.$http.get(this.apiURI() +  '?with=configs').then(function (res) {
@@ -157,11 +181,49 @@ import bootbox from 'bootbox'
       apiURI: function () {
         return '/api' + this.$route.path ;
       },
+      update: function () {
+        this.$http.put(this.apiURI(), _.pick(this.device, this.fillable)).then(function () {
+          this.editing = !this.editing;
+        });
+      },
       save: function () {
-        this.$http.put(this.apiURI(),{
-            name: this.device.name,
-            type: this.device.type,
-          }).then(()=>{});
+        if (this.isCreate) {
+          this.$http.post('/api/station/'+ this.$route.params.station+'/device', this.device).then(function (res) {
+            this.editing = !this.editing;
+            this.$router.push({
+              name: 'device',
+              params: {
+                station: this.$route.params.station,
+                device: res.body.id,
+              }
+            })
+          })
+        } else {
+          this.update();
+        }
+      },
+      remove: function () {
+        var self = this;
+        bootbox.confirm('确认删除？', function (result) {
+          if (result) {
+            self.$http.delete(self.apiURI()).then(function () {
+              self.$router.push({
+                name: 'station',
+                params: {
+                  station: self.$route.params.station,
+                }
+              });
+            })
+          }
+        })
+      },
+      create: function () {
+        this.device = _.reduce(this.device, function (carry, v) {
+          carry[v] = '';
+          return carry;
+        }, {});
+        this.isCreate = true;
+        this.editing = !this.editing;
       },
       addConfig: function() {
         var self = this;
@@ -182,6 +244,7 @@ import bootbox from 'bootbox'
         }
         this.$http.post(this.apiURI()+'/config', body).then(function (res) {
           this.device.configs.push(res.body)
+          this.editing_config = !this.editing_config
           utils.alert('success' , '保存设备配置成功');
         })
       },

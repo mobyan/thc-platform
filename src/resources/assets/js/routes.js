@@ -69,6 +69,7 @@ const routes = [{
     header: {title: '控制面板'}
   }
 }, {
+  name: 'device',
   path: '/station/:station/device/:device',
   components: {
     default: require('./components/device.vue'),
