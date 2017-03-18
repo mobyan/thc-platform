@@ -8,7 +8,7 @@ class Station extends Base
 {
     protected $table = 'station';
 
-    protected $fillable = ['app_id'];
+    protected $fillable = ['name', 'type', 'location', 'lon', 'lat', 'alt', 'app_id'];
 
     public function devices() {
         return $this->hasMany('App\Device');

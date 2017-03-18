@@ -50,7 +50,7 @@ class StationController extends Controller
         $this->validate($request, [
             ]);
         $body = $request->all();
-        $body['app_id'] = 1;
+        $body['app_id'] = $request->user()->app_id;
         return Station::create($body);
     }
 
@@ -87,7 +87,9 @@ class StationController extends Controller
     {
         $this->validate($request, [
             ]);
-        return $this->_update($id, $request->all());
+        $data = $request->all();
+        $data['app_id'] = $request->user()->app_id;
+        return $this->_update($id, $data);
     }
 
     /**

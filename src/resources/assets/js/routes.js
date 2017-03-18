@@ -24,6 +24,7 @@ const routes = [{
     header: {title: '站点列表'},
   }
 }, {
+  name: 'stations',
   path: '/station',
   components: {
     default: stations,
@@ -42,6 +43,7 @@ const routes = [{
     header: {title: '站点地图'},
   }
 }, {
+  name: 'station',
   path: '/station/:station',
   components: {
     default: station,

@@ -7862,4 +7862,12 @@ body {
   float: right;
 }
 
+.icon {
+  font-size: 15px;
+}
+
+.icon-warn {
+  color: red;
+}
+
 /*# sourceMappingURL=app.css.map */
