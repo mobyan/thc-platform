@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use View;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index(Request $req)
     {
-        return view('home', ['user' => $req->user()->with('roles')]);
+        $user = $req->user()->load('roles.permissions');
+        View::share('user', $user);
+        return view('home');
     }
 }

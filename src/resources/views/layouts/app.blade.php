@@ -17,10 +17,13 @@
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-            ]); ?>
+            ]); ?>;
+        window.thc = {}
+        window.thc.user = {!! $user !!};
         </script>
     </head>
     <body>
+
         <div id="app">
 <pulse-loader id="loading" :loading="loading" color="#00aadf" ></pulse-loader>
 

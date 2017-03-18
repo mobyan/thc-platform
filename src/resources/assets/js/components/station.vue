@@ -43,8 +43,8 @@
           editable: false,
       }
   },
-  created: function () {
-    this.editable = app.user.roles.length > 0;
+  mounted: function () {
+    this.editable = thc.can('app_w');
     this.editing = this.$route.query.op == 'edit';
     this.$http.get('/api/station/'+this.$route.params.station).then(function (res) {
       this.station = res.body;

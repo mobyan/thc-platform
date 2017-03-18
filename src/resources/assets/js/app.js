@@ -25,7 +25,11 @@ AMap.initAMapApiLoader({
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
 });
 
-highcharts.setOptions({ global: { useUTC: false } });   
+highcharts.setOptions({
+  global: {
+    useUTC: false
+  }
+});
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('gallery', require('./components/gallery.vue'));
@@ -34,9 +38,22 @@ Vue.use(VueHighcharts);
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-      // mode: 'history',
+  // mode: 'history',
   routes
 })
+
+window.thc.can = function(permission_name) {
+  for (var r in thc.user.roles) {
+    var role = thc.user.roles[r]
+    for (var p in role.permissions) {
+      var permission = role.permissions[p]
+      if (permission.name == permission_name) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 window.app = new Vue({
   el: '#app',
@@ -44,13 +61,11 @@ window.app = new Vue({
     loading: false,
     user: null,
   },
+  methods: {},
   components: {
     PulseLoader
-},
+  },
   router,
-  created: function () {
-    this.$http.get('/api/user/my').then(function (res) {
-      this.user = res.body;
-    })
+  created: function() {
   }
 })
