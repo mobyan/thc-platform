@@ -67,5 +67,8 @@ window.app = new Vue({
   },
   router,
   created: function() {
+    if (!thc.can('app_r')) {
+      this.$router.push('apply');
+    }
   }
 })
