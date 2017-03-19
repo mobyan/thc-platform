@@ -57,6 +57,9 @@
                                 <li>
                                     <router-link to="/station">站点列表</router-link>
                                 </li>
+                                <li v-if="isAdmin()">
+                                    <router-link to="/apply_audit">权限审核</router-link>
+                                </li>
 <!--                         <li>
                             <router-link to="/dashboard">dashboard</router-link>
                         </li>

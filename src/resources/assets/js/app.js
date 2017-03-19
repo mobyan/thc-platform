@@ -61,7 +61,12 @@ window.app = new Vue({
     loading: false,
     user: null,
   },
-  methods: {},
+  methods: {
+    isAdmin: function () {
+      console.log(thc.can('sys_w'))
+      return thc.can('sys_w');
+    }
+  },
   components: {
     PulseLoader
   },
