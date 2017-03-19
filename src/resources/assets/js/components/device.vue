@@ -63,11 +63,11 @@
       <tr v-for="(v,k) in activeConfig.data">
         <template v-if="v !== null">
           <td>{{k}}</td>
-          <td><select class="form-control" v-model="activeConfig.data[k].port">
+          <td><select class="form-control" :disabled="!editing" v-model="activeConfig.data[k].port">
             <option v-for="port in ports" :value="port">{{port}}</option>
           </select></td>
           <td>
-            <select v-model="activeConfig.data[k].sensor_type" class="form-control">
+            <select :disabled="!editing" v-model="activeConfig.data[k].sensor_type" class="form-control">
               <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
             </select>
           </td>

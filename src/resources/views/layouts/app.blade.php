@@ -19,7 +19,9 @@
             'csrfToken' => csrf_token(),
             ]); ?>;
         window.thc = {}
-        window.thc.user = {!! $user !!};
+        @if (!Auth::guest())
+            window.thc.user = {!! $user !!};
+        @endif
         </script>
     </head>
     <body>
