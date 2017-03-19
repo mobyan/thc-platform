@@ -12,6 +12,7 @@ class RoleController extends Controller
     'all' => ['sys_r'],
     'update' => ['sys_w'],
     'store' => ['sys_w'],
+    'index' => [],
     ];
     /**
      * Display a listing of the resource.
