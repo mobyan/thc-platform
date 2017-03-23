@@ -42,8 +42,8 @@ import bootbox from 'bootbox'
       data: function () {
         return {
           station: {},
-          editing: true,
-          editable: false,
+          editing: false,
+          editable: thc.can('app_w'),
           isCreate: false,
           fillable: ['name', 'type', 'location', 'lon', 'lat', 'alt'],
       }
@@ -94,8 +94,6 @@ import bootbox from 'bootbox'
     '$route': 'load',
   },
   mounted: function () {
-    this.editable = thc.can('app_w');
-    this.editing = this.$route.query.op == 'edit';
     if (this.$route.query.op == 'create') {
       this.create();
     } else {
