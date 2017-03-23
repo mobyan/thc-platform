@@ -26,7 +26,7 @@
     </div>
 </div>
 </div>
-<div class="panel panel-default panel-primary">
+<div v-if="station.id" class="panel panel-default panel-primary">
     <div class="panel-heading" >
         <h3 class="panel-title">设备列表</h3>
     </div>
@@ -82,15 +82,25 @@ import bootbox from 'bootbox'
                     this.$router.push({name:'stations'});
                 })
             }
-    })
+      })
+    },
+    load: function () {
+      this.$http.get('/api/station/'+this.$route.params.station).then(function (res) {
+        this.station = res.body;
+      })
     }
+  },
+  watch: {
+    '$route': 'load',
   },
   mounted: function () {
     this.editable = thc.can('app_w');
     this.editing = this.$route.query.op == 'edit';
-    this.$http.get('/api/station/'+this.$route.params.station).then(function (res) {
-      this.station = res.body;
-  })
-}
+    if (this.$route.query.op == 'create') {
+      this.create();
+    } else {
+      this.load();
+    }
+  }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="device">
     <div class="panel panel-default panel-primary">
       <div class="panel-heading" >
         <h3 class="panel-title">基本信息</h3>
@@ -63,11 +63,11 @@
       <tr v-for="(v,k) in activeConfig.data">
         <template v-if="v !== null">
           <td>{{k}}</td>
-          <td><select class="form-control" :disabled="!editing" v-model="activeConfig.data[k].port">
+          <td><select class="form-control" :disabled="!editing_config" v-model="activeConfig.data[k].port">
             <option v-for="port in ports" :value="port">{{port}}</option>
           </select></td>
           <td>
-            <select :disabled="!editing" v-model="activeConfig.data[k].sensor_type" class="form-control">
+            <select :disabled="!editing_config" v-model="activeConfig.data[k].sensor_type" class="form-control">
               <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
             </select>
           </td>
@@ -128,7 +128,7 @@
   export default {
     data: function () {
       return {
-        device: {},
+        device: null,
         sensors,
         ports,
         editing: false,
@@ -165,19 +165,30 @@
             return carry;
           }, {})
         } 
-        return res || {};
+        return res || {data: {}, control:{}};
       }
     },
     created: function () {
       this.editable = thc.can('app_w');
-      var self = this;
       var deviceId = this.$route.params.device;
-      this.$http.get(this.apiURI() +  '?with=configs').then(function (res) {
-        this.device = res.body;
-        console.log(this.device)
-      })
+      if (this.$route.query.op == 'create') {
+        this.create();
+      } else {
+        this.load();
+      }
     },
     methods: {
+      load: function () {
+        this.$http.get(this.apiURI() +  '?with=configs').then(function (res) {
+          this.device = res.body;
+          if (this.device.configs.length == 0) {
+            this.device.configs.push({
+              data: {},
+              control: {},
+            })
+          }
+        })
+      },
       apiURI: function () {
         return '/api' + this.$route.path ;
       },

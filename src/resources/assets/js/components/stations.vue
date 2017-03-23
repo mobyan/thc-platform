@@ -19,6 +19,9 @@
             <router-link :to="'/station/'+station.id+'/dashboard'"><img height="20" src="/image/dashboard.png" class="signal"></router-link>
           </td>
         </tr>
+             <tr v-if="editable"><td style="text-align: right;" colspan="7">
+         <button class="btn btn-primary" @click="go">添加</button>
+     </td></tr>
       </tbody>
     </table>
   </div>
@@ -28,7 +31,8 @@
   export default {
     data: function () {
       return {
-        stations: []
+        editable: thc.can('app_w'),
+        stations: [],
       }
     },
     created: function () {
@@ -36,6 +40,11 @@
       this.$http.get('/api/station').then(function (res) {
         this.stations = res.body.items;
       })
+    },
+    methods: {
+        go: function () {
+            this.$router.push({name:'station', params:{station:0}, query: {op:'create'}})
+        }
     }
   }
 </script>
