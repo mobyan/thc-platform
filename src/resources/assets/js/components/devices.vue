@@ -9,6 +9,7 @@
             <th>型号</th>
             <th>序列号</th>
             <th>版本</th>
+            <th>状态</th>
             <th>操作</th>
         </tr>
         <tr v-for="device in devices">
@@ -18,6 +19,7 @@
          <td>{{device.model}}</td>
          <td>{{device.sn}}</td>
          <td>{{device.version}}</td>
+        <td><img height="20" :src="'/image/'+ device.status+'.png'" class="signal"></td>
          <td><router-link :to="'/station/'+ station + '/device/' + device.id"><img height="20" src="/image/info.png" class="signal"></router-link></td>
      </tr>
      <tr v-if="editable"><td style="text-align: right;" colspan="7">

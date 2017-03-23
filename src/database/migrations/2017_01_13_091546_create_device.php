@@ -22,6 +22,7 @@ class CreateDevice extends Migration
             $table->string('model',50);
             $table->string('sn',50);
             $table->string('version',50);
+            $table->enum('status', ['normal', 'abnormal']);
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();  

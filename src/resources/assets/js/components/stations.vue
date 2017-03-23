@@ -13,7 +13,7 @@
           <td>{{ station.name }}</td>
           <td>{{ station.type }}</td>
           <td>{{ station.location }}</td>
-          <td><img height="20" src="/image/warning.png" class="signal"></td>
+          <td><img height="20" :src="'/image/'+ station.status+'.png'" class="signal"></td>
           <td>
             <router-link :to="'/station/'+station.id"><img height="20" src="/image/info.png" class="signal"></router-link>              
             <router-link :to="'/station/'+station.id+'/dashboard'"><img height="20" src="/image/dashboard.png" class="signal"></router-link>
