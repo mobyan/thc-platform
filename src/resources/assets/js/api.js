@@ -47,6 +47,10 @@ export default {
             if (type == 'rainfall') {
                 serie.data = self.accumlateByTime(serie.data);
             }
+
+            if (type == 'wind-direction' || type == 'wind-velocity'){
+                serie.data = self.averageByTime(serie.data);
+            }
             charts[type].series.push(serie);
         })
         return JSON.parse(JSON.stringify(charts));
@@ -59,6 +63,16 @@ export default {
             return result;
         }, {});
         return _.map(res, function (v,k) {return [new Date(k).getTime(),v]});
+    },
+    averageByTime (data){
+      var res = _.reduce(data, function (result, v, k) {
+          var t = moment(v[0]).format("YYYY-MM-DD HH:00:00");
+          result[t] = result[t] || [0,0];
+          result[t][0] += v[1];
+          result[t][1] += 1;
+          return result;
+      }, {});
+      return _.map(res, function(v,k){ return [new Date(k).getTime(), v[0]/v[1]]});
     },
     formatData(items, config) {
         var data = {};

@@ -96,7 +96,18 @@ const routes = [{
   props: {
     header: {title: '数据分析'}
   }
-}, {
+},
+{
+  path: '/download',
+  components:{
+    default: require('./components/download.vue'),
+    header: header,
+  },
+  props: {
+    header: {title: '数据下载'}
+  }
+},
+{
     path: '/apply',
     components: {
         default: apply,
