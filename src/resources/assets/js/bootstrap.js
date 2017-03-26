@@ -40,6 +40,7 @@ Vue.http.interceptors.push((request, next) => {
     });
 });
 
+Object.assign = Object.assign || _.assign
 
 
 /**
