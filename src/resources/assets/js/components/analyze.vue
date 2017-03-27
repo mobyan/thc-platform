@@ -43,7 +43,7 @@
           to: moment().add(1,'day').format('YYYY-MM-DD'),
         }],
         images: {},
-        types: [],
+        types: _.reduce(sensors, function (carry, v) { carry[v.type]=v;return carry;}, {}),
         selectedType: null,
         shortcuts: [
         {name: '1天',offset: 1,},
@@ -78,10 +78,10 @@
         }
         var self = this;
         api.getDeviceData(this.$route.path, query, function (err, data) {
-          self.types = _.reduce(data, (res, v)=> {
-            res[v.type] = _.find(sensors, {type:v.type}) || {};
-            return res;
-          }, {});
+          // self.types = _.reduce(data, (res, v)=> {
+          //   res[v.type] = _.find(sensors, {type:v.type}) || {};
+          //   return res;
+          // }, {});
           if (type == 'image') {
             self.images = _.filter(data, {type});
           } else {
