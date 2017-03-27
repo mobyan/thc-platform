@@ -22,7 +22,7 @@
         <td><img height="20" :src="'/image/'+ device.status+'.png'" class="signal"></td>
          <td><router-link :to="'/station/'+ station + '/device/' + device.id"><img height="20" src="/image/info.png" class="signal"></router-link></td>
      </tr>
-     <tr v-if="editable"><td style="text-align: right;" colspan="7">
+     <tr v-if="editable"><td style="text-align: right;" colspan="8">
          <button class="btn btn-primary" @click="go">添加</button>
      </td></tr>
  </tbody>
