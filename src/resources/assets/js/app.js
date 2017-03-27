@@ -59,11 +59,10 @@ window.app = new Vue({
   el: '#app',
   data: {
     loading: false,
-    user: null,
+    user: thc.user,
   },
   methods: {
     isAdmin: function () {
-      console.log(thc.can('sys_w'))
       return thc.can('sys_w');
     }
   },

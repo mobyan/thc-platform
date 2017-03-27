@@ -48,7 +48,6 @@
         methods: {
           download: function (e) {
             var url = $(e.target).parent().parent().siblings('img').attr('src');
-            console.log(url)
             var a = $("<a>")
               .attr("href", url)
               .attr("download", "img.png")

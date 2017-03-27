@@ -38,7 +38,6 @@ export default {
             position: [v.lon, v.lat],
             events: {
               click: () => {
-                console.log(self.$router)
                 self.$router.push('/station/'+v.id+'/dashboard');
                 // self.$router.push('/station');
               },

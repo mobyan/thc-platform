@@ -38,11 +38,12 @@ export default {
             if (v.type == 'image') return;
             var type = v.type;
             charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
+            var serieData =  _.map(v.data, function (dd) {
+                        return [moment(dd.ts).toDate().getTime(), parseFloat(dd.value)];
+                    });
             var serie = {
                     name: v.name,
-                    data: _.map(v.data, function (dd) {
-                        return [new Date(dd.ts).getTime(), parseFloat(dd.value)];
-                    })
+                    data: serieData,
             }
             if (type == 'rainfall') {
                 serie.data = self.accumlateByTime(serie.data);
@@ -58,14 +59,14 @@ export default {
             result[t] += v[1];
             return result;
         }, {});
-        return _.map(res, function (v,k) {return [new Date(k).getTime(),v]});
+        return _.map(res, function (v,k) {return [moment(k).toDate().getTime(),v]});
     },
     formatData(items, config) {
         var data = {};
         items.forEach(function(v) {
             _.forIn(v.data, function(value, key) {
                 data[key] = data[key] || [];
-                data[key].push([new Date(v.ts).getTime(), value.value]);
+                data[key].push([moment(v.ts).toDate().getTime(), value.value]);
             })
         })
         return _.map(data, function(v, k) {

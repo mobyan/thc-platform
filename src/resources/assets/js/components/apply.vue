@@ -32,7 +32,6 @@
                     app_id: this.apps[this.selectedApp].id,
                     role_id: this.roles[this.selectedRole].id,
                 }).then(function (res) {
-                    console.log(res.body)
                 })
             }
         },
