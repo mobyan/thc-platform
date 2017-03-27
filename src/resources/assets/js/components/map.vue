@@ -22,29 +22,35 @@ export default {
       ]
     };
   },
-    created: function () {
-	var self = this;
-    this.$http.get('/api/station/').then(function (res) {
-      var stations = res.body;
-      this.markers = _.map(stations.items, function (v) {
-        return {
-          position: [v.lon, v.lat],
-          events: {
-            click: () => {
-              console.log(self.$router)
-              self.$router.push('/station/'+v.id+'/dashboard');
-              // self.$router.push('/station');
-            },
-          },
-          visible: true,
-          // content: 'xxxx',
-          title: "名称："+v.name+"\n地址："+v.location+"\n状态："+v.status,
-        };
-      });
-      // self.center = [stations.items[0].lon,stations.items[0].lat];
-    })
+  created: function () {
+    this.load();
+  },
+  watch: {
+    '$route': 'load',
   },
   methods: {
+    load: function () {
+  	var self = this;
+      this.$http.get('/api/station/').then(function (res) {
+        var stations = res.body;
+        this.markers = _.map(stations.items, function (v) {
+          return {
+            position: [v.lon, v.lat],
+            events: {
+              click: () => {
+                console.log(self.$router)
+                self.$router.push('/station/'+v.id+'/dashboard');
+                // self.$router.push('/station');
+              },
+            },
+            visible: true,
+            // content: 'xxxx',
+            title: "名称："+v.name+"\n地址："+v.location+"\n状态："+v.status,
+          };
+        });
+        // self.center = [stations.items[0].lon,stations.items[0].lat];
+      })
+    },
     changePosition() {
       let position = this.markers[0].position;
       this.markers[0].position = [position[0] + 0.002, position[1] - 0.002];

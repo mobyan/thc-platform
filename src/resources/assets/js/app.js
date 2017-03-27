@@ -72,7 +72,7 @@ window.app = new Vue({
   },
   router,
   created: function() {
-    if (!thc.can('app_r')) {
+    if (!thc.can('app_r') || thc.user.apps.length == 0) {
       this.$router.push('apply');
     }
   }

@@ -34,6 +34,11 @@ Vue.http.interceptors.push((request, next) => {
 });
 
 Vue.http.interceptors.push((request, next) => {
+    request.headers.set('X-APP-ID', localStorage.currentApp);
+    next();
+});
+
+Vue.http.interceptors.push((request, next) => {
     window.app.loading = true;
     next(()=> {
     window.app.loading = false;

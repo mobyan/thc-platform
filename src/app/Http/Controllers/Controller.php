@@ -21,7 +21,7 @@ class Controller extends BaseController
         'apply' => 'user_apply',
     ];
 
-    static $sys_root_models = ['user', 'app', 'apply'];
+    static $sys_root_models = ['user', 'app', 'apply', 'role'];
     static $user_root_models = [\App\Station::class];
 
     static $permissions = [];
@@ -30,15 +30,32 @@ class Controller extends BaseController
         $this->middleware('auth');
         $this->isApi = Request::is('api/*');
 
+        $this->middleware(function ($request, $next){
+            $user = Auth::user();
+            $this->user = $user;
+            $app_id = Request::header('X-APP-ID', Request::input('app_id'));
+            $this->app_id = $app_id;
+            return $next($request);
+        });
+
         $ownership = Request::route()->parameters();
-        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$sys_root_models)) return;
+        if ($this->dontCheckScope()) {
+            return;
+        }
 
         $this->middleware(function ($request, $next) use ($ownership) {
-            $this->assertOwnership($ownership);
+            $this->assertRelationship($ownership);
 
             return $next($request);
         });
 
+    }
+
+    public function dontCheckScope() {
+        $ownership = Request::route()->parameters();
+        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$sys_root_models)) return true;
+        if (in_array(explode('/', Request::path())[1], static::$sys_root_models)) return true;
+        return false;
     }
 
     /**
@@ -49,9 +66,8 @@ class Controller extends BaseController
     public function _index($where = null, $callback = null)
     {
         $this->assertPermissions('index');
-        // check scope
-        if (in_array(static::$model, static::$user_root_models) && !Auth::user()->hasRole(['super', 'admin'])) {
-            $where = ['app_id', '=', Auth::user()->app_id];
+        if (in_array(static::$model, static::$user_root_models)) {
+            $where = ['app_id', '=', $this->app_id];
         }
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
@@ -97,12 +113,15 @@ class Controller extends BaseController
         return call_user_func([static::$model, 'create'], $data);
     }
 
-    public function assertOwnership($stack) {
-        $user = Auth::user();
-        // check scope
-        if (!$user->hasRole(['super', 'admin'])) {
-            $stack = array_merge(['app' => $user->app_id], $stack);
+    public function assertRelationship($stack) {
+
+        if ($this->app_id == null) {
+            throw new \Exception("No App ID", 1);   
         }
+        // check scope
+        // if (!$user->hasRole(['super', 'admin'])) {
+        $stack = array_merge(['app' => $this->app_id], $stack);
+        // }
         if (empty($stack)) return;
         $tmp = [];
         foreach ($stack as $k => $v) {

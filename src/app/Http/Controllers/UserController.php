@@ -97,6 +97,6 @@ class UserController extends Controller
 
     public function my(Request $req) {
         $this->assertPermissions('my');
-        return $req->user()->load('roles.permissions');
+        return $req->user()->load('roles.permissions', 'apps');
     }
 }
