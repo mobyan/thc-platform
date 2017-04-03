@@ -35,6 +35,7 @@ class Controller extends BaseController
             $this->user = $user;
             $app_id = Request::header('X-APP-ID', Request::input('app_id'));
             $this->app_id = $app_id;
+            $this->user->app_id = $app_id;
             return $next($request);
         });
 

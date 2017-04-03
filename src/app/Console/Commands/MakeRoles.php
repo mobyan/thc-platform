@@ -56,6 +56,7 @@ class MakeRoles extends Command
 
         // user role
         $user = User::where('name','=','yanlong')->first();
-        $user->roles()->sync([$super->id]); 
+        $user->roles()->sync([$super->id,$app_user->id]); 
+        // $user->roles()->sync([]); 
     }
 }
