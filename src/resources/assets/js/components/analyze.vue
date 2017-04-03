@@ -3,7 +3,15 @@
     <!-- for Vue 2.0 -->
     <div style="margin-bottom: 10px;">
       <form class="form">
-              <div class="form-group">
+          <div class="form-group">
+
+          <label>设备：</label>
+          <template v-for="device in devices">
+            <input type="checkbox" :id="device.id" :value="device" v-model="selectedDevices">
+            <label :for="device.id">{{device.name}}</label>
+          </template>
+          </div>          
+          <div class="form-group">
 
           <label>类型：</label>
           <select class="form-control" v-model="selectedType">
@@ -32,6 +40,9 @@
   export default {
     data () {
       return {
+        station_id: this.$route.params.station,
+        devices: [],
+        selectedDevices: [],
         dp: configs.datepicker,
         start_at: {time:moment().subtract(1,'day').format('YYYY-MM-DD')},
         end_at: {time:moment().format('YYYY-MM-DD')},
@@ -58,9 +69,18 @@
       'date-picker': myDatepicker
     },
     created () {
+      this.$http.get('/api/station/'+this.station_id+'/device').then(function (res) {
+        // var d1 = res.body.items[0];
+        // var d2 = _.cloneDeep(d1);
+        // d2.name += '复制';
+        // this.devices = [d1,d2];
+        this.devices = res.body.items;
+        this.selectedDevices = _.filter(this.devices, {id: parseInt(this.$route.query.device_id)}) || [this.devices[0]];
+        this.loadDeviceData(type);
+
+      })
       var type = this.$route.query.type;
       this.selectedType = type;
-      this.loadDeviceData(type);
     },
     methods: {
       loadDeviceData (type, offset) {
@@ -77,14 +97,11 @@
           query.end_at = moment(this.end_at.time).add(1,'day').format('YYYY-MM-DD');
         }
         var self = this;
-        api.getDeviceData(this.$route.path, query, function (err, data) {
-          // self.types = _.reduce(data, (res, v)=> {
-          //   res[v.type] = _.find(sensors, {type:v.type}) || {};
-          //   return res;
-          // }, {});
+        api.getDeviceData(this.selectedDevices, query, function (err, data) {
           if (type == 'image') {
             self.images = _.filter(data, {type});
           } else {
+
             self.charts = api.data2charts(_.filter(data, {type: type}));
           }
         })
