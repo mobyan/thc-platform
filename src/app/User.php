@@ -35,6 +35,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role');
     }
 
+    public function download_jobs()
+    {
+        return $this->hasMany('App\DownloadJob');
+    }
+    
     /**
      * has relationship
      * @param  string  $model model name

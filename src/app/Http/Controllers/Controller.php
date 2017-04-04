@@ -19,6 +19,7 @@ class Controller extends BaseController
         'data' => 'device_data',
         'user' => 'users',
         'apply' => 'user_apply',
+        'download' => 'download_jobs',
     ];
 
     static $sys_root_models = ['user', 'app', 'apply'];

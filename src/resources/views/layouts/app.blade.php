@@ -60,6 +60,9 @@
                                 <li v-if="isAdmin()">
                                     <router-link to="/apply_audit">权限审核</router-link>
                                 </li>
+                                <li>
+                                    <router-link to="/data_download">数据下载</router-link>
+                                </li>                   
 <!--                         <li>
                             <router-link to="/dashboard">dashboard</router-link>
                         </li>
