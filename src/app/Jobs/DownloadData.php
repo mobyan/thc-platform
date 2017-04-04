@@ -79,7 +79,6 @@ class DownloadData implements ShouldQueue
                     $res = $client->request('GET', $image_url_prefix.$image_url);
                     $image_file_path = $image_folder_path.($device_data_image->created_at)->toDateTimeString().'.jpg';
                     Storage::disk('local')->put($image_file_path, $res->getBody()->getContents());
-                    echo Storage::url($image_file_path);                  
                 }
             }
             if ($query_options->with_data){
