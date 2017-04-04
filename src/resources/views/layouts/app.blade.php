@@ -58,8 +58,10 @@
                                 <router-link to="/station">站点列表</router-link>
                             </li>
                             <li>
-                                <router-link to="/data_download
-">数据下载</router-link>
+                                <router-link to="/data_download">数据下载</router-link>
+                            </li>                            
+                            <li>
+                                <router-link to="/apply">权限申请</router-link>
                             </li>
                             <li v-if="isAdmin()">
                                 <router-link to="/apply_audit">权限审核</router-link>

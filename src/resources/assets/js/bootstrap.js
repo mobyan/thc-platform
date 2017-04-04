@@ -21,6 +21,7 @@ require('bootstrap-sass');
 
 window.Vue = require('vue');
 require('vue-resource');
+window.Cookie = require('js-cookie');
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -34,7 +35,7 @@ Vue.http.interceptors.push((request, next) => {
 });
 
 Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-APP-ID', localStorage.currentApp);
+    request.headers.set('X-APP-ID', Cookie.get('currentApp'));
     next();
 });
 
