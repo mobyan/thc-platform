@@ -44,7 +44,7 @@ class DownloadData implements ShouldQueue
     public function handle()
     {
         $image_url_prefix = 'http://thc-platfrom-storage.b0.upaiyun.com';
-        $root_path = 'storage/app/';
+        $root_path = storage_path().'/app/';
         $unique_key = md5(uniqid());
         $download_job = DownloadJob::find($this->options['id']);
         $folder_name = (string)($download_job->user_id).'-'.($download_job->created_at)->toDateTimeString().'-'.$unique_key;
