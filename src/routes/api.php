@@ -51,3 +51,6 @@ Route::resource('station/{station}/device/{device}/config', 'DeviceConfigControl
 Route::resource('station/{station}/alert', 'AlertController', ['only' => [
     'index'
 ]]);
+Route::resource('download', 'DownloadController', ['only' => [
+    'index', 'show', 'store', 'update', 'destroy'
+]]);
