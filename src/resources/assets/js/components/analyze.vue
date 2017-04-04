@@ -100,6 +100,7 @@
         api.getDeviceData(this.selectedDevices, query, function (err, data) {
           if (type == 'image') {
             self.images = _.filter(data, {type});
+            console.log(self.images)
           } else {
 
             self.charts = api.data2charts(_.filter(data, {type: type}));
