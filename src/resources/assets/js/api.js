@@ -44,7 +44,7 @@ export default {
 
     },
     data2charts (data) {
-        self = this;
+        var self = this;
         var charts = {};
         _.forIn(data, function (v) {
             if (v.type == 'image') return;
