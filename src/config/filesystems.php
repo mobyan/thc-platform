@@ -61,7 +61,16 @@ return [
             'region' => 'your-region',
             'bucket' => 'your-bucket',
         ],
-
+        'upyun' => [
+            'driver'        => 'upyun',
+            'domain'        => 'thc-platfrom-storage.b0.upaiyun.com',//你的upyun域名
+            'username'      => 'sonic513',//UserName
+            'password'      => 'sonic513',//Password
+            'bucket'        => 'thc-platfrom-storage',//Bucket名字
+            'timeout'       => 130,//超时时间
+            'endpoint'      => null,//线路
+            'transport'     => 'http',//如果支持https，请填写https，如果不支持请填写http
+        ],
     ],
 
 ];

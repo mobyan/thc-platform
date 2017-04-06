@@ -44,7 +44,7 @@
     },
     computed: {
       dataUrl: function () {
-        return this.station ? '/station/' + this.station.id + '/device/' + this.devices[this.selectedDevice].id + '/data?type=' : '';
+        return this.station ? '/station/' + this.station.id + '/detail?device_id='+ this.devices[this.selectedDevice].id +'&type=' : '';
       },
 
     },
@@ -62,7 +62,7 @@
         };
         var self = this;
         var station = this.$route.params.station;
-        api.getDeviceData('/station/'+station+'/device/'+device.id+'/data' , query, function (err, data) {
+        api.getDeviceData(device , query, function (err, data) {
           self.charts = api.data2charts(data);
           self.images = _.filter(data, {type:'image'});
         });

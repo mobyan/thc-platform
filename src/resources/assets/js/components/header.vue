@@ -21,18 +21,18 @@
     props: ['title'],
     data: function () {
       return {
-        currentApp: localStorage.currentApp,
+        currentApp: Cookie.get('currentApp'),
         user: thc.user,
       }
     },
     watch: {
       currentApp: function () {
-        localStorage.currentApp = this.currentApp;
+        Cookie.set('currentApp',this.currentApp);
         location.href = '/';
       }
     },
     created: function () {
-      localStorage.currentApp = localStorage.currentApp || (thc.user.apps[0]?thc.user.apps[0].id:null);
+      Cookie.set('currentApp', Cookie.get('currentApp') || (thc.user.apps[0]?thc.user.apps[0].id:null));
     },
     methods: {
       back: function () {

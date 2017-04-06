@@ -236,6 +236,8 @@ export default {
                 });
                 v.type = sensor.type;
                 v.unit = sensor.unit;
+                v.max_v = sensor.max_v;
+                v.min_v = sensor.min_v;
                 res[k] = v;
                 return res;
             }, {})

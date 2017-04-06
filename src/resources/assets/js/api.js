@@ -1,38 +1,50 @@
 import defaultOptions from './chartOptions'
+function data2lists (device, data) {
+    var keys = {};
+    _.forIn(data.items, function(item) {
+        var config = item.config ? item.config.data : {};
+        _.forIn(item.data, function(value, key) {
+            item.data[key] = _.assign(item.data[key], config[key], {
+                ts: item.ts
+            });
+            if (!keys[key]) {
+                keys[key] = {data:[],name: device.name + ' - ' + key};
+            }
+            keys[key].data.push(item.data[key]);
+            keys[key].type = item.data[key].type || 'temp';
+        });
+    });
+    _.each(keys, (v)=> {
+        if (v.type == 'image') {
+            v.data = _.orderBy(v.data, ['ts'], ['desc']);
+        }
+    })
+    return keys;
+};
 export default {
-    getDeviceData(uri, query, callback) {
+    getDeviceData(devices, query, callback) {
+        if (!_.isArray(devices)) devices = [devices];
+        console.log(devices)
         query = query || {}
         query.with = 'config';
         query.limit = 10000;
-	var options = {
-		params: query,
-	}
-        Vue.http.get('/api' + uri, options).then(function(res) {
-            var data = res.body
-            var keys = {};
-            _.forIn(data.items, function(item) {
-                var config = item.config ? item.config.data : {};
-                _.forIn(item.data, function(value, key) {
-                    item.data[key] = _.assign(item.data[key], config[key], {
-                        ts: item.ts
-                    });
-                    if (!keys[key]) {
-                        keys[key] = {data:[],name:key};
-                    }
-                    keys[key].data.push(item.data[key]);
-                    keys[key].type = item.data[key].type || 'temp';
-                });
+        var options = {
+            params: query,
+        }
+        var requests = _.map(devices, function (device) {
+            var uri = '/api/station/'+device.station_id+'/device/'+device.id+'/data';
+            return Vue.http.get(uri, options).then(function (res) {
+                return _.values(data2lists(device, res.body))
             });
-            _.each(keys, (v)=> {
-                if (v.type == 'image') {
-                    v.data = _.orderBy(v.data, ['ts'], ['desc']);
-                }
-            })
-            return callback(null, keys);
-        });
+        })
+        $.when.apply(null, requests).then(function () {
+            // var device = _.find(devices, {id: v.body.items[0]})
+            return callback(null, _.concat.apply(null, arguments));
+        })
+
     },
     data2charts (data) {
-        self = this;
+        var self = this;
         var charts = {};
         _.forIn(data, function (v) {
             if (v.type == 'image') return;

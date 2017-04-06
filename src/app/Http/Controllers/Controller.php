@@ -19,10 +19,11 @@ class Controller extends BaseController
         'data' => 'device_data',
         'user' => 'users',
         'apply' => 'user_apply',
+        'download' => 'download_jobs',
     ];
 
     static $sys_root_models = ['user', 'app', 'apply', 'role'];
-    static $user_root_models = [\App\Station::class];
+    static $app_root_models = [\App\Station::class];
 
     static $permissions = [];
 
@@ -34,6 +35,9 @@ class Controller extends BaseController
             $user = Auth::user();
             $this->user = $user;
             $app_id = Request::header('X-APP-ID', Request::input('app_id'));
+            if ($this->doCheckScope() && !$user->has('apps', $app_id)) {
+                return abort(403);
+            }
             $this->app_id = $app_id;
             $this->user->app_id = $app_id;
             return $next($request);
@@ -52,6 +56,12 @@ class Controller extends BaseController
 
     }
 
+    public function doCheckScope() {
+        $ownership = Request::route()->parameters();
+        $root_model = 'App\\'.ucfirst(explode('/', Request::path())[1]);
+        return in_array($root_model, static::$app_root_models);
+    }
+
     public function dontCheckScope() {
         $ownership = Request::route()->parameters();
         if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$sys_root_models)) return true;
@@ -67,7 +77,7 @@ class Controller extends BaseController
     public function _index($where = null, $callback = null)
     {
         $this->assertPermissions('index');
-        if (in_array(static::$model, static::$user_root_models)) {
+        if (in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->app_id];
         }
         $limit = Request::input('limit', 20);

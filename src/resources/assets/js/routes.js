@@ -9,6 +9,7 @@ import user from './components/user.vue'
 import index from './components/index.vue'
 var apply = require('./components/apply.vue');
 var apply_audit = require('./components/apply_audit.vue');
+var data_download = require('./components/download.vue')
 
 const routes = [{
   path: '/',
@@ -97,6 +98,15 @@ const routes = [{
     header: {title: '数据分析'}
   }
 }, {
+  path: '/station/:station/detail',
+  components: {
+    default: require('./components/analyze.vue'),
+    header: header,
+  },
+  props: {
+    header: {title: '数据分析'}
+  }
+}, {
     path: '/apply',
     components: {
         default: apply,
@@ -115,8 +125,19 @@ const routes = [{
     },
     props: {
         header: {
-            title: 'apply_audit'
+            title: '权限审核'
         }
     }
-}, ]
+}, {
+    path: '/data_download',
+    components: {
+        default: data_download,
+        header: header,
+    },
+    props: {
+        header: {
+            title: '数据下载'
+        }
+    }
+},]
 module.exports = routes
