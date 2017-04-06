@@ -5,18 +5,17 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 use App\App;
-use App\User;
 use App\Role;
 use App\Permission;
 
-class MakeRoles extends Command {
+class MakeApp extends Command {
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'MakeRoles';
+    protected $name = 'MakeApp';
 
     /**
      * The console command description.
@@ -42,21 +41,21 @@ class MakeRoles extends Command {
      */
     public function fire()
     {
+        // create app
         $name = $this->argument('name');
+        $app = App::updateOrCreate(['name' => $name]);
 
-        // roles
-        $super = Role::updateOrCreate(['name' => 'super'], ['display_name' => '系统管理员']);
+        $app_admin = Role::updateOrCreate(['name' => 'app_admin', 'app_id' => $app->id], ['display_name' => '产品线管理员']);
+        $app_user = Role::updateOrCreate(['name' => 'app_user', 'app_id' => $app->id], ['display_name' => '产品线用户']);
 
-        // permissions
-        $sys_w = Permission::updateOrCreate(['name' => 'sys_w'], ['display_name' => '系统写']);
-        $sys_r = Permission::updateOrCreate(['name' => 'sys_r'], ['display_name' => '系统读']);
+        $app_w = Permission::updateOrCreate(['name' => 'app_w']);
+        $app_r = Permission::updateOrCreate(['name' => 'app_r']);
 
-        // role permission
-        $super->perms()->sync([$sys_r->id, $sys_w->id]);
+        $app_admin->perms()->sync([$app_w->id, $app_r->id]);
+        $app_user->perms()->sync([$app_r->id]);
 
-        // user role
-        $user = User::where('name','=',$name)->first();
-        $user->roles()->sync([$super->id]);     }
+        // create roles
+    }
 
     /**
      * Get the console command arguments.

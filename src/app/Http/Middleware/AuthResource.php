@@ -1,0 +1,77 @@
+<?php namespace App\Http\Middleware;
+
+use Closure;
+use DB;
+
+class AuthResource {
+
+
+    static $table_map = [
+    'history' => 'config_history'
+    ];
+
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($req, Closure $next)
+    {
+        $isApi = $req->is('api/*');
+        $params = $req->route()->parameters();
+        $root_model = $req->segment(2);
+        $app_id = $req->header('X-APP-ID', $req->input('app_id'));
+        if ($isApi && $root_model == 'station') {
+            $req->user()->app_id = $app_id;
+            $this->assertOwnership($req, $app_id);
+            $this->assertRelationship(['app'=>$app_id] + $params);
+        }
+        return $next($req);
+    }
+
+    public function assertRelationship($stack) {
+        if (empty($stack)) return;
+        $tmp = [];
+        foreach ($stack as $k => $v) {
+            $tmp[@static::$table_map[$k]? : $k] = $v;
+        }
+        $stack = $tmp;
+
+        $tables = array_keys($stack);
+        $where = [];
+        for ($i=0; $i < count($tables) - 1; $i++) { 
+            $a = $tables[$i];
+            $b = $tables[$i + 1];
+            $where[] = "{$a}.id = {$b}.{$a}_id";
+        }
+        foreach ($stack as $k => $v) {
+            $where[] = "{$k}.id = {$v}";
+        }
+        $where_str = implode(' and ', $where);
+        $from = implode(', ', $tables);
+        $sql = "select count(*) as cnt from {$from} where {$where_str};";
+
+        $mysql_keyword = ['schema', ];
+        foreach($mysql_keyword as $keyword) {
+            $sql = str_replace($keyword, "`$keyword`", $sql);
+        }
+        // die(json_encode($sql));
+
+        $statment = DB::getPDO()->prepare($sql);
+        $statment->execute();
+        $ret = $statment->fetchAll();
+        $cnt = $ret[0]['cnt'];
+        if ($cnt != 1) {
+            throw new \Exception("Resource Not Found", 1);
+        }
+    }
+
+    public function assertOwnership($req, $app_id) {
+        if (!$req->user()->has('apps', $app_id)) {
+            throw new \Exception("Resource access denied", 1);
+        }
+    }
+}

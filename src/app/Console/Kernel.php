@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         Commands\MakeRoles::class,
+        Commands\MakeApp::class,
     ];
 
     /**

@@ -29,8 +29,6 @@ class ApplyController extends Controller {
 
         !$user->has('roles', $apply->role_id) && $user->roles()->attach([$apply->role_id]);
         !$user->has('apps', $apply->app_id) && $user->apps()->attach([$apply->app_id]);
-        $user->app_id = $apply->app_id;
-        $user->save();
         
         $apply->status = 'pass';
         $apply->save();

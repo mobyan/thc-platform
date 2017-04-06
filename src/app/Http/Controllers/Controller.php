@@ -29,44 +29,7 @@ class Controller extends BaseController
 
     public function __construct() {
         $this->middleware('auth');
-        $this->isApi = Request::is('api/*');
-
-        $this->middleware(function ($request, $next){
-            $user = Auth::user();
-            $this->user = $user;
-            $app_id = Request::header('X-APP-ID', Request::input('app_id'));
-            if ($this->doCheckScope() && !$user->has('apps', $app_id)) {
-                return abort(403);
-            }
-            $this->app_id = $app_id;
-            $this->user->app_id = $app_id;
-            return $next($request);
-        });
-
-        $ownership = Request::route()->parameters();
-        if ($this->dontCheckScope()) {
-            return;
-        }
-
-        $this->middleware(function ($request, $next) use ($ownership) {
-            $this->assertRelationship($ownership);
-
-            return $next($request);
-        });
-
-    }
-
-    public function doCheckScope() {
-        $ownership = Request::route()->parameters();
-        $root_model = 'App\\'.ucfirst(explode('/', Request::path())[1]);
-        return in_array($root_model, static::$app_root_models);
-    }
-
-    public function dontCheckScope() {
-        $ownership = Request::route()->parameters();
-        if (count($ownership) === 1 && in_array(array_keys($ownership)[0], static::$sys_root_models)) return true;
-        if (in_array(explode('/', Request::path())[1], static::$sys_root_models)) return true;
-        return false;
+        $this->middleware('auth.resource');
     }
 
     /**
@@ -78,7 +41,7 @@ class Controller extends BaseController
     {
         $this->assertPermissions('index');
         if (in_array(static::$model, static::$app_root_models)) {
-            $where = ['app_id', '=', $this->app_id];
+            $where = ['app_id', '=', $this->user()->app_id];
         }
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
@@ -124,44 +87,6 @@ class Controller extends BaseController
         return call_user_func([static::$model, 'create'], $data);
     }
 
-    public function assertRelationship($stack) {
-
-        if ($this->app_id == null) {
-            throw new \Exception("No App ID", 1);   
-        }
-        // check scope
-        // if (!$user->hasRole(['super', 'admin'])) {
-        $stack = array_merge(['app' => $this->app_id], $stack);
-        // }
-        if (empty($stack)) return;
-        $tmp = [];
-        foreach ($stack as $k => $v) {
-            $tmp[@static::$table_map[$k]? : $k] = $v;
-        }
-        $stack = $tmp;
-
-        $tables = array_keys($stack);
-        $where = [];
-        for ($i=0; $i < count($tables) - 1; $i++) { 
-            $a = $tables[$i];
-            $b = $tables[$i + 1];
-            $where[] = "{$a}.id = {$b}.{$a}_id";
-        }
-        foreach ($stack as $k => $v) {
-            $where[] = "{$k}.id = {$v}";
-        }
-        $where_str = implode(' and ', $where);
-        $from = implode(', ', $tables);
-        $sql = "select count(*) as cnt from {$from} where {$where_str};";
-        $statment = DB::getPDO()->prepare($sql);
-        $statment->execute();
-        $ret = $statment->fetchAll();
-        $cnt = $ret[0]['cnt'];
-        if ($cnt != 1) {
-            throw new \Exception("Resource Not Found", 1);
-        }
-    }
-
     public function view($file, $data=null) {
         return view($file, ['tplData' => $data]);
     }
@@ -170,11 +95,16 @@ class Controller extends BaseController
         if (!empty(static::$permissions)) {
             $permissions = isset(static::$permissions[$action]) ? static::$permissions[$action]: @static::$permissions['all'];
             if (!$permissions) return;
-            call_user_func_array('\Entrust::can', $permissions) || \App::abort(403);
+            // die(json_encode($this->user()->app_id));
+            $this->user()->allows($permissions, false, $this->user()->app_id?:0) || \App::abort(403);
         }
     }
 
     public function schema() {
         return (new static::$model)->schema();
+    }
+
+    public function user() {
+        return Request::instance()->user();
     }
 }
