@@ -33,6 +33,7 @@ class DownloadController extends Controller
         $download_job->url = '';
         $download_job->options = json_encode($body);
         $download_job->status = 'processing';
+        $download_job->app_id = Auth::user()->app_id;
         $download_job->save();
         // $body['job_id'] = $download_job->id;
     	$job = new DownloadData($download_job);
