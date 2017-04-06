@@ -124,7 +124,7 @@ class DownloadData implements ShouldQueue
                 array_push($title_line, 'date');
                 foreach ($raw_data->config->data as $key => $value) {
                     if ($value['type'] != 'image') {
-                        array_push($title_line, $value['type']);
+                        array_push($title_line, $value['desc']);
                     }
                 }
                 array_push($processed_data_collection, $title_line);
