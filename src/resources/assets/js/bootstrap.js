@@ -48,7 +48,25 @@ Vue.http.interceptors.push((request, next) => {
 
 Object.assign = Object.assign || _.assign
 
+function tips(type, msg) {
+    $('.alert-'+type).text(msg).fadeTo(1000, 1).slideUp(2000, function() {
+        $("#alert").slideUp(500);
+    });
+}
 
+Vue.http.interceptors.push((request, next) => {
+    var alert = request.params.alert;
+    delete request.params.alert;
+    next((response)=> {
+        if (alert) {
+            var type = response.ok ? 'success': 'warning';
+            tips(type, alert + (response.ok ? '成功' : '失败'));
+        }
+        if (response.status == 403) {
+            tips('warning', '权限不足')
+        }
+    });
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

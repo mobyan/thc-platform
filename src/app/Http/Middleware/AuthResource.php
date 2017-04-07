@@ -65,13 +65,13 @@ class AuthResource {
         $ret = $statment->fetchAll();
         $cnt = $ret[0]['cnt'];
         if ($cnt != 1) {
-            throw new \Exception("Resource Not Found", 1);
+            abort(403, "Resource Not Found");
         }
     }
 
     public function assertOwnership($req, $app_id) {
         if (!$req->user()->has('apps', $app_id)) {
-            throw new \Exception("Resource access denied", 1);
+            abort(403, "Resource access denied");
         }
     }
 }

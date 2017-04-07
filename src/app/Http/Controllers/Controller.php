@@ -87,6 +87,16 @@ class Controller extends BaseController
         return call_user_func([static::$model, 'create'], $data);
     }
 
+    public function _destroy($id) {
+        $this->assertPermissions('destroy');
+        $model = call_user_func([static::$model, 'find'], $id);
+        if(is_null($model)) {
+            return null;
+        }
+        $model->delete();
+        return $model;
+    }
+
     public function view($file, $data=null) {
         return view($file, ['tplData' => $data]);
     }
@@ -95,7 +105,6 @@ class Controller extends BaseController
         if (!empty(static::$permissions)) {
             $permissions = isset(static::$permissions[$action]) ? static::$permissions[$action]: @static::$permissions['all'];
             if (!$permissions) return;
-            // die(json_encode($this->user()->app_id));
             $this->user()->allows($permissions, false, $this->user()->app_id?:0) || \App::abort(403);
         }
     }

@@ -185,13 +185,13 @@ export default {
             })
         },
         update: function() {
-            this.$http.put(this.apiURI, _.pick(this.device, this.fillable)).then(function() {
+            this.$http.put(this.apiURI, _.pick(this.device, this.fillable), {params:{alert:'更新设备信息'}}).then(function() {
                 this.editing = !this.editing;
             });
         },
         save: function() {
             if (this.isCreate) {
-                this.$http.post('/api/station/' + this.$route.params.station + '/device', this.device).then(function(res) {
+                this.$http.post('/api/station/' + this.$route.params.station + '/device', this.device, {params:{alert:'修改设备信息'}}).then(function(res) {
                     this.editing = !this.editing;
                     this.$router.push({
                         name: 'device',
@@ -249,10 +249,9 @@ export default {
                 data,
                 control: control,
             }
-            this.$http.post(this.apiURI + '/config', body).then(function(res) {
+            this.$http.post(this.apiURI + '/config', body, {params:{alert:'保存设备配置'}}).then(function(res) {
                 this.device.configs.push(res.body)
                 this.editing_config = !this.editing_config
-                utils.alert('success', '保存设备配置成功');
             })
         },
         removeData: function(type, k) {

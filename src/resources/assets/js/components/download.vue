@@ -178,7 +178,7 @@
         query.start_at = this.start_at.time;
         query.end_at = this.end_at.time;
         var self = this;
-        this.$http.post('/api/download', query).then(function(res){
+        this.$http.post('/api/download', query, {params:{alert:'数据下载'}}).then(function(res){
           // console.log(res.data);
           // console.log(window.thc.user);
           self.get_belonged_jobs();

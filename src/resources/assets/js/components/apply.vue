@@ -31,7 +31,7 @@
                 this.$http.post('/api/apply', {
                     app_id: this.selectedApp.id,
                     role_id: this.selectedRole.id,
-                }).then(function (res) {
+                }, {params:{alert:'提交申请'}}).then(function (res) {
                 })
             }
         },

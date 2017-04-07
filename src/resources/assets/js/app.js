@@ -42,9 +42,11 @@ const router = new VueRouter({
   routes
 })
 
-window.thc.can = function(permission_name) {
+window.thc.can = function(permission_name, app_id) {
+  app_id = app_id !== undefined ? app_id: Cookie.get('currentApp');
   for (var r in thc.user.roles) {
     var role = thc.user.roles[r]
+    if (role.app_id != app_id) continue;
     for (var p in role.permissions) {
       var permission = role.permissions[p]
       if (permission.name == permission_name) {
@@ -63,7 +65,7 @@ window.app = new Vue({
   },
   methods: {
     isAdmin: function () {
-      return thc.can('sys_w');
+      return thc.can('sys_w', 0);
     }
   },
   components: {

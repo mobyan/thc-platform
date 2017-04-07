@@ -52,7 +52,7 @@ import bootbox from 'bootbox'
   methods: {
     save: function () {
         if (this.isCreate) {
-            this.$http.post('/api/station', this.station).then(function (res) {
+            this.$http.post('/api/station', this.station, {params:{alert:'新建站点'}}).then(function (res) {
                 this.editing = !this.editing;
                 this.$router.push({
                     name: 'station',
@@ -62,7 +62,7 @@ import bootbox from 'bootbox'
                 })
             });
         } else {
-            this.$http.put('/api' + this.$route.path, _.pick(this.station, this.fillable)).then(function () {
+            this.$http.put('/api' + this.$route.path, _.pick(this.station, this.fillable), {params:{alert:'更新站点信息'}}).then(function () {
                 this.editing = !this.editing;
             });            
         }

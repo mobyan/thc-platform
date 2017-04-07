@@ -51,7 +51,7 @@
                 this.$http.put('/api/user/' + this.$route.params.user, {
                     app_id: this.user.app_id,
                     roles: this.user.roles,
-                }).then(res => {
+                }, {params:{alert:'更新用户信息'}}).then(res => {
                     utils.alert('success' , res.statusText);
                 }, res => {
                     utils.alert('danger' , res.statusText);
