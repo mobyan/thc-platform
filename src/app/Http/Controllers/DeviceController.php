@@ -11,9 +11,9 @@ class DeviceController extends Controller
     static $model = \App\Device::class;
 
     static $permissions = [
-    'all' => ['app_r'],
-    'update' => ['app_w'],
-    'store' => ['app_w'],
+    'all' => ['app_w'],
+    'index' => ['app_r'],
+    'show' => ['app_r'],
     ];
 
     /**
@@ -96,6 +96,6 @@ class DeviceController extends Controller
      */
     public function destroy($station_id, $id)
     {
-        return Device::destroy($id);
+        return $this->_destroy($id);
     }
 }

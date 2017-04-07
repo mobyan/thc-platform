@@ -33,12 +33,12 @@
         },
         methods: {
             pass: function(id, index) {
-                this.$http.post('/api/apply/' + id + '/pass').then(function(res) {
+                this.$http.post('/api/apply/' + id + '/pass', null, {params:{alert:'通过申请'}}).then(function(res) {
                     this.applies.splice(index, 1);
                 })
             },
             unpass: function(id, index) {
-                this.$http.post('/api/apply/' + id + '/unpass').then(function(res) {
+                this.$http.post('/api/apply/' + id + '/unpass', null, {params:{alert:'拒绝申请'}}).then(function(res) {
                     this.applies.splice(index, 1);
                 })
             }

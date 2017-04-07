@@ -14,9 +14,9 @@ class StationController extends Controller
     static $model = \App\Station::class;
 
     static $permissions = [
-    'all' => ['app_r'],
-    'update' => ['app_w'],
-    'store' => ['app_w'],
+    'all' => ['app_w'],
+    'index' => ['app_r'],
+    'show' => ['app_r'],
     ];
 
     /**
@@ -51,7 +51,7 @@ class StationController extends Controller
             ]);
         $body = $request->all();
         $body['app_id'] = $request->user()->app_id;
-        return Station::create($body);
+        return $this->_store($body);
     }
 
     /**
@@ -100,7 +100,7 @@ class StationController extends Controller
      */
     public function destroy($id)
     {
-        Station::destroy($id);
+        return $this->_destroy($id);
     }
 
 }

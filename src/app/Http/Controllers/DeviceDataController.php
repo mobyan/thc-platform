@@ -10,10 +10,11 @@ class DeviceDataController extends Controller
 {
 
     static $model = \App\DeviceData::class;
+    
     static $permissions = [
-    'all' => ['app_r'],
-    'update' => ['app_w'],
-    'store' => ['app_w'],
+    'all' => ['sys_w'],
+    'index' => ['app_r'],
+    'show' => ['app_r'],
     ];
 
     /**

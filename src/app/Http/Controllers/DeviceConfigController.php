@@ -11,9 +11,9 @@ class DeviceConfigController extends Controller
     static $model = \App\DeviceConfig::class;
 
     static $permissions = [
-    'all' => ['app_r'],
-    'update' => ['app_w'],
-    'store' => ['app_w'],
+    'all' => ['app_w'],
+    'index' => ['app_r'],
+    'show' => ['app_r'],
     ];
     /**
      * Display a listing of the resource.
@@ -95,6 +95,6 @@ class DeviceConfigController extends Controller
      */
     public function destroy($id)
     {
-        DeviceConfig::destroy($id);
+        return $this->_destroy($id);
     }
 }

@@ -116,5 +116,7 @@
 
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>
+    <div class="alert alert-success" role="alert" ></div>
+    <div class="alert alert-warning" role="alert" ></div>
 </body>
 </html>

@@ -16,6 +16,7 @@ class ApplyController extends Controller {
         'update' => ['sys_w'],
         'store' => [],
         'pass' => ['sys_w'],
+        'unpass' => ['sys_w'],
     ];
 
     /**
@@ -24,13 +25,12 @@ class ApplyController extends Controller {
      * @return object     apply info
      */
     public function pass($id) {
+        $this->assertPermissions('pass');
         $apply = UserApply::find($id);
         $user = User::find($apply->user_id);
 
         !$user->has('roles', $apply->role_id) && $user->roles()->attach([$apply->role_id]);
         !$user->has('apps', $apply->app_id) && $user->apps()->attach([$apply->app_id]);
-        $user->app_id = $apply->app_id;
-        $user->save();
         
         $apply->status = 'pass';
         $apply->save();
@@ -43,6 +43,7 @@ class ApplyController extends Controller {
      * @return object     apply info
      */
     public function unpass($id) {
+        $this->assertPermissions('unpass');
         $apply = UserApply::find($id);
         $apply->status = 'unpass';
         $apply->save();

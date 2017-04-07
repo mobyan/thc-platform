@@ -12,7 +12,6 @@
             <div style="clear:both;"></div>
 
     </div>
-    <div id="alert" class="alert" role="alert" ></div>
 
   </div>
 </template>
