@@ -28,6 +28,10 @@
                     <input :disabled="!editing" type="text" v-model="device.sn" class="form-control" id="sn" placeholder="sn">
                 </div>
                 <div class="form-group">
+                    <label for="iccid">iccid</label>
+                    <input :disabled="!editing" type="text" v-model="device.iccid" class="form-control" id="iccid" placeholder="iccid">
+                </div>
+                <div class="form-group">
                     <label for="version">version</label>
                     <input :disabled="!editing" type="text" v-model="device.version" class="form-control" id="version" placeholder="version">
                 </div>
@@ -135,7 +139,7 @@ export default {
             editing_config: false,
             editable: thc.can('app_w'),
             isCreate: false,
-            fillable: ['name', 'type', 'company', 'model', 'sn', 'version'],
+            fillable: ['name', 'type', 'company', 'model', 'sn', 'version', 'iccid'],
 
         };
     },
