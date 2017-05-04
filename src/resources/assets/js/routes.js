@@ -97,6 +97,7 @@ const routes = [{
   props: {
     header: {title: '数据分析'}
   }
+<<<<<<< HEAD
 }, {
   path: '/station/:station/detail',
   components: {
@@ -107,6 +108,20 @@ const routes = [{
     header: {title: '数据分析'}
   }
 }, {
+=======
+},
+{
+  path: '/download',
+  components:{
+    default: require('./components/download.vue'),
+    header: header,
+  },
+  props: {
+    header: {title: '数据下载'}
+  }
+},
+{
+>>>>>>> e342ee2ccb5612adee3844fbad75e712bcf21318
     path: '/apply',
     components: {
         default: apply,
@@ -139,5 +154,10 @@ const routes = [{
             title: '数据下载'
         }
     }
+<<<<<<< HEAD
 },]
 module.exports = routes
+=======
+}, ]
+module.exports = routes
+>>>>>>> e342ee2ccb5612adee3844fbad75e712bcf21318
