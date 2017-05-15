@@ -1,5 +1,15 @@
 <template>
 <div v-if="device">
+    <div id='qlink'>
+      <router-link :to="dashboard_url">
+        <img src="/image/dashboardg.png">
+        Dashboard
+      </router-link>
+      <router-link :to="devices_url">
+        <img src="/image/tableg.png">
+        设备列表
+      </router-link>
+    </div>
 <!-- 设备基本信息 -->
     <div class="panel panel-default panel-primary">
         <div class="panel-heading" >
@@ -37,9 +47,9 @@
                 </div>
                 <template v-if="editable">
                     <button v-if="editing" type="submit" @click.prevent="save()" class="btn btn-primary">确定</button>
-                    <button v-if="editing" type="submit" @click.prevent="editing = !editing" class="btn btn-default" >取消</button>
+                    <button v-if="editing" type="submit" @click.prevent="cancel_device()" class="btn btn-default">取消</button>
                     <button v-if="!editing" type="submit" @click.prevent="editing = !editing;isCreate = false;" class="btn btn-primary">修改</button>
-                    <button v-if="!editing" type="submit" @click.prevent="create" class="btn btn-default">创建</button>
+                    <!-- <button v-if="!editing" type="submit" @click.prevent="create" class="btn btn-default">创建</button> -->
                     <button v-if="!editing" type="submit" @click.prevent="remove" class="btn btn-danger">删除</button>
                 </template>
             </form>
@@ -56,62 +66,65 @@
                 </div>
                 <div class="form-group">
                     <label for="data">Data</label>
-                    <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
-                        <tbody>
-                            <tr>
-                                <th>名称</th>
-                                <th>端口</th>
-                                <th>传感器</th>
-                                <th>备注</th>
-                                <th>操作</th>
-                            </tr>
-                            <tr v-for="(v,k) in activeConfig.data">
-                                <template v-if="v !== null">
-                                    <td>{{k}}</td>
-                                    <td><select class="form-control" :disabled="!editing_config" v-model="activeConfig.data[k].port">
-                                        <option v-for="port in ports" :value="port">{{port}}</option>
-                                    </select></td>
-                                    <td>
-                                        <select :disabled="!editing_config" v-model="activeConfig.data[k].sensor_type" class="form-control">
-                                            <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" :disabled="!editing_config" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
-                                    <td style="vertical-align: middle;"><div v-if="editing_config" @click="removeData('data', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+                    <div style="overflow:auto">
+                        <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>端口</th>
+                                    <th>传感器</th>
+                                    <th>备注</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr v-for="(v,k) in activeConfig.data">
+                                    <template v-if="v !== null">
+                                        <td>{{k}}</td>
+                                        <td><select class="form-control" :disabled="!editing_config" v-model="activeConfig.data[k].port">
+                                            <option v-for="port in ports" :value="port">{{port}}</option>
+                                        </select></td>
+                                        <td>
+                                            <select :disabled="!editing_config" v-model="activeConfig.data[k].sensor_type" class="form-control">
+                                                <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" :disabled="!editing_config" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
+                                        <td style="vertical-align: middle;"><div v-if="editing_config" @click="removeData('data', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
-                                </template>
-                            </tr>
-                            <tr><td colspan="8">
-                                <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
-                            </td></tr>
-                        </tbody>
-                    </table>
-
+                                    </template>
+                                </tr>
+                                <tr><td colspan="8">
+                                    <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
+                                </td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="control">Controller</label>
-                    <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
-                        <tbody>
-                            <tr>
-                                <th>名称</th>
-                                <th>分</th>
-                                <th>时</th>
-                                <th>日</th>
-                                <th>月</th>
-                                <th>周</th>
-                                <th>操作</th>
-                            </tr>
-                            <tr v-for="(v,k) in activeConfig.control">
-                                <td>{{k}}</td>
-                                <td v-for="(v, key) in activeConfig.control[k]" ><input :disabled="!editing_config" type="text" class="form-control" name="" v-model="activeConfig.control[k][key]"></td>
-                                <td style="vertical-align: middle;width:33px;"><div v-if="editing_config" @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+                    <div style="overflow:auto">
+                        <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>分</th>
+                                    <th>时</th>
+                                    <th>日</th>
+                                    <th>月</th>
+                                    <th>周</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr v-for="(v,k) in activeConfig.control">
+                                    <td>{{k}}</td>
+                                    <td v-for="(v, key) in activeConfig.control[k]" ><input :disabled="!editing_config" type="text" class="form-control" name="" v-model="activeConfig.control[k][key]"></td>
+                                    <td style="vertical-align: middle;width:33px;"><div v-if="editing_config" @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
-                            </tr>
-                            <tr><td colspan="7">
-                                <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
-                            </td></tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                                <tr><td colspan="7">
+                                    <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
+                                </td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <template v-if="editable">
                     <button type="submit" v-if="editing_config" @click.prevent="addConfig()" class="btn btn-default btn-primary">确认</button>
@@ -140,7 +153,8 @@ export default {
             editable: thc.can('app_w'),
             isCreate: false,
             fillable: ['name', 'type', 'company', 'model', 'sn', 'version', 'iccid'],
-
+            devices_url: '/station/'+this.$route.params.station,
+            dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
         };
     },
     computed: {
@@ -192,6 +206,14 @@ export default {
             this.$http.put(this.apiURI, _.pick(this.device, this.fillable), {params:{alert:'更新设备信息'}}).then(function() {
                 this.editing = !this.editing;
             });
+        },
+        cancel_device: function() {
+            if(this.$route.params.device == '0'){
+                this.$router.go(-1);
+            }
+            else{
+                this.editing = !this.editing;
+            }
         },
         save: function() {
             if (this.isCreate) {

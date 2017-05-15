@@ -36,14 +36,14 @@
           <tr class="fatal">
             <th>序号</th>
             <th>创建时间</th>
-            <th>更新时间</th>
+            <th :style="{ display: display_update_time, }">更新时间</th>
             <th>状态</th>
             <th>操作</th>
           </tr>
           <tr v-for="job, index in download_jobs" class="">
             <td>{{ index + 1 }}</td>
             <td>{{ job.created_at }}</td>
-            <td>{{ job.updated_at }}</td>
+            <td :style="{ display: display_update_time, }">{{ job.updated_at }}</td>
             <td>{{ job.status}}</td>
             <template v-if="job.status=='completed'">
               <td>
@@ -92,6 +92,8 @@
         stations: [],
         devices: [],
         selected_device_ids: [],
+        windowWidth: window.innerWidth,
+        display_update_time: 'none',
       }
     },
     components: {
@@ -178,13 +180,37 @@
       },
       refresh: function(){
         this.$router.go();
-      }
+      },
+      convert_display_type: function(){
+        if(window.innerWidth > 550) {
+          this.display_update_time = 'table-cell';
+        }
+        else {
+          this.display_update_time = 'none';
+        }
+      },
+      handleWindowResize: function(event) {
+        this.windowWidth = event.currentTarget.innerWidth;
+      },
     },
     created: function()
     {
-      // this.get_belonged_jobs();
-      // this.get_belonged_devices();
-      $.when(this.get_belonged_jobs(), this.get_belonged_devices()).then();
+      // var self = this;
+      this.convert_display_type();
+      $.when(this.get_belonged_jobs(), this.get_belonged_devices()).then(
+        // self.convert_display_type();
+      );
+    },
+    watch: {
+      windowWidth(curVal, oldVal){
+        this.convert_display_type();
+      },
+    },
+    beforeDestroy: function () {
+      window.removeEventListener('resize', this.handleWindowResize)
+    },
+    mounted() {
+      window.addEventListener('resize', this.handleWindowResize);
     },
   }
 </script>

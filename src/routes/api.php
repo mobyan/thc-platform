@@ -24,6 +24,10 @@ Route::resource('user', 'UserController', ['only' => [
     'index', 'show', 'store', 'update',
 ]]);
 
+Route::resource('user_profile', 'UserProfileController', ['only' => [
+    'index', 'update',
+]]);
+
 Route::resource('role', 'RoleController', ['only' => [
     'index', 'show'
 ]]);

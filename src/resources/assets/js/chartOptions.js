@@ -8,7 +8,7 @@ var defaultOption = {
         zoomType: 'x'
     },
     title: {
-        text: '温度'
+        text: ''
     },
 
     xAxis: {
@@ -28,8 +28,11 @@ var defaultOption = {
             // }
     },
     yAxis: {
-        title: {
+        title_v: {
             text: '摄氏度'
+        },
+        title: {
+            text: ''
         },
         plotLines: [{
             value: 0,
@@ -53,141 +56,196 @@ var defaultOption = {
     exporting: {
         enabled: true
     },
+    plotOptions: {
+        spline: {
+            lineWidth: 1,
+            fillOpacity: 0.1,
+            marker: {
+                enabled: true,
+                states: {
+                    hover: {
+                        enabled: true,
+                        radius: 1.5
+                    }
+                }
+            },
+            shadow: false
+        }
+    },
     series: [], //format [{name: "name", data: [[x1,y1],[x2,y2]]},{name: "name", data:[[x1,y1],[x2,y2]]}]
 };
 
 export default {
     'temp': _.merge({}, defaultOption, {
-        title: {
-            text: '温度'
-        },
+        // title: {
+        //     text: '温度'
+        // },
         yAxis: {
+            title_v: {
+                text: '摄氏度'
+            },
             title: {
-                text: '摄制度'
-            }
+                text: ''
+            },
         }
     }),
     'speed': _.merge({}, defaultOption, {
-        title: {
-            text: '速度'
-        },
+        // title: {
+        //     text: '速度'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'm/s'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'voltage': _.merge({}, defaultOption, {
-        title: {
-            text: '电压'
-        },
+        // title: {
+        //     text: '电压'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'V'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'temperature': _.merge({}, defaultOption, {
-        title: {
-            text: '温度'
-        },
+        // title: {
+        //     text: '温度'
+        // },
         yAxis: {
+            title_v: {
+                text: '摄氏度'
+            },
             title: {
-                text: '摄制度'
-            }
+                text: ''
+            },
         }
     }),
     'humility': _.merge({}, defaultOption, {
-        title: {
-            text: '湿度'
-        },
+        // title: {
+        //     text: '湿度'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: '%'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'solar-radiation': _.merge({}, defaultOption, {
-        title: {
-            text: '光照'
-        },
+        // title: {
+        //     text: '光照'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'lux'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'wind-velocity': _.merge({}, defaultOption, {
-        title: {
-            text: '风速'
-        },
+        // title: {
+        //     text: '风速'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'm/s'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'wind-speed': _.merge({}, defaultOption, {
-        title: {
-            text: '风速'
-        },
+        // title: {
+        //     text: '风速'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'm/s'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'wind-direction': _.merge({}, defaultOption, {
-        title: {
-            text: '风向'
-        },
+        // title: {
+        //     text: '风向'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: '°'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'solar radiation': _.merge({}, defaultOption, {
-        title: {
-            text: '光照'
-        },
+        // title: {
+        //     text: '光照'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'lux'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'wind velocity': _.merge({}, defaultOption, {
-        title: {
-            text: '风速'
-        },
+        // title: {
+        //     text: '风速'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'm/s'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'wind direction': _.merge({}, defaultOption, {
-        title: {
-            text: '风向'
-        },
+        // title: {
+        //     text: '风向'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: '°'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
     'rainfall': _.merge({}, defaultOption, {
         chart: {
             type: 'column'
         },
-        title: {
-            text: '降雨量'
-        },
+        // title: {
+        //     text: '降雨量'
+        // },
         yAxis: {
-            title: {
+            title_v: {
                 text: 'mm'
-            }
+            },
+            title: {
+                text: ''
+            },
         }
     }),
 }

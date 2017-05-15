@@ -2,10 +2,12 @@ import dashboard from './components/dashboard.vue'
 import stations from './components/stations.vue'
 import station from './components/station.vue'
 import header from './components/header.vue'
+import header_none from './components/header_none.vue'
 import devices from './components/devices.vue'
 import analyze from './components/analyze.vue'
 import map from './components/map.vue'
 import user from './components/user.vue'
+import user_profile from './components/user_profile.vue'
 import index from './components/index.vue'
 var apply = require('./components/apply.vue');
 var apply_audit = require('./components/apply_audit.vue');
@@ -137,6 +139,17 @@ const routes = [{
     props: {
         header: {
             title: '数据下载'
+        }
+    }
+}, {
+  path: '/user_profile',
+    components: {
+        default: user_profile,
+        header: header_none,
+    },
+    props: {
+        header: {
+            title: '个人资料'
         }
     }
 },]
