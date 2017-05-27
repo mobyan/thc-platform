@@ -108,7 +108,16 @@ const routes = [{
   props: {
     header: {title: '数据分析'}
   }
-
+},
+{
+  path: '/station/:station/detail',
+  components: {
+    default: require('./components/analyze.vue'),
+    header: header,
+  },
+  props: {
+    header: {title: '数据分析'}
+  }
 },
 {
   path: '/download',

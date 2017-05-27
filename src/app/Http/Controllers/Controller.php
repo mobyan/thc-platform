@@ -42,7 +42,7 @@ class Controller extends BaseController
         $this->assertPermissions('index');
         if (in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->user()->app_id];
-            $wherelike = ['regioncode', 'like',json_encode($this->user()->regioncodes).'%'];
+            //$wherelike = ['regioncode', 'like',json_encode($this->user()->regioncodes).'%'];->where($wherelike)
         }
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
@@ -50,7 +50,7 @@ class Controller extends BaseController
         if ($where === null) {
             $where = [DB::raw('1'), 1];
         }
-        $items = call_user_func_array([static::$model, 'where'], $where)->where($wherelike)->limit($limit)->offset($offset);
+        $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
         if ($with) {
             if (str_contains($with,',')) {
                 $with = explode(',', $with);
