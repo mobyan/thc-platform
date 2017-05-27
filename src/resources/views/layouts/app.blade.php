@@ -30,7 +30,7 @@
 
         <div id="header" class="container">
             <nav class="navbar navbar-default navbar-custom navbar-static-top">
-                <div class="container">
+                <div class="container" id="header-container">
                     <div class="navbar-header">
 
                         <!-- Collapsed Hamburger -->
@@ -42,9 +42,9 @@
                         </button>
 
                         <!-- Branding Image -->
-                        <a class="navbar-brand" href="{{ url('/') }}">
+<!--                         <a class="navbar-brand" href="{{ url('/') }}">
                             {{ config('app.name', 'Laravel') }}
-                        </a>
+                        </a> -->
                     </div>
 
                     <div v-if=""class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -83,6 +83,9 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <router-link to="/user_profile">个人资料</router-link>
+                                    </li>
+                                    <li>
                                         <a href="{{ url('/logout') }}"
                                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
@@ -100,7 +103,7 @@
                 </div>
             </nav>
         </div>
-        <div class="container">
+        <div class="container" id="content-container">
             @yield('content')
             @if (!Auth::guest())
             <router-view name="header"></router-view>
@@ -111,7 +114,7 @@
         </div>
     </div>
     <div id="footer" >
-        <div class="container" style="text-align: center;"><p>Copyright 2017 THC, Inc.</p></div>
+        <div class="container" style="text-align: center;"><p>版权所有 生态环境与烟草质量重点实验室; 技术支持 北京天航华创科技股份有限公司|Tianhang Create technology Co. Ltd.</p></div>
     </div>
 
     <!-- Scripts -->

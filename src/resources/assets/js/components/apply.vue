@@ -28,6 +28,7 @@
         },
         methods: {
             submit: function () {
+                console.log(this.selectedApp);
                 this.$http.post('/api/apply', {
                     app_id: this.selectedApp.id,
                     role_id: this.selectedRole.id,
@@ -35,11 +36,28 @@
                 })
             }
         },
+        // computed: {
+        //     selectedRole: function(){
+        //         if(!this.selectedApp.roles){
+        //             return {};
+        //         }
+        //         else{
+        //             return this.selectedApp.roles[0];
+        //         }
+        //     },
+        // },
+        watch: {
+            selectedApp(curVal, oldVal){
+                this.selectedRole = curVal.roles[0];
+            },
+        },
         created: function () {
 
             var self = this;
             $.when(this.$http.get('/api/app?with=roles')).then(function (apps, roles) {
                 self.apps = apps.body.items;
+                self.selectedApp = self.apps[0];
+                self.selectedRole = self.selectedApp.roles[0];
             })
         }
     }

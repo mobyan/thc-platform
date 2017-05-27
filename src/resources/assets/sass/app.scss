@@ -92,6 +92,16 @@ $colHover       : #e0e0e0;
 .container {
     width: 90%;
     margin: auto;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#content-container {
+    max-width: 1000px;
+}
+
+#header-container {
+    max-width: 1000px;
 }
 
 html,
@@ -171,4 +181,68 @@ body {
 }
 .icon-warn {
   color: red;
+}
+
+.upic {
+  width:86%;
+  margin:10% 7% 7% 10%;
+  background: #f6f7fa;
+  border: 1px solid #cacfda;
+  padding:0px;
+  text-align:center;
+}
+
+.upic img{
+  margin: 7% 0px -3px 0px;
+  padding:0px;
+  width: 80%;
+}
+
+.uinfo {
+  margin:20px 0px 0px 0px;
+}
+
+#user_profile dt {
+  font-weight:600;
+  color: #002a54;
+  margin-bottom: 0px;
+  display:inline-block;
+}
+
+#user_profile dd {
+  margin-left: 7px;
+  margin-bottom: 17px;
+  color: #768297;
+  font-weight: 300;
+  display:inline-block;
+}
+
+#qlink{
+  width:100%;
+  text-align:right;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 3px;
+}
+
+#qlink a, .grey-links a{
+  font-size: 12px;
+  font-weight: normal;
+  color:#a4a4a4;
+  text-decoration:none;
+}
+
+#qlink a:hover, .grey-links a:hover{
+  color:#0d98c7;
+}
+
+#qlink img {
+  width:20px;
+  margin-right: 2px;
+  margin-bottom: 4px;
+}
+
+#no-image {
+  max-width: 100%;
+  border: 1px solid #cacfda;
 }

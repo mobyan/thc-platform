@@ -17,8 +17,10 @@
   },
   "dependencies": {
     "bootbox": "^4.4.0",
+    "datatables.net": "^1.10.15",
+    "datatables.net-dt": "^1.10.15",
     "highcharts": "^5.0.10",
-    "js-cookie":"^2.1.4",
+    "js-cookie": "^2.1.4",
     "vue-amap": "^0.1.6",
     "vue-datepicker": "^1.3.0",
     "vue-highcharts": "0.0.9",

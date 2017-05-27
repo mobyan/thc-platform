@@ -8,7 +8,8 @@
   <div class="panel panel-default panel-primary" v-for="(chart,type) in charts" >
     <div class="panel-heading" >
       <router-link :to="dataUrl + type">
-        <h3 class="panel-title" style="color: #fff;text-align:right;">详细>></h3>
+        <!-- <h3 class="panel-title" style="color: #fff;text-align:right;">详细>></h3> -->
+        <h3 class="panel-title" style="color: #fff;text-align:left;">{{ translations[type] + '(' + chart['yAxis']['title_v']['text'] + ')'}}</h3>
       </router-link>
     </div>
     <div class="panel-body">
@@ -18,7 +19,8 @@
   <div v-if="selectedDevice!==null" class="panel panel-default panel-primary"  >
     <div class="panel-heading" >
       <router-link :to="dataUrl + 'image'">
-        <h3 class="panel-title" style="color: #fff;text-align:right;">详细>></h3>
+        <!-- <h3 class="panel-title" style="color: #fff;text-align:right;">详细>></h3> -->
+        <h3 class="panel-title" style="color: #fff;text-align:left;">图片</h3>
       </router-link>
     </div>
     <gallery :images="images"></gallery>
@@ -29,6 +31,7 @@
 <script>
   import api from '../api'
   import defaultOptions from '../chartOptions';
+  import translations from '../translations'
 
   export default  {
     name: 'my-dashboard',
@@ -40,6 +43,7 @@
         gallerise: [],
         charts: {},
         images: {},
+        translations: translations,
       }
     },
     computed: {

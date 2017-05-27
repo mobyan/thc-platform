@@ -5,6 +5,8 @@ node_modules/
 src/public/js/*
 src/public/build/*
 
+src/public/storage
+
 # Laravel 4 specific
 bootstrap/compiled.php
 app/storage/

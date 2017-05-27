@@ -1,4 +1,5 @@
 import defaultOptions from './chartOptions'
+import translations from './translations'
 function data2lists (device, data) {
     var keys = {};
     _.forIn(data.items, function(item) {
@@ -8,7 +9,7 @@ function data2lists (device, data) {
                 ts: item.ts
             });
             if (!keys[key]) {
-                keys[key] = {data:[],name: device.name + ' - ' + key};
+                keys[key] = {data:[],name: device.name + ' - ' + translations[key]};
             }
             keys[key].data.push(item.data[key]);
             keys[key].type = item.data[key].type || 'temp';
@@ -77,8 +78,32 @@ export default {
 
             }
             charts[type].series.push(serie);
-        })
-        return JSON.parse(JSON.stringify(charts));
+        });
+        var result = {};
+        if(charts['solar-radiation']){
+            result['solar-radiation'] = charts['solar-radiation'];
+        };
+        if(charts['rainfall']){
+            result['rainfall'] = charts['rainfall'];
+        };
+        if(charts['temperature']){
+            result['temperature'] = charts['temperature'];
+        };
+        if(charts['humility']){
+            result['humility'] = charts['humility'];
+        };
+        if(charts['wind-velocity']){
+            result['wind-velocity'] = charts['wind-velocity'];
+        };
+        if(charts['wind-direction']){
+            result['wind-direction'] = charts['wind-direction'];
+        };
+        if(charts['voltage']){
+            result['voltage'] = charts['voltage'];
+        };
+        result = _.assign(result, charts);
+        // return JSON.parse(JSON.stringify(charts));
+        return JSON.parse(JSON.stringify(result));
     },
     accumlateByTime (data) {
         var res = _.reduce(data, function (result, v, k) {
