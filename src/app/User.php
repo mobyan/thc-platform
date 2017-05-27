@@ -5,11 +5,13 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Junaidnasir\Larainvite\InviteTrait;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use EntrustUserTrait;
+    use InviteTrait;
 
 
     /**
@@ -35,16 +37,20 @@ class User extends Authenticatable
         return $this->belongsToMany('App\App');
     }
 
+    public function apps_with_regioncode(){
+        return $this->belongsToMany('App\App')->withPivot('regioncodes');
+    }
+
     public function download_jobs()
     {
         return $this->hasMany('App\DownloadJob');
     }
-    
+
     /**
      * has relationship
      * @param  string  $model model name
      * @param  string  $id    object id
-     * @return boolean        
+     * @return boolean
      */
     public function has($model, $id) {
         foreach ($this->$model as $instance) {

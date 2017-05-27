@@ -73,6 +73,7 @@ window.app = new Vue({
   },
   router,
   created: function() {
+    Cookie.set('currentApp', Cookie.get('currentApp') || (thc.user.apps[0]?thc.user.apps[0].id:null));
     if (!thc.can('app_r') || thc.user.apps.length == 0) {
       this.$router.push('apply');
     }

@@ -179,6 +179,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Yangyifan\Upload\UploadServiceProvider::class,
+        Junaidnasir\Larainvite\LaraInviteServiceProvider::class,
 
     ],
 
@@ -228,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
+        'Invite'  => Junaidnasir\Larainvite\Facades\Invite::class,
 
     ],
 

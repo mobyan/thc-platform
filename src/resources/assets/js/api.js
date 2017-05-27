@@ -60,8 +60,21 @@ export default {
             if (type == 'rainfall') {
                 serie.data = self.accumlateByTime(serie.data);
             }
-            if (type == 'wind-direction' || type == 'wind-velocity'){
+            if (type == 'wind-direction'){
                 serie.data = self.averageByTime(serie.data);
+                serie.data = _.map(serie.data, function(v){
+                  return {
+                    x: v[0],
+                    y: v[1],
+                    marker: { symbol: self.getDirMarker(v[1])},
+                    width: 26,
+                    height: 26,
+                  }
+                });
+            }
+            if (type == 'wind-velocity'){
+                serie.data = self.averageByTime(serie.data);
+
             }
             charts[type].series.push(serie);
         })
@@ -86,15 +99,28 @@ export default {
       }, {});
       return _.map(res, function(v,k){ return [new Date(k).getTime(), v[0]/v[1]]});
     },
-    averageByTime (data){
-      var res = _.reduce(data, function (result, v, k) {
-          var t = moment(v[0]).format("YYYY-MM-DD HH:00:00");
-          result[t] = result[t] || [0,0];
-          result[t][0] += v[1];
-          result[t][1] += 1;
-          return result;
-      }, {});
-      return _.map(res, function(v,k){ return [new Date(k).getTime(), v[0]/v[1]]});
+    getDirMarker(v){
+      var self = this;
+      return self.getMarkers()[Math.floor(v/22.5)];
+    },
+    getMarkers(){
+      return ['url(/image/north.png)',
+      'url(/image/east_north.png)',
+      'url(/image/east_north.png)',
+      'url(/image/east.png)',
+      'url(/image/east.png)',
+      'url(/image/east_south.png)',
+      'url(/image/east_south.png)',
+      'url(/image/south.png)',
+      'url(/image/south.png)',
+      'url(/image/west_south.png)',
+      'url(/image/west_south.png)',
+      'url(/image/west.png)',
+      'url(/image/west.png)',
+      'url(/image/west_north.png)',
+      'url(/image/west_north.png)',
+      'url(/image/north.png)',
+      ]
     },
     formatData(items, config) {
         var data = {};

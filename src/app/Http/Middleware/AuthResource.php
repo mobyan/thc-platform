@@ -26,6 +26,7 @@ class AuthResource {
         $app_id = $req->header('X-APP-ID', $req->input('app_id'));
         if ($isApi && $root_model == 'station') {
             $req->user()->app_id = $app_id;
+            $req->user()->regioncodes= $req->user()->apps_with_regioncode()->where('app_id','=',$app_id)->pivot->regioncodes;
             $this->assertOwnership($req, $app_id);
             $this->assertRelationship(['app'=>$app_id] + $params);
         }
@@ -42,7 +43,7 @@ class AuthResource {
 
         $tables = array_keys($stack);
         $where = [];
-        for ($i=0; $i < count($tables) - 1; $i++) { 
+        for ($i=0; $i < count($tables) - 1; $i++) {
             $a = $tables[$i];
             $b = $tables[$i + 1];
             $where[] = "{$a}.id = {$b}.{$a}_id";

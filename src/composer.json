@@ -11,7 +11,8 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "guzzlehttp/guzzle":"~5.3|~6.0",
         "upyun/sdk": "^2.2",
-        "yangyifan/upload": "v0.2"
+        "yangyifan/upload": "v0.2",
+        "junaidnasir/larainvite": "^0.1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
