@@ -13,7 +13,10 @@ class Station extends Base
     public function devices() {
         return $this->hasMany('App\Device');
     }
-    public function regioncode(){
+    public function app(){
+        return $this->hasOne('App\App','id','app_id');
+    }
+    public function regionCode(){
       return $this->hasOne('App\RegionCode','code','regioncode');
     }
     public function getAllDataKeys() {

@@ -11,9 +11,9 @@ class DeviceController extends Controller
     static $model = \App\Device::class;
 
     static $permissions = [
-    'all' => ['app_w'],
-    'index' => ['app_r'],
-    'show' => ['app_r'],
+    'all' => ['app_w','sys_w'],
+    'index' => ['app_r','sys_r'],
+    'show' => ['app_r','sys_r'],
     ];
 
     /**

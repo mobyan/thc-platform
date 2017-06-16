@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AppController extends Controller
 {
@@ -13,7 +14,8 @@ class AppController extends Controller
     'all' => ['sys_r'],
     'update' => ['sys_w'],
     'store' => ['sys_w'],
-    'index' => [],
+    'index' => ['sys_r'],
+    'destroy' => ['sys_r'],
     ];
 
     /**
@@ -45,6 +47,11 @@ class AppController extends Controller
     public function store(Request $request)
     {
         //
+        Log::info($request);
+        $this->validate($request, [
+            ]);
+        $body = $request->all();
+        return $this->_store($body);
     }
 
     /**
@@ -78,7 +85,10 @@ class AppController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $this->validate($request, [
+          // 'type' => 'string',
+          ]);
+      return $this->_update($id, $request->all());
     }
 
     /**
@@ -90,5 +100,6 @@ class AppController extends Controller
     public function destroy($id)
     {
         //
+        return $this->_destroy($id);
     }
 }

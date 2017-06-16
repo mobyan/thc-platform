@@ -3,35 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Station;
-use Entrust;
-use DB;
-use Auth;
 
-class StationController extends Controller
+class InviteController extends Controller
 {
+    //static $model = \Junaidnasir\Larainvite\Models\LaraInviteModel::class;
 
-    static $model = \App\Station::class;
-
-    static $permissions = [
-    'all' => ['app_w','sys_w'],
-    'index' => ['app_r','sys_r'],
-    'show' => ['app_r','sys_r'],
-    'update' => ['app_w', 'sys_w']
-    ];
-
+    /*static $permissions = [
+    'all' => ['sys_r'],
+    'update' => ['sys_w'],
+    'store' => ['sys_w'],
+    'index' => [],
+  ];*/
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index()
     {
-        if($req->input('app_id')){
-          return $this->_index(['app_id','=',$req->input('app_id')]);
-        }
-        
-        return $this->_index();
+        return $this->user()->invitations;
     }
 
     /**
@@ -52,13 +42,24 @@ class StationController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            ]);
-        $body = $request->all();
-        if(!$body['app_id']){
-          $body['app_id'] = $request->user()->app_id;
-        }
-        return $this->_store($body);
+        //
+        $email = $request->input('email');
+        $app_id = $this->user()->app_id;
+        $regioncode = $request->input('regioncode');
+        $refCode = Invite::invite($email, $this->user()->id, Carbon::now()->addYear(1),
+        function(/* InvitationModel, see Configurations */ $invitation) use ($app_id, $regioncode) {
+          $invitation->app_id = $app_id;
+          $invitation->regioncode = $regioncode;
+          }
+        );
+
+        //send email
+        $data = ['email'=>$email, 'code'=>$refCode, 'name'=> '用户']
+        Mail::send('invite',$data, function($message)use($data){
+          $message->to($data['email'], $data['name'])->subject('welcome to THC');
+        });
+
+
     }
 
     /**
@@ -69,7 +70,8 @@ class StationController extends Controller
      */
     public function show($id)
     {
-        return $this->_show($id);
+        //
+        $this->_show($id);
     }
 
     /**
@@ -92,12 +94,11 @@ class StationController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //
         $this->validate($request, [
             ]);
         $data = $request->all();
-        if(!$data['app_id']){
-          $data['app_id'] = $request->user()->app_id;
-        }
+        $data['app_id'] = $request->user()->app_id;
         return $this->_update($id, $data);
     }
 
@@ -109,7 +110,7 @@ class StationController extends Controller
      */
     public function destroy($id)
     {
+        //
         return $this->_destroy($id);
     }
-
 }

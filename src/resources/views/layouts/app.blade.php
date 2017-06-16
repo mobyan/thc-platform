@@ -51,21 +51,35 @@
                         <!-- Left Side Of Navbar -->
                         @if (!Auth::guest())
                         <ul class="nav navbar-nav">
-                            <li>
+                            <li v-if="canAppRead()">
                                 <router-link to="/map">站点地图</router-link>
                             </li>
-                            <li>
+                            <li v-if="canAppRead()">
                                 <router-link to="/station">站点列表</router-link>
                             </li>
-                            <li>
+                            <li v-if="canAppRead()">
                                 <router-link to="/data_download">数据下载</router-link>
-                            </li>                            
-                            <li>
+                            </li>
+                            <!--<li v-if="canAppRead()">
                                 <router-link to="/apply">权限申请</router-link>
+                            </li>-->
+                            <!--<li v-if="isAdmin()">
+                                <router-link to="/apply_audit">权限审核</router-link>
+                            </li>-->
+                            <li v-if="isAppAdmin()">
+                                <router-link to="/user">用户管理</router-link>
+                            </li>
+
+                            <li v-if="isAdmin()">
+                                <router-link to="/admin/app">生产线管理</router-link>
                             </li>
                             <li v-if="isAdmin()">
-                                <router-link to="/apply_audit">权限审核</router-link>
+                                <router-link to="/admin/station">站点管理</router-link>
                             </li>
+                            <li v-if="isAdmin()">
+                                <router-link to="/admin/user">用户管理</router-link>
+                            </li>
+
                         </ul>
                         @endif
 

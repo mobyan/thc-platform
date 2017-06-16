@@ -4,12 +4,7 @@
       <div id="title" style="float: left;">
       <span style="font-weight:bold; font-size: 16px;">{{title}} </span>
       </div>
-      <div v-if="user.apps.length > 1 && currentApp" style="float: right;">
-        <label>当前产品线：</label><select v-if="user" v-model="currentApp" style="z-index: 9999; position: relative;"><option v-for="(app, index) in user.apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>&nbsp;&nbsp;&nbsp;
-      <button class="btn btn-primary btn-xs" @click="back()">
-        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回</button>
-      </div>
-            <div style="clear:both;"></div>
+      <div style="clear:both;"></div>
 
     </div>
 
@@ -22,6 +17,7 @@
       return {
         currentApp: Cookie.get('currentApp'),
         user: thc.user,
+        apps: [],
       }
     },
     watch: {
@@ -31,7 +27,11 @@
       }
     },
     created: function () {
-      Cookie.set('currentApp', Cookie.get('currentApp') || (thc.user.apps[0]?thc.user.apps[0].id:null));
+      //var self = this;
+      //this.$http.get('/api/app').then(function (res) {
+      //  self.apps = res.body.items;
+      //})
+      //  Cookie.set('currentApp', Cookie.get('currentApp') || (self.apps[0]?self.apps[0].id:null));
     },
     methods: {
       back: function () {

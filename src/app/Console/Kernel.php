@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         //
         Commands\MakeRoles::class,
         Commands\MakeApp::class,
+        Commands\MakeAdmin::class,
     ];
 
     /**

@@ -2,7 +2,7 @@
   <div id="user_profile">
 <!--     <div class="col-md-1"></div>
     <div class="col-sm-12"> -->
-      <div class="panel panel-default panel-primary"> 
+      <div class="panel panel-default panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">个人资料</h3>
         </div>
@@ -63,32 +63,32 @@
               <div class="uinfo">
                 <div class="col-md-5">
                   <dl>
-                    <dt>Name:</dt>
+                    <dt>名称</dt>
                     <dd>{{ user_profile.name }}</dd>
                     <br>
-                    <dt>Position:</dt>
+                    <dt>职位</dt>
                     <dd>{{ user_profile.position }}</dd>
                     <br>
-                    <dt>Department:</dt>
+                    <dt>部门:</dt>
                     <dd>{{ user_profile.department }}</dd>
                     <br>
-                    <dt>Institution:</dt>
+                    <dt>公司:</dt>
                     <dd>{{ user_profile.institution }}</dd>
                     <br>
                   </dl>
                 </div>
                 <div class="col-md-5">
                   <dl>
-                    <dt>Email:</dt>
+                    <dt>邮箱:</dt>
                     <dd>{{ user_profile.email }}</dd>
                     <br>
-                    <dt>Cell:</dt>
+                    <dt>座机:</dt>
                     <dd>{{ user_profile.cell }}</dd>
                     <br>
-                    <dt>Phone:</dt>
+                    <dt>手机:</dt>
                     <dd>{{ user_profile.phone }}</dd>
                     <br>
-                    <dt>Address:</dt>
+                    <dt>通讯地址:</dt>
                     <dd>{{ user_profile.address }}</dd>
                     <br>
                   </dl>

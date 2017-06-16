@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Junaidnasir\Larainvite\InviteTrait;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -70,6 +71,7 @@ class User extends Authenticatable
 
     public function allows($permission, $requireAll = false, $app_id)
     {
+        //Log::info($permission);
         if (is_array($permission)) {
             foreach ($permission as $permName) {
                 $hasPerm = $this->allows($permName, false, $app_id);

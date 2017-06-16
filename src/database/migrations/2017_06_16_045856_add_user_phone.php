@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSoftdeleteAppUser extends Migration
+class AddUserPhone extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddSoftdeleteAppUser extends Migration
      */
     public function up()
     {
-        Schema::table('app_user', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            $table->softDeletes();
+            $table->string('phone')->unique();
         });
     }
 
@@ -26,9 +26,9 @@ class AddSoftdeleteAppUser extends Migration
      */
     public function down()
     {
-        Schema::table('app_user', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('deleted_at');
+            $table->dropColumn('phone');
         });
     }
 }

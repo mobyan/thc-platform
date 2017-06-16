@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Log;
 use Auth;
 
 class Controller extends BaseController
@@ -23,7 +24,7 @@ class Controller extends BaseController
     ];
 
     static $sys_root_models = ['user', 'app', 'apply', 'role'];
-    static $app_root_models = [\App\Station::class];
+    static $app_root_models = [\App\Station::class, \App\Invitation::class];
 
     static $permissions = [];
 
@@ -32,6 +33,9 @@ class Controller extends BaseController
         $this->middleware('auth.resource');
     }
 
+    public function __construct_regioncodes($regioncode){
+      return "regioncode like ".$regioncode."%";
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,10 +43,16 @@ class Controller extends BaseController
      */
     public function _index($where = null, $callback = null)
     {
+        $whereLike = null;
         $this->assertPermissions('index');
-        if (in_array(static::$model, static::$app_root_models)) {
+        if ($this->user()->app_id != 0 && in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->user()->app_id];
-            //$wherelike = ['regioncode', 'like',json_encode($this->user()->regioncodes).'%'];->where($wherelike)
+            $regioncodes = json_decode($this->user()->regioncodes);
+            foreach($regioncodes as $regioncode){
+              $whereLike = isset($whereLike)? $whereLike.' or regioncode like "'.$regioncode.'%"':'regioncode like "'.$regioncode.'%"';
+            }
+            Log::info($whereLike);
+            //$wherelike = ['regioncode', ];
         }
         $limit = Request::input('limit', 20);
         $offset = Request::input('offset', 0);
@@ -50,7 +60,13 @@ class Controller extends BaseController
         if ($where === null) {
             $where = [DB::raw('1'), 1];
         }
-        $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
+        if ($whereLike === null){
+          $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
+        }
+        else{
+          $items = call_user_func_array([static::$model, 'where'], $where)->whereRaw($whereLike)->limit($limit)->offset($offset);
+        }
+
         if ($with) {
             if (str_contains($with,',')) {
                 $with = explode(',', $with);

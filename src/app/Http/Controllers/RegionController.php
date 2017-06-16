@@ -3,35 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Station;
-use Entrust;
-use DB;
-use Auth;
 
-class StationController extends Controller
+class RegionController extends Controller
 {
-
-    static $model = \App\Station::class;
-
+    //
+    static $model = \App\RegionCode::class;
     static $permissions = [
-    'all' => ['app_w','sys_w'],
     'index' => ['app_r','sys_r'],
     'show' => ['app_r','sys_r'],
-    'update' => ['app_w', 'sys_w']
     ];
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index()
     {
-        if($req->input('app_id')){
-          return $this->_index(['app_id','=',$req->input('app_id')]);
-        }
-        
-        return $this->_index();
+        return static::$model->whereIn('code',$this->user()->regioncodes);
+        //return $this->_index();
     }
 
     /**
@@ -52,13 +41,7 @@ class StationController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            ]);
-        $body = $request->all();
-        if(!$body['app_id']){
-          $body['app_id'] = $request->user()->app_id;
-        }
-        return $this->_store($body);
+        //
     }
 
     /**
@@ -69,7 +52,8 @@ class StationController extends Controller
      */
     public function show($id)
     {
-        return $this->_show($id);
+        //
+        $this->_show($id);
     }
 
     /**
@@ -92,13 +76,7 @@ class StationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            ]);
-        $data = $request->all();
-        if(!$data['app_id']){
-          $data['app_id'] = $request->user()->app_id;
-        }
-        return $this->_update($id, $data);
+        //
     }
 
     /**
@@ -109,7 +87,19 @@ class StationController extends Controller
      */
     public function destroy($id)
     {
-        return $this->_destroy($id);
+        //
     }
 
+    public function subRegion(Request $request)
+    {
+        $pcodes = [$request['code']];
+
+        return $this->getChildren($pcodes);
+
+    }
+
+    private function getChildren($pcodes){
+        return static::$model->whereIn('parent_code',$pcodes);
+
+    }
 }

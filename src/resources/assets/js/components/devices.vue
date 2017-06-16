@@ -36,7 +36,7 @@
         data: function () {
             return {
                 devices: [],
-                editable: thc.can('app_w'),
+                editable: thc.can('app_w')||thc.can('sys_w',0),
                 station_id: this.$route.params.station,
                 windowWidth: window.innerWidth,
                 display_type: 'none',

@@ -29,9 +29,9 @@ class AlterRoles extends Migration
     public function down()
     {
         Schema::table('roles', function(Blueprint $table) {
-            $table->dropColumn('app_id');
             $table->dropIndex('roles_name_app_unique');
             $table->unique('name');
+            $table->dropColumn('app_id');
 
         });
     }

@@ -2,6 +2,7 @@ import dashboard from './components/dashboard.vue'
 import stations from './components/stations.vue'
 import station from './components/station.vue'
 import header from './components/header.vue'
+import admin_header from './components/admin_header.vue'
 import header_none from './components/header_none.vue'
 import devices from './components/devices.vue'
 import analyze from './components/analyze.vue'
@@ -9,6 +10,8 @@ import map from './components/map.vue'
 import user from './components/user.vue'
 import user_profile from './components/user_profile.vue'
 import index from './components/index.vue'
+import invitation from './components/invitation.vue'
+import invitations from './components/invitations.vue'
 var apply = require('./components/apply.vue');
 var apply_audit = require('./components/apply_audit.vue');
 var data_download = require('./components/download.vue')
@@ -17,7 +20,7 @@ const routes = [{
   path: '/',
   redirect: '/map'
 }, {
-  path: '/admin/:model',
+  path: '/admin',
   components: {
     // default: stations,
     default: index,
@@ -82,24 +85,66 @@ const routes = [{
     header: {title: '设备信息'}
   }
 }, {
+  name: 'admin-users',
   path: '/admin/user',
   components:{
     default: require('./components/users.vue'),
-    header: header,
+    header: admin_header,
   },
   props:{
     header:{ title: '用户管理'}
   }
 },{
+  name: 'admin-user',
   path: '/admin/user/:user',
   components: {
     default: require('./components/user.vue'),
-    header: header,
+    header: admin_header,
   },
   props: {
     header: {title: '用户管理'}
   }
-}, {
+},{
+  name: 'admin-stations',
+  path: '/admin/station',
+  components: {
+    default: require('./components/admin_stations.vue'),
+    header: admin_header,
+  },
+  props: {
+    header: {title: '站点管理'}
+  }
+},
+{
+  name: 'admin-station',
+  path: '/admin/station/:station',
+  components: {
+    default: require('./components/admin_station.vue'),
+    header: admin_header,
+  },
+  children: [
+  {
+    path: '',
+    component: devices,
+    props:  true,
+  }
+  ],
+  props: {
+    header: {title: '站点管理'}
+  }
+},
+{
+  name: 'admin-app',
+  path: '/admin/app',
+  components: {
+    default: require('./components/apps.vue'),
+    header: admin_header,
+  },
+  props: {
+    header: {title: '生产线管理'}
+  }
+},
+{
   path: '/station/:station/device/:device/data',
   components: {
     default: require('./components/analyze.vue'),
@@ -173,5 +218,25 @@ const routes = [{
         }
     }
 
-},]
+},{
+  name: 'invitations',
+  path: '/invitation',
+  components: {
+    default: invitations,
+    header: header,
+  },
+  props: {
+    header: {title: '邀请码列表'},
+  }
+}, {
+  name: 'invitation',
+  path: '/invitation/:invitation',
+  components: {
+    default: invitation,
+    header: header,
+  },
+  props: {
+    header: {title: '邀请码信息'}
+  }
+}, ]
 module.exports = routes

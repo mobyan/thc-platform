@@ -27,6 +27,8 @@ Route::resource('user', 'UserController', ['only' => [
 Route::resource('user_profile', 'UserProfileController', ['only' => [
     'index', 'update',
 ]]);
+Route::resource('invitation','InviteController',['only' => ['index','show','update','store','destroy',
+]]);
 
 Route::resource('role', 'RoleController', ['only' => [
     'index', 'show'
@@ -34,8 +36,13 @@ Route::resource('role', 'RoleController', ['only' => [
 
 Route::get('app/schema', 'AppController@schema');
 Route::resource('app', 'AppController', ['only' => [
-    'index', 'show', 'store', 'update',
+    'index', 'show', 'store', 'update', 'destroy',
 ]]);
+
+Route::resource('region', 'RegionController',['only' =>[
+  'index','show'
+  ]]);
+Route::get('sub_region', 'RegionController@subRegion');
 
 Route::get('station/schema', 'StationController@schema');
 Route::resource('station', 'StationController', ['only' => [

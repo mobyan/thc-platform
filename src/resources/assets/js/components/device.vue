@@ -1,7 +1,7 @@
 <template>
 <div v-if="device">
     <div id='qlink'>
-      <router-link :to="dashboard_url">
+      <router-link :to="dashboard_url" v-if="!isAdmin">
         <img src="/image/dashboardg.png">
         Dashboard
       </router-link>
@@ -131,7 +131,7 @@
                     <button type="submit" v-if="editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-default">取消</button>
                     <button type="submit" v-if="!editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-primary">修改</button>
                 </template>
-            </form>    
+            </form>
         </div>
     </div>
 </div>
@@ -150,14 +150,24 @@ export default {
             ports,
             editing: false,
             editing_config: false,
-            editable: thc.can('app_w'),
+            editable: thc.can('app_w')||thc.can('sys_w', 0),
             isCreate: false,
             fillable: ['name', 'type', 'company', 'model', 'sn', 'version', 'iccid'],
-            devices_url: '/station/'+this.$route.params.station,
             dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
         };
     },
     computed: {
+        devices_url: function(){
+            if( thc.can('sys_w',0)){
+              return '/admin/station/'+this.$route.params.station;
+            }
+            else{
+              return '/station/'+this.$route.params.station;
+            }
+        },
+        isAdmin: function(){
+            return thc.can('sys_w',0);
+        },
         activeConfig: function() {
             var res = _.last(this.device.configs);
             if (res) {
@@ -236,12 +246,23 @@ export default {
             bootbox.confirm('确认删除？', function(result) {
                 if (result) {
                     self.$http.delete(self.apiURI).then(function() {
-                        self.$router.push({
-                            name: 'station',
-                            params: {
-                                station: self.$route.params.station,
-                            }
-                        });
+                        if( self.isAdmin ){
+                          self.$router.push({
+                              name: 'admin-station',
+                              params: {
+                                  station: self.$route.params.station,
+                              }
+                          });
+                        }
+                        else{
+                          self.$router.push({
+                              name: 'station',
+                              params: {
+                                  station: self.$route.params.station,
+                              }
+                          });
+                        }
+
                     })
                 }
             })

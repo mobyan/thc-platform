@@ -66,6 +66,12 @@ window.app = new Vue({
   methods: {
     isAdmin: function () {
       return thc.can('sys_w', 0);
+    },
+    canAppRead: function(){
+      return thc.can('app_r');
+    },
+    isAppAdmin: function(){
+      return thc.can('app_w');
     }
   },
   components: {
@@ -74,7 +80,10 @@ window.app = new Vue({
   router,
   created: function() {
     Cookie.set('currentApp', Cookie.get('currentApp') || (thc.user.apps[0]?thc.user.apps[0].id:null));
-    if (!thc.can('app_r') || thc.user.apps.length == 0) {
+    if (this.isAdmin()){
+      this.$router.push('admin_app');
+    }
+    else if (!thc.can('app_r') || thc.user.apps.length == 0) {
       this.$router.push('apply');
     }
   }

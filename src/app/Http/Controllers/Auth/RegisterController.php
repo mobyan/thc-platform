@@ -51,6 +51,7 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'invite-code' => 'required',
         ]);
     }
 
@@ -62,10 +63,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $code = $data['invite-code'];
+        if(Invite::isValid($code)){
+          $invitation = Invite::get($code);
+          $user = User::create([
+              'name' => $data['name'],
+              'email' => $data['email'],
+              'password' => bcrypt($data['password']),
+          ]);
+          !$user->has('apps', $invitation->app_id) && $user->apps()->attach($invitation->app_id, array('regioncode' => $invitation->regioncode));
+          return $user;
+        }
+
     }
 }
