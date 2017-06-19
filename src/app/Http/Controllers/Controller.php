@@ -24,7 +24,7 @@ class Controller extends BaseController
     ];
 
     static $sys_root_models = ['user', 'app', 'apply', 'role'];
-    static $app_root_models = [\App\Station::class, \App\Invitation::class];
+    static $app_root_models = [\App\Station::class];
 
     static $permissions = [];
 
@@ -33,9 +33,9 @@ class Controller extends BaseController
         $this->middleware('auth.resource');
     }
 
-    public function __construct_regioncodes($regioncode){
-      return "regioncode like ".$regioncode."%";
-    }
+    //public function __construct_regioncodes($regioncode){
+    //  return "regioncode like ".$regioncode."%";
+    //}
     /**
      * Display a listing of the resource.
      *
@@ -47,11 +47,11 @@ class Controller extends BaseController
         $this->assertPermissions('index');
         if ($this->user()->app_id != 0 && in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->user()->app_id];
-            $regioncodes = json_decode($this->user()->regioncodes);
-            foreach($regioncodes as $regioncode){
-              $whereLike = isset($whereLike)? $whereLike.' or regioncode like "'.$regioncode.'%"':'regioncode like "'.$regioncode.'%"';
-            }
-            Log::info($whereLike);
+            $code = \App\RCode::find($this->user()->rcode_id);
+            $whereLike = 'rcode like "'.$code->code.'%"';
+            //$whereLike = isset($whereLike)? $whereLike.' or regioncode like "'.$code.'%"':'regioncode like "'.$code.'%"';
+
+            //Log::info($whereLike);
             //$wherelike = ['regioncode', ];
         }
         $limit = Request::input('limit', 20);
@@ -122,7 +122,7 @@ class Controller extends BaseController
         if (!empty(static::$permissions)) {
             $permissions = isset(static::$permissions[$action]) ? static::$permissions[$action]: @static::$permissions['all'];
             if (!$permissions) return;
-            $this->user()->allows($permissions, false, $this->user()->app_id?:0) || \App::abort(403);
+            $this->user()->allows($permissions, false) || \App::abort(403);
         }
     }
 

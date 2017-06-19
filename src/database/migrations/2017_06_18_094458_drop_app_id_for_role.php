@@ -16,8 +16,9 @@ class DropAppIdForRole extends Migration
         Schema::table('roles', function (Blueprint $table) {
             //
             $table->dropIndex('roles_name_app_unique');
-            $table->unique('name');
             $table->dropColumn('app_id');
+            $table->string('rcode');
+            $table->unique(['name','rcode'], 'roles_name_rcode_unique');
         });
     }
 
@@ -30,8 +31,9 @@ class DropAppIdForRole extends Migration
     {
         Schema::table('roles', function (Blueprint $table) {
             //
+            $table->dropIndex('roles_name_rcode_unique');
+            $table->dropColumn('rcode');
             $table->integer('app_id')->default(0);
-            $table->dropIndex('roles_name_unique');
             $table->unique(['name', 'app_id'], 'roles_name_app_unique');
         });
     }

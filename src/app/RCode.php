@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RegionCode extends Model
+class RCode extends Model
 {
     //
-    protected $table = 'region_code';
+    protected $table = 'rcode';
 
     
 }

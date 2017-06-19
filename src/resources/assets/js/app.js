@@ -42,11 +42,11 @@ const router = new VueRouter({
   routes
 })
 
-window.thc.can = function(permission_name, app_id) {
-  app_id = app_id !== undefined ? app_id: Cookie.get('currentApp');
+window.thc.can = function(permission_name, rcode_id) {
+  rcode_id = rcode_id !== undefined ? rcode_id: Cookie.get('currentRCode');
   for (var r in thc.user.roles) {
     var role = thc.user.roles[r]
-    if (role.app_id != app_id) continue;
+    if (role.rcode_id != rcode_id) continue;
     for (var p in role.permissions) {
       var permission = role.permissions[p]
       if (permission.name == permission_name) {
@@ -79,11 +79,11 @@ window.app = new Vue({
   },
   router,
   created: function() {
-    Cookie.set('currentApp', Cookie.get('currentApp') || (thc.user.apps[0]?thc.user.apps[0].id:null));
+    Cookie.set('currentRCode', Cookie.get('currentRCode') || (thc.user.rcodes[0]?thc.user.rcodes[0].id:null));
     if (this.isAdmin()){
-      this.$router.push('admin_app');
+      this.$router.push('admin-app');
     }
-    else if (!thc.can('app_r') || thc.user.apps.length == 0) {
+    else if (!thc.can('app_r') || thc.user.rcodes.length == 0) {
       this.$router.push('apply');
     }
   }

@@ -1,26 +1,47 @@
 <template>
     <div>
-      <form>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" v-model="user.name" disabled class="form-control" id="name" placeholder="name">
-        </div>
-        <div class="form-group">
-            <label for="type">Email</label>
-            <input type="text" v-model="user.email" disabled class="form-control" id="type" placeholder="type">
-        </div>
-        <div class="form-group">
-            <label for="type">AppId</label>
-            <select class="form-control" v-model="user.app_id">
-              <option v-for="app in apps" :value="app.id" >{{app.name}}</option>
-          </select>
+      <div id='qlink'>
+        <router-link :to="admin-user">
+                <img src="/image/tableg.png">
+                用户列表
+              </router-link>
       </div>
-      <div class="form-group">
-        <label for="type">Roles</label>
-        <select class="form-control" v-model="user.roles" multiple>
-          <option v-for="role in roles" :value="role.id" >{{role.name}}</option>
-      </select>
-  </div>
+      <!--用户基本信息-->
+      <div class="panel panel-default panel-primary">
+        <div class="panel-heading" >
+            <h3 class="panel-title">基本信息</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="name">名称</label>
+                <input type="text" v-model="user.name" :disabled="!editing" class="form-control" id="name" placeholder="名称">
+            </div>
+            
+        </div>
+      </div>
+      <form>
+         <div class="form-group">
+            <label for="name">名称</label>
+            <input type="text" v-model="user.name" :disabled="!editing" class="form-control" id="name" placeholder="名称">
+         </div>
+         <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="text" v-model="user.email" :disabled="!editing" class="form-control" id="email" placeholder="邮箱">
+         </div>
+         <div class="form-group">
+            <label for="phone">手机</label>
+            <input type="text" v-model="user.phone" :disabled="!editing" class="form-control" id="phone" placeholder="手机">
+         </div>
+         <div class="form-group" v-if="isAdmin">
+            <label for="app_id">所属产品线</label>
+            <select class="form-control" v-model="user.app_id" :disabled="!editing">
+              <option v-for="app in apps" :value="app.id" >{{app.name}}</option>
+            </select>
+         </div>
+         <div class="form-group">
+            <label for="belongs_code">所属区划</label>
+            <input type="text" v-model="user.belongs_code" :disabled="!editing" id="belongs_code" placeholder="区划代码">
+         </div>
   <button type="submit" @click.prevent="save()" class="btn btn-default">Submit</button>
 </form>
 </div>
@@ -30,6 +51,7 @@
     export default {
         data : () => {
             return {
+                isAdmin: thc.can('sys_w',0);
                 user: {app_id:1, roles:[]},
                 apps:[],
                 roles:[],

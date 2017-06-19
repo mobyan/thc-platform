@@ -23,16 +23,16 @@ class AuthResource {
         $isApi = $req->is('api/*');
         $params = $req->route()->parameters();
         $root_model = $req->segment(2);
-        $app_id = $req->header('X-APP-ID', $req->input('app_id'));
-        if ($req->user()->roles()->where('name','=','super')->first()){
-          $req->user()->app_id = 0;
-        }
-        elseif ($isApi && $root_model == 'station') {
-            $req->user()->app_id = $app_id;
+        $rcode_id = $req->header('X-RCODE', $req->input('rcode_id'));
+        //if ($req->user()->roles()->where('name','=','super')->first()){
+        //  $req->user()->app_id = 0;
+        //}
+        if ($isApi && $root_model == 'station') {
+            $req->user()->rcode_id = $rcode_id;
             //echo $req->user()->apps_with_regioncode()->where('app_id','=',$app_id)->get();
-            $req->user()->regioncodes= $req->user()->apps_with_regioncode()->where('app_id','=',$app_id)->first()->pivot->regioncodes;
-            $this->assertOwnership($req, $app_id);
-            $this->assertRelationship(['app'=>$app_id] + $params);
+            //$req->user()->codes= $req->user()->apps_with_regioncode()->where('app_id','=',$app_id)->first()->pivot->regioncodes;
+            $this->assertOwnership($req, $req->user()->app_id);
+            $this->assertRelationship(['app'=>$req->user()->app_id] + $params);
         }
         return $next($req);
     }
@@ -75,7 +75,7 @@ class AuthResource {
     }
 
     public function assertOwnership($req, $app_id) {
-        if (!$req->user()->has('apps', $app_id)) {
+        if ($req->user()->app()->id !=$app_id) {
             abort(403, "Resource access denied");
         }
     }

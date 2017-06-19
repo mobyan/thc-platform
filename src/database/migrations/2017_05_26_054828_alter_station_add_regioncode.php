@@ -15,7 +15,7 @@ class AlterStationAddRegioncode extends Migration
     {
         Schema::table('station', function (Blueprint $table) {
             //
-            $table->string('regioncode');
+            $table->string('rcode');
         });
     }
 
@@ -28,7 +28,7 @@ class AlterStationAddRegioncode extends Migration
     {
         Schema::table('station', function (Blueprint $table) {
             //
-            $table->dropColumn('regioncode');
+            $table->dropColumn('rcode');
         });
     }
 }

@@ -16,6 +16,7 @@ class AlterAddAppidForUser extends Migration
         Schema::table('user', function (Blueprint $table) {
             //
             $table->integer('app_id')->unsigned()->default(0);
+            $table->string('belongs_code');
         });
     }
 
@@ -29,6 +30,7 @@ class AlterAddAppidForUser extends Migration
         Schema::table('user', function (Blueprint $table) {
             //
             $table->dropColumn('app_id');
+            $table->dropColumn('belongs_code');
         });
     }
 }

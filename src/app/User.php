@@ -33,15 +33,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function apps()
-    {
-        return $this->belongsToMany('App\App');
+    //public function apps()
+    //{
+    //    return $this->belongsToMany('App\App');
+    //}
+
+    public function rcodes(){
+        return $this->belongsToMany('App\RCode');
     }
 
-    public function apps_with_regioncode(){
-        return $this->belongsToMany('App\App')->withPivot('regioncodes');
-    }
-
+    //public function apps_with_regioncode(){
+    //    return $this->belongsToMany('App\App')->withPivot('regioncodes');
+    //}
     public function download_jobs()
     {
         return $this->hasMany('App\DownloadJob');
@@ -53,7 +56,9 @@ class User extends Authenticatable
         return $this->hasOne('App\UserProfile');
     }
 
-
+    public function app(){
+        return $this->belongsTo('App\App');
+    }
     /**
      * has relationship
      * @param  string  $model model name
@@ -69,12 +74,12 @@ class User extends Authenticatable
         return false;
     }
 
-    public function allows($permission, $requireAll = false, $app_id)
+    public function allows($permission, $requireAll = false)
     {
         //Log::info($permission);
         if (is_array($permission)) {
             foreach ($permission as $permName) {
-                $hasPerm = $this->allows($permName, false, $app_id);
+                $hasPerm = $this->allows($permName, false);
 
                 if ($hasPerm && !$requireAll) {
                     return true;
@@ -90,7 +95,7 @@ class User extends Authenticatable
         } else {
             foreach ($this->roles as $role) {
                 // Validate against the Permission table
-                if ($role->app_id != $app_id) continue;
+                //if ($role->app_id != $app_id) continue;
                 foreach ($role->perms as $perm) {
                     if ($perm->name == $permission) {
                         return true;
