@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id='qlink'>
-      <router-link to="/admin_station">
+      <router-link to="/admin/station">
         <img src="/image/tableg.png">
         站点列表
       </router-link>
@@ -18,14 +18,19 @@
           <div class="col-md-8">
             <form>
               <div class="form-group"><label>ID</label><input disabled type="text" class="form-control" v-model="station.id"></div>
-              <div class="form-group"><label>公司生产线</label><select :disabled="!editing" v-model="station.app_id" ><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select></div>
+              <div class="form-group"><label>产品线</label>
+                  <select v-model="station.app_id" style="z-index: 9999; position: relative;"><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>
+              </div>
               <div class="form-group"><label>名称</label><input :disabled="!editing" type="text" class="form-control" v-model="station.name"></div>
               <div class="form-group"><label>类型</label><input :disabled="!editing" type="text" class="form-control" v-model="station.type"></div>
               <div class="form-group"><label>地址</label><input :disabled="!editing" type="text" class="form-control" v-model="station.location"></div>
               <div class="form-group"><label>纬度</label><input :disabled="!editing" type="text" class="form-control" v-model="station.lat"></div>
               <div class="form-group"><label>经度</label><input :disabled="!editing" type="text" class="form-control" v-model="station.lon"></div>
               <div class="form-group"><label>高度</label><input :disabled="!editing" type="text" class="form-control" v-model="station.alt"></div>
-              <div class="form-group"><label>区划</label><input :disabled="!editing" type="text" class="form-control" v-model="station.region_code.merged_name"></div>
+              <div class="form-group"><label>区划</label>
+                <input :disabled="true" type="text" v-model="station.code" class="form-control">
+                <code_view v-show="editing" v-on:codeChangedEvent="codeChanged"></code_view>
+              </div>
               <div class="form-group"><label>状态</label><input disabled type="text" class="form-control" v-model="station.status"></div>
               <template v-if="editable">
                   <button v-if="editing" type="submit" @click.prevent="save()" class="btn btn-primary">确定</button>
@@ -54,18 +59,26 @@
 
 <script>
 import bootbox from 'bootbox'
+import code_view from './code_view.vue'
     export default {
       data: function () {
         return {
           station: {},
+          apps: [],
           editing: false,
           editable: thc.can('sys_w',0),
           isCreate: false,
-          fillable: ['name', 'type', 'location', 'lon', 'lat', 'alt', 'regioncode','app_id'],
-          apps:[],
+          fillable: ['name', 'type', 'location', 'lon', 'lat', 'alt', 'app_id', 'code'],
+          dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
       }
   },
+  components:{
+    code_view,
+  },
   methods: {
+    codeChanged: function(data){
+      this.station.code = data;
+    },
     save: function () {
         if (this.isCreate) {
             this.$http.post('/api/station', this.station, {params:{alert:'新建站点'}}).then(function (res) {
@@ -78,7 +91,7 @@ import bootbox from 'bootbox'
                 })
             });
         } else {
-            this.$http.put('/api/station/'+this.station.id, _.pick(this.station, this.fillable), {params:{alert:'更新站点信息'}}).then(function () {
+            this.$http.put('/api／station/'+this.station.id, _.pick(this.station, this.fillable), {params:{alert:'更新站点信息'}}).then(function () {
                 this.editing = !this.editing;
             });
         }
@@ -90,14 +103,6 @@ import bootbox from 'bootbox'
         }, {});
         this.isCreate = true;
         this.editing = !this.editing;
-        var self = this;
-        this.$http.get('/api/app').then(function(res){
-          self.apps = res.body.items;
-          if($.isEmptyObject(self.station)){
-            self.station.app_id = self.apps[0].id;
-          }
-        });
-
     },
     cancel_station: function() {
       if (this.$route.params.station == '0') {
@@ -111,21 +116,29 @@ import bootbox from 'bootbox'
         var self = this;
         bootbox.confirm('确认删除？', function (result) {
             if (result) {
-                self.$http.delete('/api/station/' + self.$route.params.station).then(function () {
-                    this.$router.push({name:'admin-stations'});
+                self.$http.delete('/api' + self.$route.path).then(function () {
+                    this.$router.push({name:'stations'});
                 })
             }
       })
     },
     load: function () {
-      this.$http.get('/api/station/'+this.$route.params.station+'?with=regionCode').then(function (res) {
-        this.station = res.body;
-      });
-      var self = this;
-      this.$http.get('/api/app').then(function(res){
-        self.apps = res.body.items;
-      });
+      if(this.$route.params.station == 0){
+        return;
+      }
+      else{
+        this.$http.get('/api/station/'+this.$route.params.station).then(function (res) {
+          this.station = res.body;
+        })
+      }
     }
+  },
+  created:function(){
+    var self = this;
+    this.$http.get('/api/app').then(function(res){
+      self.apps = res.body.items;
+      console.log(self.apps);
+    });
   },
   watch: {
     '$route': 'load',

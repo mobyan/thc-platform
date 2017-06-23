@@ -1,3 +1,4 @@
+
 import dashboard from './components/dashboard.vue'
 import stations from './components/stations.vue'
 import station from './components/station.vue'
@@ -5,6 +6,7 @@ import header from './components/header.vue'
 import admin_header from './components/admin_header.vue'
 import header_none from './components/header_none.vue'
 import devices from './components/devices.vue'
+import code_view from './components/code_view.vue'
 import analyze from './components/analyze.vue'
 import map from './components/map.vue'
 import user from './components/user.vue'
@@ -18,17 +20,7 @@ var data_download = require('./components/download.vue')
 
 const routes = [{
   path: '/',
-  redirect: '/map'
-}, {
-  path: '/admin',
-  components: {
-    // default: stations,
-    default: index,
-    header: header,
-  },
-  props: {
-    header: {title: '站点列表'},
-  }
+  redirect: '/app'
 }, {
   name: 'stations',
   path: '/station',

@@ -13,7 +13,7 @@ class RegionCode extends Migration
      */
     public function up()
     {
-        Schema::create('rcode', function (Blueprint $table) {
+        Schema::create('codes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
             $table->string('parent_code');
@@ -30,6 +30,6 @@ class RegionCode extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rcode');
+        Schema::dropIfExists('codes');
     }
 }

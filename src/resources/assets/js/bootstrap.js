@@ -28,14 +28,13 @@ window.Cookie = require('js-cookie');
  * the outgoing requests issued by this application. The CSRF middleware
  * included with Laravel will automatically verify the header's value.
  */
-
 Vue.http.interceptors.push((request, next) => {
     request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
     next();
 });
 
 Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-APP-ID', Cookie.get('currentApp'));
+    request.headers.set('X-CODE', Cookie.get('currentCode'));
     next();
 });
 

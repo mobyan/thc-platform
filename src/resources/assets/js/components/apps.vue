@@ -6,8 +6,8 @@
       <label>公司名称</label>
       <input :disabled="!editing" type="text" class="form-control" v-model="newApp.name">
     </div>
-    <button type="submit" v-if="!editing" @click="createApp" class="btn btn-default">添加</button>
-    <button type="submit" v-else @click="saveApp" class="btn btn-default">保存</button>
+    <button type="submit" v-if="!editing" @click.prevent="createApp" class="btn btn-default">添加</button>
+    <button type="submit" v-else @click.prevent="saveApp" class="btn btn-default">保存</button>
   </form>
 </div>
 

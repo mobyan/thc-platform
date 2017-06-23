@@ -15,7 +15,9 @@ class UserController extends Controller
     'update' => ['app_r', 'sys_w'],
     'store' => ['sys_w'],
     'my' => ['app_r'],
-    'index' => ['sys_w']
+    'index' => ['sys_w'],
+    'attach' => ['app_w', 'sys_w'],
+    'detach' => ['app_w', 'sys_w'],
     ];
     /**
      * Display a listing of the resource.
@@ -24,10 +26,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->input('app_id')){
+      if($request->input('app_id')){
+        return $this->_index(['app_id','=',$request->input('app_id')]);
+      }
 
-        }
-        return $this->_index();
+      return $this->_index();
     }
 
     /**
@@ -107,5 +110,17 @@ class UserController extends Controller
     public function my(Request $req) {
         $this->assertPermissions('my');
         return $req->user()->load('roles.permissions', 'apps');
+    }
+
+    public function attach(Request $req){
+        $this->assertPermissions('attach');
+        User::find($req['user_id'])->roles()->attach($req['role_id']);
+        User::find($req['user_id'])->codes()->attach($req['code_id']);
+    }
+
+    public function detach(Request $req){
+        $this->assertPermissions('detach');
+        User::find($req['user_id'])->roles()->detach($req['role_id']);
+        User::find($req['user_id'])->codes()->detach($req['code_id']);
     }
 }

@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'app_id'
+        'name', 'email', 'password', 'app_id','code','phone'
     ];
 
     /**
@@ -38,8 +38,12 @@ class User extends Authenticatable
     //    return $this->belongsToMany('App\App');
     //}
 
-    public function rcodes(){
-        return $this->belongsToMany('App\RCode');
+    public function codes(){
+        return $this->belongsToMany('App\Code');
+    }
+
+    public function bcode(){
+        return $this->hasOne('App\Code','code','code');
     }
 
     //public function apps_with_regioncode(){

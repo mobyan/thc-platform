@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index(Request $req)
     {
-        $user = $req->user()->load('roles.permissions', 'rcodes');
+        $user = $req->user()->load('roles.permissions', 'codes');
         View::share('user', $user);
         return view('home');
     }

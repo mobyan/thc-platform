@@ -47,8 +47,8 @@ class Controller extends BaseController
         $this->assertPermissions('index');
         if ($this->user()->app_id != 0 && in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->user()->app_id];
-            $code = \App\RCode::find($this->user()->rcode_id);
-            $whereLike = 'rcode like "'.$code->code.'%"';
+            $code = \App\RCode::find($this->user()->code_id);
+            $whereLike = 'code like "'.$code->code.'%"';
             //$whereLike = isset($whereLike)? $whereLike.' or regioncode like "'.$code.'%"':'regioncode like "'.$code.'%"';
 
             //Log::info($whereLike);

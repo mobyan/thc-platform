@@ -8,7 +8,7 @@ class Station extends Base
 {
     protected $table = 'station';
 
-    protected $fillable = ['name', 'type', 'location', 'lon', 'lat', 'alt', 'app_id','regioncode'];
+    protected $fillable = ['name', 'type', 'location', 'lon', 'lat', 'alt', 'app_id','code'];
 
     public function devices() {
         return $this->hasMany('App\Device');
@@ -16,8 +16,8 @@ class Station extends Base
     public function app(){
         return $this->hasOne('App\App','id','app_id');
     }
-    public function regionCode(){
-      return $this->hasOne('App\RegionCode','code','regioncode');
+    public function code(){
+      return $this->hasOne('App\Code','code','code');
     }
     public function getAllDataKeys() {
         $keys = [];

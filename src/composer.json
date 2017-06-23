@@ -12,7 +12,8 @@
         "guzzlehttp/guzzle":"~5.3|~6.0",
         "upyun/sdk": "^2.2",
         "yangyifan/upload": "v0.2",
-        "junaidnasir/larainvite": "^0.1.8"
+        "junaidnasir/larainvite": "^0.1.8",
+        "tom-lingham/searchy" : "2.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

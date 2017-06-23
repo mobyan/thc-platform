@@ -24,6 +24,10 @@ Route::resource('user', 'UserController', ['only' => [
     'index', 'show', 'store', 'update',
 ]]);
 
+Route::post('user/detach', 'UserController@detach');
+
+Route::post('user/attach', 'UserController@attach');
+
 Route::resource('user_profile', 'UserProfileController', ['only' => [
     'index', 'update',
 ]]);
@@ -39,10 +43,12 @@ Route::resource('app', 'AppController', ['only' => [
     'index', 'show', 'store', 'update', 'destroy',
 ]]);
 
-Route::resource('region', 'RegionController',['only' =>[
-  'index','show'
-  ]]);
-Route::get('sub_region', 'RegionController@subRegion');
+//Route::resource('code', 'CodeController',['only' =>[
+//  'index','show'
+//  ]]);
+Route::resource('code','CodeController',['only'=>['index']]);
+
+Route::get('code/search', 'CodeController@search');
 
 Route::get('station/schema', 'StationController@schema');
 Route::resource('station', 'StationController', ['only' => [

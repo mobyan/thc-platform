@@ -1,5 +1,9 @@
 <template>
 <div>
+  <div v-if="apps.length > 1" style="float: right;">
+    <label>产品线：</label><select v-model="currentApp" style="z-index: 9999; position: relative;"><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>&nbsp;&nbsp;&nbsp;
+    <button @click="search">搜索</button>
+  </div>
   <div class="">
     <table class="table table-bordered table-striped table-hover">
       <tbody>
@@ -14,9 +18,8 @@
           <td>{{ usr.name }}</td>
           <td>{{ usr.email }}</td>
           <td>{{ usr.phone }}</td>
-          <td>{{ usr.brcode.merged_name}}</td>
+          <td>{{ usr.bcode.merged_name}}</td>
           <td>
-            <router-link :to="'/admin/user/'+usr.id/reset"><img height="20" src="/image/info.png" class="signal"></router-link>
             <router-link :to="'/admin/user/'+usr.id"><img height="20" src="/image/dashboard.png" class="signal"></router-link>
             <span @click="removeUser(usr,index)"><img width="16px" height="16px" src="/image/remove.png"></span>
           </td>
@@ -34,20 +37,33 @@
   export default {
     data: function () {
       return {
-        editable: thc.can('app_w')|| thc.can('sys_w',0),
-        isAdmin: thc.can('sys_w', 0),
+        editable: thc.can('sys_w',0),
         users: [],
+        apps:[],
+        currentApp: null,
       }
     },
     created: function () {
       var self = this;
-      this.$http.get('/api/user').then(function(res){
-        self.users = res.body.items;
+      this.$http.get('/api/app').then(function(res){
+        self.apps = res.body.items;
+        self.currentApp = self.apps[0].id;
+      }).then(function(){
+        this.$http.get('/api/user?with=bcode&app_id='+self.currentApp).then(function(res){
+          self.users = res.body.items;
+        });
       });
+
     },
     methods: {
         go: function () {
             this.$router.push({name:'admin-user', params:{user:0}, query: {op:'create'}})
+        },
+        search: function(){
+            var self = this;
+            this.$http.get('/api/user?with=bcode&app_id='+this.currentApp).then(function(res){
+              self.users = res.body.items;
+            })
         }
     }
   }

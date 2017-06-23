@@ -16,7 +16,6 @@
                 <label for="name">名称</label>
                 <input type="text" v-model="user.name" :disabled="!editing" class="form-control" id="name" placeholder="名称">
             </div>
-            
         </div>
       </div>
       <form>
@@ -51,7 +50,7 @@
     export default {
         data : () => {
             return {
-                isAdmin: thc.can('sys_w',0);
+                isAdmin: thc.can('sys_w',0),
                 user: {app_id:1, roles:[]},
                 apps:[],
                 roles:[],
