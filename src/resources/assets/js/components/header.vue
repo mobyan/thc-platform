@@ -4,8 +4,8 @@
       <div id="title" style="float: left;">
       <span style="font-weight:bold; font-size: 16px;">{{title}} </span>
       </div>
-      <div v-if="user.rcodes.length > 1 && currentRCode" style="float: right;">
-        <label>当前区域：</label><select v-if="user" v-model="currentRCode" style="z-index: 9999; position: relative;"><option v-for="(rcode, index) in user.rcodes" :value="rcode.id">{{rcode.id}} - {{rcode.merged_name}}</option></select>&nbsp;&nbsp;&nbsp;
+      <div v-if="user.codes.length > 1 && currentRCode" style="float: right;">
+        <label>当前区域：</label><select v-if="user" v-model="currentRCode" style="z-index: 9999; position: relative;"><option v-for="(code, index) in user.codes" :value="code.id">{{code.id}} - {{code.merged_name}}</option></select>&nbsp;&nbsp;&nbsp;
       <!--<button class="btn btn-primary btn-xs" @click="back()">
         <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> 返回</button>-->
       </div>
@@ -15,23 +15,23 @@
 
   </div>
 </template>
-<script >
+<script>
   export default {
     props: ['title'],
     data: function () {
       return {
-        currentRCode: Cookie.get('currentRCode'),
+        currentCode: Cookie.get('currentCode'),
         user: thc.user,
       }
     },
     watch: {
       currentRCode: function () {
-        Cookie.set('currentRCode',this.currentRCode);
+        Cookie.set('currentRCode',this.currentCode);
         location.href = '/';
       }
     },
     created: function () {
-      Cookie.set('currentRCode', Cookie.get('currentRCode') || (thc.user.rcodes[0]?thc.user.rcodes[0].id:null));
+      Cookie.set('currentRCode', Cookie.get('currentRCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
     },
     methods: {
       back: function () {

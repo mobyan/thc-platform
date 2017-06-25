@@ -45,7 +45,9 @@ class User extends Authenticatable
     public function bcode(){
         return $this->hasOne('App\Code','code','code');
     }
-
+    public function roles(){
+        return $this->belongsToMany('App\Role');
+    }
     //public function apps_with_regioncode(){
     //    return $this->belongsToMany('App\App')->withPivot('regioncodes');
     //}

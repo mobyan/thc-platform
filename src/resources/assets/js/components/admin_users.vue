@@ -14,14 +14,14 @@
           <th>区划</th>
           <th>操作</th>
         </tr>
-        <tr v-for="(usr, index) in users" class="">
+        <tr v-for="(usr, i) in users" class="">
           <td>{{ usr.name }}</td>
           <td>{{ usr.email }}</td>
           <td>{{ usr.phone }}</td>
           <td>{{ usr.bcode.merged_name}}</td>
           <td>
             <router-link :to="'/admin/user/'+usr.id"><img height="20" src="/image/dashboard.png" class="signal"></router-link>
-            <span @click="removeUser(usr,index)"><img width="16px" height="16px" src="/image/remove.png"></span>
+            <span @click="remove(usr,i)"><img width="16px" height="16px" src="/image/remove.png"></span>
           </td>
         </tr>
              <tr v-if="editable"><td style="text-align: right;" colspan="7">
@@ -63,6 +63,12 @@
             var self = this;
             this.$http.get('/api/user?with=bcode&app_id='+this.currentApp).then(function(res){
               self.users = res.body.items;
+            })
+        },
+        remove: function(usr, i){
+            var self = this;
+            this.$http.delete('/api/user/'+usr.id).then(function(res){
+              self.users.splice(i, 1);
             })
         }
     }

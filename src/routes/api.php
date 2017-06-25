@@ -20,17 +20,21 @@ Route::resource('apply', 'ApplyController', ['only' => [
     'index', 'show', 'store'
 ]]);
 
-Route::resource('user', 'UserController', ['only' => [
-    'index', 'show', 'store', 'update',
-]]);
 
+//user
 Route::post('user/detach', 'UserController@detach');
 
 Route::post('user/attach', 'UserController@attach');
 
+Route::resource('user', 'UserController', ['only' => [
+    'index', 'show', 'store', 'update', 'destroy'
+]]);
+
 Route::resource('user_profile', 'UserProfileController', ['only' => [
     'index', 'update',
 ]]);
+
+
 Route::resource('invitation','InviteController',['only' => ['index','show','update','store','destroy',
 ]]);
 
@@ -46,9 +50,10 @@ Route::resource('app', 'AppController', ['only' => [
 //Route::resource('code', 'CodeController',['only' =>[
 //  'index','show'
 //  ]]);
-Route::resource('code','CodeController',['only'=>['index']]);
-
 Route::get('code/search', 'CodeController@search');
+Route::resource('code','CodeController',['only'=>['index', 'show']]);
+
+
 
 Route::get('station/schema', 'StationController@schema');
 Route::resource('station', 'StationController', ['only' => [

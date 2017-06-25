@@ -42,7 +42,7 @@ export default{
       searchThis: function(index) {
             this.search = this.codes[index];
             console.log(this.search.code);
-            this.$emit("codeChangedEvent", this.search.code);
+            this.$emit("codeChangedEvent", this.search);
             this.isShow=!this.isShow;
         },
 

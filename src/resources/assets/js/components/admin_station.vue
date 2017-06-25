@@ -77,7 +77,7 @@ import code_view from './code_view.vue'
   },
   methods: {
     codeChanged: function(data){
-      this.station.code = data;
+      this.station.code = data.code;
     },
     save: function () {
         if (this.isCreate) {

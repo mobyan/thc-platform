@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Validator;
+
 
 class UserController extends Controller
 {
@@ -16,6 +18,7 @@ class UserController extends Controller
     'store' => ['sys_w'],
     'my' => ['app_r'],
     'index' => ['sys_w'],
+    'destroy' => ['sys_w'],
     'attach' => ['app_w', 'sys_w'],
     'detach' => ['app_w', 'sys_w'],
     ];
@@ -33,6 +36,14 @@ class UserController extends Controller
       return $this->_index();
     }
 
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -52,10 +63,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            ]);
-        $body = $request->all();
+        $this->validator($request->all());
 
+        $body = $request->all();
+        $body['password']= bcrypt($body['password']);
         return $this->_store($body);
     }
 
@@ -67,6 +78,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
+
+        //$user = $this->_show($id);
+        //return $user->load('roles.code');
         return $this->_show($id);
     }
 
@@ -105,6 +119,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        return $this->_destroy($id);
     }
 
     public function my(Request $req) {
@@ -114,13 +129,19 @@ class UserController extends Controller
 
     public function attach(Request $req){
         $this->assertPermissions('attach');
-        User::find($req['user_id'])->roles()->attach($req['role_id']);
-        User::find($req['user_id'])->codes()->attach($req['code_id']);
+        static::$model::find($req['user_id'])->roles()->attach($req['role_id']);
+        static::$model::find($req['user_id'])->codes()->attach($req['code_id']);
+        $user = static::$model::with('roles.code')->find($req['user_id']);
+        //$user->load('roles.code');
+        return $user;
     }
 
     public function detach(Request $req){
         $this->assertPermissions('detach');
-        User::find($req['user_id'])->roles()->detach($req['role_id']);
-        User::find($req['user_id'])->codes()->detach($req['code_id']);
+        static::$model::find($req['user_id'])->roles()->detach($req['role_id']);
+        static::$model::find($req['user_id'])->codes()->detach($req['code_id']);
+        //$user = static::$model::load('roles.code');
+
+        //return $user;
     }
 }

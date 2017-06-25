@@ -80,11 +80,8 @@ window.app = new Vue({
   router,
   created: function() {
     Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
-    if (this.isAdmin()){
-      this.$router.push('admin-app');
-    }
-    else if (!thc.can('app_r') || thc.user.codes.length == 0) {
-      this.$router.push('apply');
-    }
+    //if (!thc.can('app_r') || thc.user.codes.length == 0) {
+    //  this.$router.push('apply');
+    //}
   }
 })

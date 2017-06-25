@@ -20,7 +20,7 @@ var data_download = require('./components/download.vue')
 
 const routes = [{
   path: '/',
-  redirect: '/app'
+  redirect: '/map'
 }, {
   name: 'stations',
   path: '/station',

@@ -47,7 +47,7 @@ class Controller extends BaseController
         $this->assertPermissions('index');
         if ($this->user()->app_id != 0 && in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->user()->app_id];
-            $code = \App\RCode::find($this->user()->code_id);
+            $code = \App\Code::find($this->user()->code_id);
             $whereLike = 'code like "'.$code->code.'%"';
             //$whereLike = isset($whereLike)? $whereLike.' or regioncode like "'.$code.'%"':'regioncode like "'.$code.'%"';
 
@@ -86,8 +86,12 @@ class Controller extends BaseController
         $model = static::$model;
         $with = Request::input('with');
         if ($with) {
+            if (str_contains($with,',')) {
+                $with = explode(',', $with);
+            }
             $model = call_user_func([$model, 'with'], $with);
         }
+
         return call_user_func([$model, 'find'], $id);
     }
 

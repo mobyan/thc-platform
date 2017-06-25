@@ -15,7 +15,7 @@ class AppController extends Controller
     'update' => ['sys_w'],
     'store' => ['sys_w'],
     'index' => ['sys_r'],
-    'destroy' => ['sys_r'],
+    'destroy' => ['sys_w'],
     ];
 
     /**

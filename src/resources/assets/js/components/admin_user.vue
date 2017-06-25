@@ -1,7 +1,7 @@
 <template>
     <div>
       <div id='qlink'>
-        <router-link :to="/admin/user">
+        <router-link to="/admin/user">
           <img src="/image/tableg.png">
             用户列表
         </router-link>
@@ -28,6 +28,15 @@
                 <div class="form-group">
                    <label for="phone">手机</label>
                    <input type="text" v-model="user.phone" :disabled="!editing" class="form-control" id="phone" placeholder="手机">
+                </div>
+                <div class="form-group" v-if="isCreate">
+                    <label for="password">密码</label>
+                    <input id="password" type="password" class="form-control" name="password" v-model="user.password" required>
+                </div>
+
+                <div class="form-group" v-if="isCreate">
+                    <label for="password-confirm">密码确认</label>
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="user.password_confirmation" required>
                 </div>
                 <div class="form-group">
                    <label for="app_id">所属产品线</label>
@@ -60,33 +69,33 @@
         <div class="panel-body">
             <div class="panel">
               <div class="form-group"><label>区划</label>
-                <input :disabled="true" type="text" v-model="code" class="form-control">
-                <code_view v-show="editing" v-on:codeChangedEvent="codeChanged"></code_view>
+                <input :disabled="true" type="text" v-model="code.merged_name" class="form-control">
+                <code_view v-on:codeChangedEvent="watchedCodeChanged"></code_view>
               </div>
-              <div class="form-group"><label>权限</label>
+              <div class="form-group" v-if="code"><label>权限</label>
                 <select class="form-control" v-model="role">
-                    <option v-for="(role, i) in code.roles" :value="role">{{role.display_name}}</option>
+                    <option v-for="cr in code.roles" :value="cr">{{cr.display_name}}</option>
                 </select>
               </div>
               <button type="submit" @click.prevent="attach" class="btn btn-primary">提交</button>
             </div>
             <div>
-              <tabel class="table table-bordered table-striped table-hover">
+              <table class="table table-bordered table-striped table-hover" v-if="user.roles">
                 <tbody>
                   <tr class="fatal">
                     <th>区划</th>
                     <th>权限</th>
                     <th>操作</th>
                   </tr>
-                  <tr v-for="(role, index) in user.roles">
-                    <td>{{ role.code.merged_name}}</td>
-                    <td>{{ role.display_name}}</td>
+                  <tr v-for="(r, i) in user.roles">
+                    <td>{{ r.code.merged_name}}</td>
+                    <td>{{ r.display_name}}</td>
                     <td style="vertical-align: middle;width:33px;">
-                      <span @click="remove(role, index)"><img width="16px" height="16px" src="/image/remove.png"></span>
+                      <span @click="detach(r, i)"><img width="16px" height="16px" src="/image/remove.png"></span>
                     </td>
                   </tr>
                 </tbody>
-              </tabel>
+              </table>
             </div>
         </div>
 </div>
@@ -102,8 +111,10 @@
                 user: {app_id:1, roles:[]},
                 apps:[],
                 roles:[],
-                code: null,
+                code: {"merged_name":"  "},
                 role: null,
+                isCreate:false,
+                editing: false
             }
         },
         components:{
@@ -111,25 +122,37 @@
         },
         created: function () {
             var self = this;
-            $.when(this.$http.get('/api/app/'),this.$http.get('/api/role/'), this.$http.get('/api/user/' + this.$route.params.user+'?with=roles')).then(function (apps, roles, user) {
-                user.body.roles = _.map(user.body.roles, (v) => {
-                    return v.id
-                });
-                self.apps = apps.body.items;
-                self.roles = roles.body.items;
-                self.user = user.body;
-            })
+            this.$http.get('/api/app').then(function(res){
+              self.apps = res.body.items;
+            });
+        },
+        mounted: function () {
+          if (this.$route.query.op == 'create') {
+            this.create();
+          } else {
+            this.load();
+          }
+        },
+        watch: {
+          '$route': 'load',
         },
         methods: {
             save: function () {
-                this.$http.put('/api/user/' + this.$route.params.user, {
-                    app_id: this.user.app_id,
-                    roles: this.user.roles,
-                }, {params:{alert:'更新用户信息'}}).then(res => {
-                    utils.alert('success' , res.statusText);
-                }, res => {
-                    utils.alert('danger' , res.statusText);
-                })
+                if (this.isCreate) {
+                    this.$http.post('/api/user', this.user, {params:{alert:'新建用户'}}).then(function (res) {
+                        this.editing = !this.editing;
+                        this.$router.push({
+                            name: 'admin-user',
+                            params: {
+                                user: res.body.id,
+                            }
+                        })
+                    });
+                } else {
+                    this.$http.put('/api／user/'+this.user.id, _.pick(this.user, this.fillable), {params:{alert:'更新用户信息'}}).then(function () {
+                        this.editing = !this.editing;
+                    });
+                }
             },
             cancel_user: function(){
               if (this.$route.params.user == '0') {
@@ -157,6 +180,26 @@
                     }
               })
             },
+            load: function () {
+              if(this.$route.params.user == 0){
+                return;
+              }
+              else{
+                this.$http.get('/api/user/'+this.$route.params.user+"?with=roles.code,bcode").then(function (res) {
+                  this.user = res.body;
+                })
+              }
+            },
+            codeChanged: function(data){
+              this.user.code = data.code;
+              this.user.bcode = data;
+            },
+            watchedCodeChanged: function(data){
+              var code = data;
+              this.$http.get('/api/code/'+code.id+'?with=roles').then(function(res){
+                this.code = res.body;
+              });
+            },
             detach: function (role, index) {
                 var self = this;
                 bootbox.confirm('确认删除？', function (result) {
@@ -171,8 +214,11 @@
               var self = this;
               bootbox.confirm('确认添加？', function( result){
                     if(result){
-                      self.$http.post('api/user/attach', {'user_id': self.user.id, 'role_id': self.role.id, 'code_id': self.code.id},{params:{alert:'添加区划权限'}}).then(function (){
-                        self.user.roles.push(self.role);
+                      self.$http.post('/api/user/attach', {'user_id': self.user.id, 'role_id': self.role.id, 'code_id': self.code.id},{params:{alert:'添加区划权限'}}).then(function (res){
+                        //self.role.code = self.code;
+                        //Vue.set(self.user.roles,  self.user.roles.length, self.role);
+                        //self.user.roles.push(self.role);
+                        self.user = res.body;
                       })
                     }
               });
