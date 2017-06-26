@@ -13,9 +13,15 @@
 
 
 
-Auth::routes();
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'MainController@index');
+Route::get('/eason', 'HomeController@index');
+
+Route::group(['prefix'=> 'eason'],function($router)
+{
+  $router->get('/', 'HomeController@index');
+  Auth::routes();
+});
 
 // Route::resource('station', 'StationController', ['only' => [
 //     'index', 'show', 'store', 'update', 'destroy'

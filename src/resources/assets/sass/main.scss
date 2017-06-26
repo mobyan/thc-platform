@@ -1,0 +1,24 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+// Variables
+@import "variables";
+
+// $icon-font-path: '../static/fonts/bootstrap/';
+
+@function font-path($path) {
+  @return $path;
+}
+
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+/*
+@import "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf";
+*/
+body {
+    background-color: #fff;
+    font-family: "open-sans","Lucida Sans","Lucida Grande", sans-serif!important;
+}
