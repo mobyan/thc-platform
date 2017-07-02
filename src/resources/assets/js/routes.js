@@ -20,8 +20,78 @@ var data_download = require('./components/download.vue')
 
 const routes = [{
   path: '/',
-  redirect: '/map'
-}, {
+  redirect: '/admin/app'
+},{
+  name: 'dashboard',
+  path: '/dashboard',
+  components:{
+    default: index,
+    header: header,
+  },
+  props:{
+    header:{title: '控制面板'},
+  }
+},{
+  name: 'admin-users',
+  path: '/admin/user',
+  components:{
+    default: require('./components/admin_users.vue'),
+    header: admin_header,
+  },
+  props:{
+    header:{ title: '用户管理'}
+  }
+},{
+  name: 'admin-user',
+  path: '/admin/user/:user',
+  components: {
+    default: require('./components/admin_user.vue'),
+    header: admin_header,
+  },
+  props: {
+    header: {title: '用户管理'}
+  }
+},{
+  name: 'admin-stations',
+  path: '/admin/station',
+  components: {
+    default: require('./components/admin_stations.vue'),
+    header: admin_header,
+  },
+  props: {
+    header: {title: '站点管理'}
+  }
+},
+{
+  name: 'admin-station',
+  path: '/admin/station/:station',
+  components: {
+    default: require('./components/admin_station.vue'),
+    header: admin_header,
+  },
+  children: [
+  {
+    path: '',
+    component: devices,
+    props:  true,
+  }
+  ],
+  props: {
+    header: {title: '站点管理'}
+  }
+},
+{
+  name: 'admin-app',
+  path: '/admin/app',
+  components: {
+    default: require('./components/apps.vue'),
+    header: admin_header,
+  },
+  props: {
+    header: {title: '生产线管理'}
+  }
+},
+{
   name: 'stations',
   path: '/station',
   components: {

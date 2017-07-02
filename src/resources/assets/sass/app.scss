@@ -35,12 +35,13 @@ body {
     color: #fff !important;
 }
 */
-$bgDefault      : #00aadf;
+/*$bgDefault      : #00aadf;
 $bgHighlight    : #3697ce;
 $colDefault     : #fff;
 $colHover       : #e0e0e0;
-
+*/
 /* --- Style --- */
+/*
 .navbar-default {
     background: linear-gradient(to bottom, #00aadf 0%,#0d98c7 98%);
     border-color: $bgHighlight;
@@ -107,27 +108,28 @@ $colHover       : #e0e0e0;
 html,
 body {
   height: 100%;
-  /* The html and body elements cannot have any padding or margin. */
-}
 
-/* Wrapper for page content to push down footer */
-#app {
-  min-height: 100%;
-  height: auto;
-  /* Negative indent footer by its height */
-  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-  padding: 0 0 60px;
 }
+*/
+/* Wrapper for page content to push down footer */
+
+//#app {
+//  min-height: 100%;
+//  height: auto;
+  /* Negative indent footer by its height */
+//  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+//  padding: 0 0 60px;
+//}
 
 /* Set the fixed height of the footer here */
-#footer {
-  height: 60px;
-}
-#header {
-    width: 100%;
-    padding: 0;
-}
+//#footer {
+//  height: 60px;
+//}
+//#header {
+//    width: 100%;
+//    padding: 0;
+//}
 .alert {
   display:block;
   position: fixed;

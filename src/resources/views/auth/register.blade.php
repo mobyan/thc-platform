@@ -4,10 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">用户注册</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+            <div class="widget-box">
+                <div class="widget-header widget-header-flat widget-header-small">
+                  <h5 class="widget-title">
+                     <i class="ace-icon fa fa-registered"></i>
+                        用户注册
+                  </h5>
+                </div>
+                <div class="widget-body">
+                  <div class="widget-main">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/eason/register') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -75,6 +81,7 @@
                         </div>
                     </form>
                 </div>
+              </div>
             </div>
         </div>
     </div>

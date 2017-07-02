@@ -5,9 +5,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">重置密码</div>
-                <div class="panel-body">
+            <div class="widget-box">
+                <div class="widget-header widget-header-flat widget-header-small">
+                  <h5 class="widget-title">
+									   <i class="ace-icon fa fa-unlock-alt"></i>
+												重置密码
+									</h5>
+                </div>
+                <div class="widget-body">
+                  <div class="widget-main">
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
@@ -39,6 +45,7 @@
                             </div>
                         </div>
                     </form>
+                  </div>
                 </div>
             </div>
         </div>

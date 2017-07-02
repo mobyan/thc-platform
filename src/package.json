@@ -5,6 +5,7 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "bootstrap-sass": "^3.3.7",
     "gulp": "^3.9.1",
     "jquery": "^3.1.0",
@@ -13,23 +14,28 @@
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3"
+    "vue-resource": "^1.0.3",
+    "vuetable-2": "^1.6.5"
   },
   "dependencies": {
     "bootbox": "^4.4.0",
     "datatables.net": "^1.10.15",
     "datatables.net-dt": "^1.10.15",
+    "font-awesome": "^4.7.0",
+    "freelancer": "git+https://github.com/BlackrockDigital/startbootstrap-freelancer.git",
+    "ace":"gti+https://github.com/bopoda/ace.git",
     "highcharts": "^5.0.10",
     "js-cookie": "^2.1.4",
+    "jssor-slider": "git+https://github.com/jssor/slider.git",
+    "stylus-loader": "^3.0.1",
     "vue-amap": "^0.1.6",
+    "vue-core-image-upload": "^2.2.4",
     "vue-datepicker": "^1.3.0",
     "vue-highcharts": "0.0.9",
     "vue-loading-spinner": "^1.0.7",
+    "vue-picture-input": "^1.12.1",
     "vue-resource": "^1.2.0",
     "vue-router": "^2.2.1",
-    "vue-spinner": "^1.0.2",
-    "font-awesome":"^4.7.0",
-    "jssor-slider":"git+https://github.com/jssor/slider.git",
-    "freelancer":"git+https://github.com/BlackrockDigital/startbootstrap-freelancer.git"
+    "vue-spinner": "^1.0.2"
   }
 }

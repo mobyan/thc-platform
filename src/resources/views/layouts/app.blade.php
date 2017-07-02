@@ -2,17 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>天航华创</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="/css/ace/bootstrap.min.css" />-->
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <!-- ace styles -->
+		<link rel="stylesheet" href="/css/ace/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <!--[if lte IE 9]>
+			<link rel="stylesheet" href="/css/ace/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+    <link rel="stylesheet" href="/css/ace/ace-skins.min.css" />
+		<link rel="stylesheet" href="/css/ace/ace-rtl.min.css" />
+    <!--[if lte IE 9]>
+		  <link rel="stylesheet" href="/css/ace/ace-ie.min.css" />
+		<![endif]-->
+    <!-- ace settings handler -->
+		<script src="/js/ace/ace-extra.min.js"></script>
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
+		<!--[if lte IE 8]>
+		<script src="/js/ace/html5shiv.min.js"></script>
+		<script src="/js/ace/respond.min.js"></script>
+		<![endif]-->
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -24,115 +43,230 @@
         @endif
     </script>
 </head>
-<body>
-    <div id="app">
+<body class="no-skin">
+  <div id="app">
         <pulse-loader id="loading" :loading="loading" color="#00aadf" ></pulse-loader>
+        <div id="navbar" class="navbar navbar-default ace-save-state">
+          <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+    					<span class="sr-only">Toggle sidebar</span>
 
-        <div id="header" class="container">
-            <nav class="navbar navbar-default navbar-custom navbar-static-top">
-                <div class="container" id="header-container">
-                    <div class="navbar-header">
+    					<span class="icon-bar"></span>
 
-                        <!-- Collapsed Hamburger -->
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                            <span class="sr-only">Toggle Navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
+    					<span class="icon-bar"></span>
 
-                        <!-- Branding Image -->
-<!--                         <a class="navbar-brand" href="{{ url('/') }}">
-                            {{ config('app.name', 'Laravel') }}
-                        </a> -->
-                    </div>
+    					<span class="icon-bar"></span>
+    				</button>
+            <div class="navbar-header pull-left">
+    					<a href="/eason" class="navbar-brand">
+    						<small>
+    							<i class="fa fa-leaf"></i>
+    							Eason Admin
+    						</small>
+    					</a>
+    				</div>
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+              <ul class="nav ace-nav">
+                @if (Auth::guest())
 
-                    <div v-if=""class="collapse navbar-collapse" id="app-navbar-collapse">
-                        <!-- Left Side Of Navbar -->
-                        @if (!Auth::guest())
-                        <ul class="nav navbar-nav">
-                            <li v-if="canAppRead()">
-                                <router-link to="/map">站点地图</router-link>
-                            </li>
-                            <li v-if="canAppRead()">
-                                <router-link to="/station">站点列表</router-link>
-                            </li>
-                            <li v-if="canAppRead()">
-                                <router-link to="/data_download">数据下载</router-link>
-                            </li>
-                            <!--<li v-if="canAppRead()">
-                                <router-link to="/apply">权限申请</router-link>
-                            </li>-->
-                            <!--<li v-if="isAdmin()">
-                                <router-link to="/apply_audit">权限审核</router-link>
-                            </li>-->
-                            <li v-if="isAppAdmin()">
-                                <router-link to="/user">用户管理</router-link>
-                            </li>
+                <li class="blue"><a href="{{ url('/eason/login') }}"><i class="ace-icon fa fa-user"></i>登录</a></li>
+                <li class="green"><a href="{{ url('/eason/register') }}"><i class="ace-icon fa fa-registered"></i>注册</a></li>
+                @else
+                <li class="light-blue dropdown-modal">
+                  <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+    								<img class="nav-user-photo" src="image/user.jpg" alt="Jason's Photo" />
+    								<span class="user-info">
+    									<small>欢迎,</small>
+    									{{ Auth::user()->name }}
+    								</span>
 
-                            <li v-if="isAdmin()">
-                                <router-link to="/admin/app">生产线管理</router-link>
-                            </li>
-                            <li v-if="isAdmin()">
-                                <router-link to="/admin/station">站点管理</router-link>
-                            </li>
-                            <li v-if="isAdmin()">
-                                <router-link to="/admin/user">用户管理</router-link>
-                            </li>
+    								<i class="ace-icon fa fa-caret-down"></i>
+    							</a>
+                  <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+    								<li>
+    									<router-link to="/invitation">
+    										<i class="ace-icon fa fa-cog"></i>
+    										邀请码管理
+    									</router-link>
+    								</li>
 
-                        </ul>
-                        @endif
+    								<li>
+    									<router-link to="/profile">
+    										<i class="ace-icon fa fa-user"></i>
+    										个人资料
+    									</router-link>
+    								</li>
 
-                        <!-- Right Side Of Navbar -->
-                        <ul class="nav navbar-nav navbar-right">
-                            <!-- Authentication Links -->
-                            @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">登录</a></li>
-                            <li><a href="{{ url('/register') }}">注册</a></li>
-                            @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+    								<li class="divider"></li>
 
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <router-link to="/user_profile">个人资料</router-link>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
-                                        onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                        退出</a>
+    								<li>
+                      <a href="{{ url('/eason/logout') }}"
+                      onclick="event.preventDefault();
+                      document.getElementById('logout-form').submit();">
+                      退出</a>
 
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                            @endif
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        <div class="container" id="content-container">
-            @yield('content')
-            @if (!Auth::guest())
-            <router-view name="header"></router-view>
-            <div>
-                <router-view ></router-view>
+                      <form id="logout-form" action="{{ url('/eason/logout') }}" method="POST" style="display: none;">
+                          {{ csrf_field() }}
+                      </form>
+    								</li>
+    							</ul>
+                </li>
+                @endif
+              </ul>
             </div>
-            @endif
-        </div>
-    </div>
-    <div id="footer" >
-        <div class="container" style="text-align: center;"><p>版权所有 生态环境与烟草质量重点实验室; 技术支持 北京天航华创科技股份有限公司|Tianhang Create technology Co. Ltd.</p></div>
-    </div>
+          </div>
+        </div><!--nav-bar-->
 
+        <!--main-container-->
+        <div class="main-container ace-save-state" id="main-container">
+          <script type="text/javascript">
+    				try{ace.settings.loadState('main-container')}catch(e){}
+    			</script>
+          @if (!Auth::guest())
+          <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+            <script type="text/javascript">
+    					try{ace.settings.loadState('sidebar')}catch(e){}
+    				</script>
+            <ul class="nav nav-list">
+
+              <li class="active" v-if="canAppRead()">
+    						<router-link to="/dashboard">
+    							<i class="menu-icon fa fa-tachometer"></i>
+    							<span class="menu-text"> 信息概况 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
+              <li class="" v-if="canAppRead()">
+    						<a href="#" class="dropdown-toggle">
+                  <i class="menu-icon fa fa-desktop"></i>
+    							<span class="menu-text">
+    								站点信息
+    							</span>
+    							<b class="arrow fa fa-angle-down"></b>
+    						</a>
+                <b class="arrow"></b>
+						    <ul class="submenu">
+                  <li class="">
+										<router-link to="/map">
+											<i class="menu-icon fa fa-caret-right"></i>
+											站点地图
+										</router-link>
+
+										<b class="arrow"></b>
+									</li>
+                  <li class="">
+										<router-link to="/station">
+											<i class="menu-icon fa fa-caret-right"></i>
+											站点列表
+										</router-link>
+										<b class="arrow"></b>
+									</li>
+                </ul>
+    					</li><!--station info-->
+              <li class="" v-if="canAppRead()">
+    						<router-link to="/data_download">
+    							<i class="menu-icon fa fa-tachometer"></i>
+    							<span class="menu-text"> 数据下载 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
+              <!--app admin-->
+              <li class="" v-if="canAppWrite()">
+    						<router-link to="/user">
+    							<i class="menu-icon fa fa-user-circle-o"></i>
+    							<span class="menu-text"> 用户管理 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
+
+
+              <!--admin part-->
+              <li class="" v-if="canSysWrite()">
+    						<router-link to="/admin/user">
+    							<i class="menu-icon fa fa-user-circle-o"></i>
+    							<span class="menu-text"> 用户管理 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
+
+              <li class="" v-if="canSysWrite()">
+    						<router-link to="/admin/app">
+    							<i class="menu-icon fa fa-envira"></i>
+    							<span class="menu-text"> 公司管理 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
+
+              <li class="" v-if="canSysWrite()">
+    						<router-link to="/admin/station">
+    							<i class="menu-icon fa fa-tablet"></i>
+    							<span class="menu-text"> 站点管理 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
+
+            </ul>
+          </div><!--sidebar-->
+          @endif
+          <div class="main-content">
+            <div class="main-content-inner">
+              <div class="page-content">
+                @yield('content')
+                @if (!Auth::guest())
+                <router-view name="header"></router-view><!--page-header-->
+                <div class="container">
+                  <router-view></router-view>
+                </div>
+
+                @endif
+
+              </div>
+            </div>
+          </div><!--main content-->
+          <div class="footer">
+            <div class="footer-inner">
+    					<div class="footer-content">
+    						<span class="bigger-120">
+    							<span class="blue bolder">北京天航华创科技股份有限公司</span>
+    							 &copy; 2017
+    						</span>
+
+    						&nbsp; &nbsp;
+    						<span class="action-buttons">
+    							<a href="#">
+    								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+    							</a>
+
+    							<a href="#">
+    								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+    							</a>
+
+    							<a href="#">
+    								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+    							</a>
+    						</span>
+    					</div>
+    				</div>
+          </div><!--main footer-->
+          <!--<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    			</a>-->
+        </div><!--main container-->
+</div>
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>
+    <script src="js/ace/jquery-2.1.4.min.js"></script>
+    <!-- ace scripts -->
+    <!--[if lte IE 8]>
+		  <script src="assets/js/excanvas.min.js"></script>
+		<![endif]-->
+		<script src="/js/ace/jquery-ui.custom.min.js"></script>
+		<script src="/js/ace/jquery.ui.touch-punch.min.js"></script>
+
+
+		<script src="/js/ace/ace-elements.min.js"></script>
+		<script src="/js/ace/ace.min.js"></script>
+
     <div class="alert alert-success" role="alert" ></div>
     <div class="alert alert-warning" role="alert" ></div>
 </body>

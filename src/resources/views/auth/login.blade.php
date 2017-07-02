@@ -4,10 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">用户登录</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+            <div class="widget-box">
+                <div class="widget-header widget-header-flat widget-header-small">
+                  <h5 class="widget-title">
+									   <i class="ace-icon fa fa-user"></i>
+												用户登录
+									</h5>
+                </div>
+                <div class="widget-body">
+                  <div class="widget-main">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/eason/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -54,13 +60,14 @@
                                     登录
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
+                                <a class="btn btn-link" href="{{ url('/eason/password/reset') }}">
                                     忘记密码？
                                 </a>
                             </div>
                         </div>
                     </form>
                 </div>
+              </div>
             </div>
         </div>
     </div>

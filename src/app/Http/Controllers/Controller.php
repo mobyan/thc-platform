@@ -44,28 +44,41 @@ class Controller extends BaseController
     public function _index($where = null, $callback = null)
     {
         $whereLike = null;
+        $items = null;
         $this->assertPermissions('index');
         if ($this->user()->app_id != 0 && in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->user()->app_id];
-            $code = \App\Code::find($this->user()->code_id);
-            $whereLike = 'code like "'.$code->code.'%"';
+            $code = Request::input('code');
+            if(!$code){
+                $code = \App\Code::find($this->user()->code_id)->code;
+            }
+            $whereLike = 'code like "'.$code.'%"';
             //$whereLike = isset($whereLike)? $whereLike.' or regioncode like "'.$code.'%"':'regioncode like "'.$code.'%"';
 
             //Log::info($whereLike);
             //$wherelike = ['regioncode', ];
         }
-        $limit = Request::input('limit', 20);
-        $offset = Request::input('offset', 0);
-        $with = Request::input('with');
         if ($where === null) {
             $where = [DB::raw('1'), 1];
         }
-        if ($whereLike === null){
-          $items = call_user_func_array([static::$model, 'where'], $where)->limit($limit)->offset($offset);
+        $items = call_user_func_array([static::$model, 'where'], $where);
+        if ($whereLike){
+          $items = $items->whereRaw($whereLike);
         }
-        else{
-          $items = call_user_func_array([static::$model, 'where'], $where)->whereRaw($whereLike)->limit($limit)->offset($offset);
+
+        if (Request::has('sort')) {
+            list($sortCol, $sortDir) = explode('|', Request::input(sort));
+            $items = $items->orderBy($sortCol, $sortDir);
+        } else {
+            $items = $items->orderBy('id', 'asc');
+            //$items = call_user_func_array([static::$model,'orderBy'],array('id', 'asc'));
         }
+        $perPage = Request::input('per_page',null);
+        //$limit = Request::input('limit', 20);
+        //$offset = Request::input('offset', 0);
+        $with = Request::input('with');
+
+
 
         if ($with) {
             if (str_contains($with,',')) {
@@ -76,9 +89,16 @@ class Controller extends BaseController
         if ($callback) {
             $callback($items);
         }
-        $items = $items->get();
-        $count = count($items);
-        return compact('count', 'items');
+        if($perPage){
+          $items = $items->paginate($perPage);
+          return $items;
+        }
+        else{
+          return $items->get();
+        }
+        //$count = count($items);
+
+        //return response()->json($items)->header('Access-Control-Allow-Origin', '*')->header('Access-Control-Allow-Methods', 'GET');
     }
 
     public function _show($id) {

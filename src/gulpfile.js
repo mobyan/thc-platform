@@ -22,6 +22,7 @@ elixir(mix => {
     mix.copy('node_modules/font-awesome/css/font-awesome.min.css','public/css');
     mix.copy('node_modules/freelancer/js/freelancer.min.js','public/js');
     mix.copy('node_modules/freelancer/css/freelancer.min.css','public/css');
-    mix.copy('node_modules/ace/asscet/js/','public/js/ace');
-    mix.copy('node_modules/ace/asscet/css/','public/css/ace');
+    mix.copy('node_modules/ace/assets/js/','public/js/ace');
+    mix.copy('node_modules/ace/assets/css/','public/css/ace');
+    mix.copy('node_modules/jssor-slider/js/jssor.slider.min.js','public/js');
 });

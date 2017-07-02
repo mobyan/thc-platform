@@ -20,11 +20,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Scripts -->
-    <script>
-        window.Laravel = <?php echo json_encode([
-            'csrfToken' => csrf_token(),
-            ]); ?>;
-    </script>
 </head>
 <body id="page-top" class="index">
 <div id="skipnav"><a href="#maincontent">Skip to main content</a></div>
@@ -66,7 +61,7 @@
 
     <!-- Header -->
     <header>
-        <div id="maincontent" tabindex="-1">
+        <div class="container" id="maincontent" tabindex="-1">
           <!-- Jssor Slider Begin -->
 
           <!-- ================================================== -->

@@ -1,43 +1,85 @@
 <template>
-<div>
-<div v-if="editable" style="margin-bottom: 10px;">
-  <form class="form">
-    <div class="form-group">
-      <label>公司名称</label>
-      <input :disabled="!editing" type="text" class="form-control" v-model="newApp.name">
-    </div>
-    <button type="submit" v-if="!editing" @click.prevent="createApp" class="btn btn-default">添加</button>
-    <button type="submit" v-else @click.prevent="saveApp" class="btn btn-default">保存</button>
-  </form>
-</div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-4">
+      <div class="widget-box">
+        <div class="widget-header">
+          <h4 class="widget-title">新建公司生产线</h4>
+          <div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="ace-icon fa fa-chevron-up"></i>
+						</a>
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="widget-main">
+          <div>
+						<label>名称</label>
+            <div class="input-group">
+              <input type="text" :disabled="!editing" class="form-control" id="name" placeholder="输入公司名称" v-model="newApp.name"></input>
+              <span class="input-group-btn">
+                <button type="button" v-if="!editing" @click.prevent="createApp" class="btn btn-sm btn-default btn-success">添加</button>
+                <button type="button" v-else @click.prevent="saveApp" class="btn btn-sm btn-default btn-success">保存</button>
+              </span>
+            </div>
 
-<div v-if="editable" class="">
-    <table class="table table-bordered table-striped table-hover">
-      <tbody>
-        <tr class="fatal">
-          <th>id</th>
-          <th>名称</th>
-          <th>操作</th>
-        </tr>
-        <tr v-for="(ap,index) in apps" class="">
-          <td>{{ ap.id }}</td>
-          <td><input :disabled="!ap.editing" class="form-control" v-model="ap.name"></input></td>
-          <td style="vertical-align: middle;width:33px;">
-            <span v-if="!ap.editing" @click="editApp(index)"><img width="16px" height="16px" src="/image/info.png"></span>
-            <span v-else @click="updateApp(index)"><img height="16px" src="/image/dashboard.png" class="signal"></span>
-            <span @click="removeApp(ap, index)"><img width="16px" height="16px" src="/image/remove.png"></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+					</div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+  <div v-if="editable" class="col-xs-12 col-sm-8">
+    <vuetable
+      ref="vuetable"
+      api-url="/api/app"
+      :fields="columns"
+      pagination-path=""
+      data-path="data"
+      :per-page="2"
+      :css="css.table"
+      @vuetable:loading="onLoading"
+      @vuetable:loaded="onLoaded"
+      table-class="table table-bordered table-striped table-hover"
+      @vuetable:pagination-data="onPaginationData"
+      >
+      <template slot="actions" scope="props">
+          <div class="custom-actions">
+            <button class="ui basic button"
+              @click="onAction('edit-item', props.rowData, props.rowIndex)">
+              <i class="fa fa-pencil-square-o"></i>
+            </button>
+            <button class="ui basic button"
+              @click="onAction('delete-item', props.rowData, props.rowIndex)">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </div>
+        </template>
+    </vuetable>
+    <div class="vuetable-pagination  ui bottom attached segment grid">
+        <vuetable-pagination-info ref="paginationInfo"
+        info-class="pagination-info"
+        ></vuetable-pagination-info>
+        <vuetable-pagination ref="pagination"
+          :css="css.pagination"
+          @vuetable-pagination:change-page="onChangePage"
+        ></vuetable-pagination>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import utils from '../utils'
 import bootbox from 'bootbox'
+import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
+import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
+
   export default {
+    components: {
+      Vuetable,
+      VuetablePagination,
+      VuetablePaginationInfo
+    },
     data: function () {
       return {
         editable: thc.can('sys_w', 0),
@@ -45,7 +87,46 @@ import bootbox from 'bootbox'
         fillable: ['name'],
         apps: [],
         newApp: null,
-      }
+        columns:[
+          {
+            name:'id',
+            title:'ID',
+            dataClass:'text-center'
+          },
+          {
+            name:'name',
+            title:'名称',
+            dataClass:'text-center'
+          },
+          {
+            name: '__slot:actions',
+            title: '操作',
+            titleClass: 'center aligned',
+            dataClass: 'center aligned',
+          }
+          ],
+          css: {
+            table: {
+              tableClass: 'table table-bordered table-striped table-hover',
+              ascendingIcon: 'glyphicon glyphicon-chevron-up',
+              descendingIcon: 'glyphicon glyphicon-chevron-down'
+            },
+            pagination: {
+              wrapperClass: 'pagination pull-right no-margin',
+              activeClass: 'active',
+              disabledClass: 'disabled',
+              pageClass: 'page',
+              linkClass: 'link',
+              icons: {
+                first: 'fa fa-angle-double-left ace-icon',
+                prev: 'prev fa fa-angle-left ace-icon',
+                next: 'next fa fa-angle-right ace-icon',
+                last: 'fa fa-angle-double-right ace-icon',
+              }
+            },
+
+          }
+        }
     },
     computed: {
       apiURI: function() {
@@ -55,12 +136,25 @@ import bootbox from 'bootbox'
     created: function () {
       var self = this;
       this.createApp();
-      this.$http.get('/api/app').then(function (res) {
-        this.apps = res.body.items;
-        this.apps = _.map(this.apps, function(app){app.editing = false; return app;});
-      })
     },
     methods: {
+        onAction (action, data, index) {
+          console.log('slot action: ' + action, data.name, index)
+        },
+        onPaginationData (paginationData) {
+
+          this.$refs.pagination.setPaginationData(paginationData);
+          this.$refs.paginationInfo.setPaginationData(paginationData);
+        },
+        onChangePage (page) {
+          this.$refs.vuetable.changePage(page);
+        },
+        onLoading(){
+          window.app.loading = true;
+        },
+        onLoaded(){
+          window.app.loading = false;
+        },
         go: function () {
             this.$router.push({name:'station', params:{station:0}, query: {op:'create'}})
         },
@@ -111,3 +205,96 @@ import bootbox from 'bootbox'
     }
   }
 </script>
+<style>
+.pagination {
+  margin: 0;
+  float: right;
+}
+.pagination a.page {
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin-right: 2px;
+}
+.pagination a.page.active {
+  color: white;
+  background-color: #337ab7;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin-right: 2px;
+}
+.pagination a.btn-nav {
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin-right: 2px;
+}
+.pagination a.btn-nav.disabled {
+  color: lightgray;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin-right: 2px;
+  cursor: not-allowed;
+}
+.pagination-info {
+  float: left;
+}
+.ui.vertical.stripe h3 {
+        font-size: 2em;
+      }
+      .secondary.pointing.menu .toc.item {
+        display: none;
+      }
+      .vuetable {
+        margin-top: 1em !important;
+      }
+      .vuetable-wrapper.ui.basic.segment {
+        padding: 0em;
+      }
+      .vuetable button.ui.button {
+        padding: .5em .5em;
+        font-weight: 400;
+      }
+      .vuetable button.ui.button i.icon {
+        margin: 0;
+      }
+      .vuetable td i.handle-icon:hover {
+        cursor: pointer;
+      }
+      .vuetable-actions {
+        width: 15%;
+        padding: 12px 0px;
+        text-align: center;
+      }
+      .vuetable-pagination {
+        background: #f9fafb !important;
+      }
+      .vuetable-pagination-info {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      .highlight {
+        background-color: yellow;
+      }
+      .vuetable-detail-row {
+        height: 200px;
+      }
+      .detail-row {
+        margin-left: 40px;
+      }
+      .expand-transition {
+        transition: all .5s ease;
+      }
+      .expand-enter, .expand-leave {
+        height: 0;
+        opacity: 0;
+      }
+      tr.odd {
+        background-color: #e6f5ff;
+      }
+      body {
+        overflow-y: scroll;
+      }
+</style>

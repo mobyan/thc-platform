@@ -15,14 +15,12 @@
           <div class="col-md-4">
             <img src="/image/noimage.jpg" id="no-image">
           </div>
-          <div class="col-md-8">
+          <div class="col-md-8 col-xs-12">
             <form>
-              <div class="form-group"><label>ID</label><input disabled type="text" class="form-control" v-model="station.id"></div>
               <div class="form-group"><label>产品线</label>
                   <select v-model="station.app_id" style="z-index: 9999; position: relative;"><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>
               </div>
               <div class="form-group"><label>名称</label><input :disabled="!editing" type="text" class="form-control" v-model="station.name"></div>
-              <div class="form-group"><label>类型</label><input :disabled="!editing" type="text" class="form-control" v-model="station.type"></div>
               <div class="form-group"><label>地址</label><input :disabled="!editing" type="text" class="form-control" v-model="station.location"></div>
               <div class="form-group"><label>纬度</label><input :disabled="!editing" type="text" class="form-control" v-model="station.lat"></div>
               <div class="form-group"><label>经度</label><input :disabled="!editing" type="text" class="form-control" v-model="station.lon"></div>
@@ -63,12 +61,12 @@ import code_view from './code_view.vue'
     export default {
       data: function () {
         return {
-          station: {},
+          station: {code:{merged_name:""}},
           apps: [],
           editing: false,
           editable: thc.can('sys_w',0),
           isCreate: false,
-          fillable: ['name', 'type', 'location', 'lon', 'lat', 'alt', 'app_id', 'code'],
+          fillable: ['name', 'location', 'lon', 'lat', 'alt', 'app_id', 'code'],
           dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
       }
   },
@@ -136,8 +134,8 @@ import code_view from './code_view.vue'
   created:function(){
     var self = this;
     this.$http.get('/api/app').then(function(res){
-      self.apps = res.body.items;
-      console.log(self.apps);
+      self.apps = res.body;
+      //console.log(self.apps);
     });
   },
   watch: {

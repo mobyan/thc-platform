@@ -15,7 +15,6 @@
 
 
 Route::get('/', 'MainController@index');
-Route::get('/eason', 'HomeController@index');
 
 Route::group(['prefix'=> 'eason'],function($router)
 {

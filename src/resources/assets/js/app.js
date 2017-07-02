@@ -64,13 +64,13 @@ window.app = new Vue({
     user: thc.user,
   },
   methods: {
-    isAdmin: function () {
+    canSysWrite: function () {
       return thc.can('sys_w', 0);
     },
     canAppRead: function(){
       return thc.can('app_r');
     },
-    isAppAdmin: function(){
+    canAppWrite: function(){
       return thc.can('app_w');
     }
   },
@@ -79,7 +79,13 @@ window.app = new Vue({
   },
   router,
   created: function() {
-    Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+    if(this.user){
+      Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+      if(this.canSysWrite()){
+        this.$router.push({name: 'admin-app'});
+      }
+    }
+    //Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
     //if (!thc.can('app_r') || thc.user.codes.length == 0) {
     //  this.$router.push('apply');
     //}
