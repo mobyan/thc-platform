@@ -50,7 +50,7 @@
         self.currentApp = self.apps[0].id;
       }).then(function(){
         this.$http.get('/api/user?with=bcode&app_id='+self.currentApp).then(function(res){
-          self.users = res.body.items;
+          self.users = res.body;
         });
       });
 
@@ -62,7 +62,7 @@
         search: function(){
             var self = this;
             this.$http.get('/api/user?with=bcode&app_id='+this.currentApp).then(function(res){
-              self.users = res.body.items;
+              self.users = res.body;
             })
         },
         remove: function(usr, i){

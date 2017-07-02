@@ -136,33 +136,20 @@
     						</router-link>
     						<b class="arrow"></b>
     					</li>
-              <li class="" v-if="canAppRead()">
-    						<a href="#" class="dropdown-toggle">
-                  <i class="menu-icon fa fa-desktop"></i>
-    							<span class="menu-text">
-    								站点信息
-    							</span>
-    							<b class="arrow fa fa-angle-down"></b>
-    						</a>
-                <b class="arrow"></b>
-						    <ul class="submenu">
-                  <li class="">
-										<router-link to="/map">
-											<i class="menu-icon fa fa-caret-right"></i>
-											站点地图
-										</router-link>
-
-										<b class="arrow"></b>
-									</li>
-                  <li class="">
-										<router-link to="/station">
-											<i class="menu-icon fa fa-caret-right"></i>
-											站点列表
-										</router-link>
-										<b class="arrow"></b>
-									</li>
-                </ul>
-    					</li><!--station info-->
+              <li class="active" v-if="canAppRead()">
+    						<router-link to="/map">
+    							<i class="menu-icon fa fa-tachometer"></i>
+    							<span class="menu-text"> 站点地图 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
+              <li class="active" v-if="canAppRead()">
+    						<router-link to="/station">
+    							<i class="menu-icon fa fa-tachometer"></i>
+    							<span class="menu-text"> 站点列表 </span>
+    						</router-link>
+    						<b class="arrow"></b>
+    					</li>
               <li class="" v-if="canAppRead()">
     						<router-link to="/data_download">
     							<i class="menu-icon fa fa-tachometer"></i>

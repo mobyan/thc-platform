@@ -15,7 +15,7 @@
           <td>{{ station.location }}</td>
           <td><img height="20" :src="'/image/'+ station.status+'.png'" class="signal"></td>
           <td>
-            <router-link :to="'/station/'+station.id"><img height="20" src="/image/info.png" class="signal"></router-link>              
+            <router-link :to="'/station/'+station.id"><img height="20" src="/image/info.png" class="signal"></router-link>
             <router-link :to="'/station/'+station.id+'/dashboard'"><img height="20" src="/image/dashboard.png" class="signal"></router-link>
           </td>
         </tr>
@@ -38,7 +38,7 @@
     created: function () {
       var self = this;
       this.$http.get('/api/station').then(function (res) {
-        this.stations = res.body.items;
+        this.stations = res.body;
       })
     },
     methods: {

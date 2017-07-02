@@ -49,7 +49,7 @@
         created: function () {
             var self = this;
             this.$http.get('/api/station/' + this.station + '/device').then(function (res) {
-                this.devices = res.body.items;
+                this.devices = res.body;
                 this.convert_display_type();
             })
         },

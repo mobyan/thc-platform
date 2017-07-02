@@ -23,12 +23,12 @@
     },
     watch: {
       currentRCode: function () {
-        Cookie.set('currentRCode',this.currentCode);
+        Cookie.set('currentCode',this.currentCode);
         location.href = '/';
       }
     },
     created: function () {
-      Cookie.set('currentRCode', Cookie.get('currentRCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+      Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
     },
     methods: {
       back: function () {

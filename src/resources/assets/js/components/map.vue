@@ -33,7 +33,7 @@ export default {
   	var self = this;
       this.$http.get('/api/station/').then(function (res) {
         var stations = res.body;
-        this.markers = _.map(stations.items, function (v) {
+        this.markers = _.map(stations, function (v) {
           return {
             position: [v.lon, v.lat],
             events: {

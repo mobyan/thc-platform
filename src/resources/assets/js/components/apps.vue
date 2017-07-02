@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-12 col-sm-8">
       <div class="widget-box">
         <div class="widget-header">
           <h4 class="widget-title">新建公司生产线</h4>
@@ -21,13 +21,12 @@
                 <button type="button" v-else @click.prevent="saveApp" class="btn btn-sm btn-default btn-success">保存</button>
               </span>
             </div>
-
 					</div>
         </div>
       </div>
     </div>
   </div>
-  <div v-if="editable" class="col-xs-12 col-sm-8">
+  <div v-if="editable" class="col-xs-12 col-sm-8 table-responsive">
     <vuetable
       ref="vuetable"
       api-url="/api/app"
@@ -36,6 +35,7 @@
       data-path="data"
       :per-page="2"
       :css="css.table"
+      detail-row-component="app-detail-row"
       @vuetable:loading="onLoading"
       @vuetable:loaded="onLoaded"
       table-class="table table-bordered table-striped table-hover"
@@ -43,13 +43,13 @@
       >
       <template slot="actions" scope="props">
           <div class="custom-actions">
-            <button class="ui basic button"
-              @click="onAction('edit-item', props.rowData, props.rowIndex)">
-              <i class="fa fa-pencil-square-o"></i>
+            <button class="btn btn-white btn-primary"
+              @click="onAction(props.rowData, props.rowIndex)">
+              <i class="fa fa-pencil-square-o "></i>
             </button>
-            <button class="ui basic button"
-              @click="onAction('delete-item', props.rowData, props.rowIndex)">
-              <i class="fa fa-trash-o"></i>
+            <button class="btn btn-white btn-danger"
+              @click="removeApp(props.rowData, props.rowIndex)">
+              <i class="fa fa-trash-o "></i>
             </button>
           </div>
         </template>
@@ -70,15 +70,17 @@
 <script>
 import utils from '../utils'
 import bootbox from 'bootbox'
+import Vue from 'vue'
+import AppDetailRow from './detail_row.vue'
 import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
-
+Vue.component('app-detail-row', AppDetailRow)
   export default {
     components: {
       Vuetable,
       VuetablePagination,
-      VuetablePaginationInfo
+      VuetablePaginationInfo,
     },
     data: function () {
       return {
@@ -138,8 +140,10 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
       this.createApp();
     },
     methods: {
-        onAction (action, data, index) {
-          console.log('slot action: ' + action, data.name, index)
+        onAction ( data, index) {
+          //console.log('slot action: ', data.name, index);
+          this.$refs.vuetable.toggleDetailRow(index+1);
+
         },
         onPaginationData (paginationData) {
 
@@ -166,6 +170,10 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
           this.apps[index].editing = !this.apps[index].editing;
           Vue.set(this.apps, index, this.apps[index]);
           //alert(this.apps[index].editing);
+        },
+        onCellClicked (data, field, event) {
+          console.log('cellClicked: ', data.id)
+          this.$refs.vuetable.toggleDetailRow(data.id)
         },
         updateApp: function(index){
           var self = this;
