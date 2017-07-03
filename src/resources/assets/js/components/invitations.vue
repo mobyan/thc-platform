@@ -12,7 +12,8 @@
       <div class="form-group">
           <label>地区</label>
           <select class="form-control" :disabled="!editing" v-model="invite.regioncode">
-          <option v-for="reg in subRegions" :value="reg.code">{{reg.merged_name}}</option>
+            <option v-for="reg in subRegions" :value="reg.code">{{reg.merged_name}}</option>
+          </select>
       </div>
       <button type="submit" v-if="!editing" @click.prevent="createInvite" class="btn btn-default">添加</button>
       <button type="submit" v-if="editing" @click.prevent="saveInvite" class="btn btn-default">保存</button>

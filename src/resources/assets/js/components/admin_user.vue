@@ -98,7 +98,8 @@
               </table>
             </div>
         </div>
-</div>
+      </div>
+    </div>
 </template>
 <script >
     import utils from '../utils'

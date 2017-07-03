@@ -26,7 +26,8 @@
               </div>
               <div class="form-group"><label>地区</label><input :disabled="!editing" type="text" class="form-control" v-model="invitation.regioncode.merged_name"></div>
               <div class="form-group">
-                <label>权限</label><select class="form-control" v-model="invitation.role" :disabled="!editing">
+                <label>权限</label>
+                <select class="form-control" v-model="invitation.role" :disabled="!editing">
                     <option v-for="(role, i) in invitation.app.roles" :value="role">{{role.display_name}}</option>
                 </select>
               </div>

@@ -23,7 +23,6 @@
     "datatables.net-dt": "^1.10.15",
     "font-awesome": "^4.7.0",
     "freelancer": "git+https://github.com/BlackrockDigital/startbootstrap-freelancer.git",
-    "ace":"gti+https://github.com/bopoda/ace.git",
     "highcharts": "^5.0.10",
     "js-cookie": "^2.1.4",
     "jssor-slider": "git+https://github.com/jssor/slider.git",
