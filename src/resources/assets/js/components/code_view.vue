@@ -32,7 +32,7 @@ export default{
   methods:{
       get: function() {
           this.$http.get('/api/code/search?content='+this.search.merged_name).then(function(res) {
-              this.codes = res.body.items;
+              this.codes = res.body;
               this.isShow = !this.isShow;
           });
       },

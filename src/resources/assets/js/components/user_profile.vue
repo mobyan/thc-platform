@@ -1,7 +1,5 @@
 <template>
   <div id="user_profile">
-<!--     <div class="col-md-1"></div>
-    <div class="col-sm-12"> -->
       <div class="panel panel-default panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">个人资料</h3>
@@ -9,7 +7,15 @@
         <div class="panel-body">
           <div class="col-md-3">
             <div class="upic">
-              <img src="/image/upic.png">
+              <img :src="src">
+<!--               <vue-core-image-upload
+                class="btn btn-primary"
+                :crop="false"
+                @imageuploaded="imageuploaded"
+                :data="data"
+                :max-file-size="5242880"
+                url="/api/avatar" >
+              </vue-core-image-upload> -->
             </div>
           </div>
           <div class="col-md-9">
@@ -101,19 +107,22 @@
           </div>
         </div>
       </div>
-    <!-- </div> -->
-    <!-- <div class="col-md-1"></div> -->
   </div>
 </template>
 
 <script>
 import bootbox from 'bootbox'
+// import VueCoreImageUpload from 'vue-core-image-upload'
     export default {
+      // components: {
+      //   'vue-core-image-upload': VueCoreImageUpload,
+      // },
       data: function () {
         return {
           user_profile: {
           },
           editing: false,
+          src: '/image/upic.png',
           fillable: ['name', 'position', 'department', 'institution', 
                      'email', 'cell', 'phone', 'address'],
       }
@@ -126,15 +135,20 @@ import bootbox from 'bootbox'
       );
     },
     get_user_profile: function(){
-        var self = this;
-        this.$http.get('/api/user_profile').then(function(res){
-          self.user_profile = res.body.user_profile;
-        })
-      },
+      var self = this;
+      this.$http.get('/api/user_profile').then(function(res){
+        self.user_profile = res.body.user_profile;
+      })
+    },
+    imageuploaded(res) {
+      if (res.errcode == 0) {
+        this.src = res.data.src;
+      }
+    },
   },
   created: function()
-    {
-      this.get_user_profile();
-    },
+  {
+    this.get_user_profile();
+  },
 }
 </script>

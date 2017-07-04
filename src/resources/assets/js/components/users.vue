@@ -42,7 +42,7 @@
     created: function () {
       var self = this;
       this.$http.get('/api/user').then(function(res){
-        self.users = res.body.items;
+        self.users = res.body;
       });
     },
     methods: {

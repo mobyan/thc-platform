@@ -23,12 +23,21 @@
     },
     watch: {
       currentRCode: function () {
+        console.log('header.vue currentRCode');
         Cookie.set('currentCode',this.currentCode);
         location.href = '/';
       }
     },
     created: function () {
-      Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+      // Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+      console.log('header.vue created');
+      if (!isNaN(parseInt(Cookie.get('currentCode')))) {
+        console.log('here');
+        Cookie.set('currentCode', Cookie.get('currentCode'));
+      }
+      else{
+        Cookie.set('currentCode', (thc.user.codes[0]?thc.user.codes[0].id:null));
+      }
     },
     methods: {
       back: function () {

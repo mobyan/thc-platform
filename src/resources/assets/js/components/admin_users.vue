@@ -46,7 +46,7 @@
     created: function () {
       var self = this;
       this.$http.get('/api/app').then(function(res){
-        self.apps = res.body.items;
+        self.apps = res.body;
         self.currentApp = self.apps[0].id;
       }).then(function(){
         this.$http.get('/api/user?with=bcode&app_id='+self.currentApp).then(function(res){

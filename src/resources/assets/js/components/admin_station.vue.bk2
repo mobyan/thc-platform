@@ -142,7 +142,7 @@ import PictureInput from 'vue-picture-input'
 
     get: function() {
         this.$http.get('/api/code/search?content='+this.station.code.merged_name).then(function(res) {
-            this.codes = res.body.items;
+            this.codes = res.body;
             this.isShow = !this.isShow;
         });
     },

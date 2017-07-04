@@ -10,7 +10,7 @@ import code_view from './components/code_view.vue'
 import analyze from './components/analyze.vue'
 import map from './components/map.vue'
 import user from './components/user.vue'
-import user_profile from './components/user_profile.vue'
+import profile from './components/user_profile.vue'
 import index from './components/index.vue'
 import invitation from './components/invitation.vue'
 import invitations from './components/invitations.vue'
@@ -269,9 +269,9 @@ const routes = [{
         }
     }
 }, {
-  path: '/user_profile',
+  path: '/profile',
     components: {
-        default: user_profile,
+        default: profile,
         header: header_none,
     },
     props: {

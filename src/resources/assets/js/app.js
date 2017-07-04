@@ -43,6 +43,7 @@ const router = new VueRouter({
 })
 
 window.thc.can = function(permission_name, code_id) {
+  console.log('app.js window.thc.can');
   code_id = code_id !== undefined ? code_id: Cookie.get('currentCode');
   for (var r in thc.user.roles) {
     var role = thc.user.roles[r]
@@ -80,7 +81,15 @@ window.app = new Vue({
   router,
   created: function() {
     if(this.user){
-      Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+      console.log('app.js created');
+      // if (!isNaN(parseInt(Cookie.get('currentCode')))) {
+      //   console.log('here');
+      //   Cookie.set('currentCode', Cookie.get('currentCode'));
+      // }
+      // else{
+      //   Cookie.set('currentCode', (thc.user.codes[0]?thc.user.codes[0].id:null));
+      // }
+      Cookie.set('currentCode', (thc.user.codes[0]?thc.user.codes[0].id:null));
       if(this.canSysWrite()){
         this.$router.push({name: 'admin-app'});
       }

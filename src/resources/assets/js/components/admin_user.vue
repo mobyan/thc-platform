@@ -124,7 +124,7 @@
         created: function () {
             var self = this;
             this.$http.get('/api/app').then(function(res){
-              self.apps = res.body.items;
+              self.apps = res.body;
             });
         },
         mounted: function () {

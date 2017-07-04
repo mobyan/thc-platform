@@ -62,8 +62,8 @@
                 user.body.roles = _.map(user.body.roles, (v) => {
                     return v.id
                 });
-                self.apps = apps.body.items;
-                self.roles = roles.body.items;
+                self.apps = apps.body;
+                self.roles = roles.body;
                 self.user = user.body;
             })
         },

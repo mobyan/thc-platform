@@ -26,8 +26,9 @@ class CodeController extends Controller
       $this->assertPermissions('search');
       $content = $request->input('content')? $request->input('content'):'';
       $items = Searchy::codes("merged_name")->query("$content")->getQuery()->limit(5)->get();
-      $count = count($items);
-      return compact('count', 'items');
+      // $count = count($items);
+      // return compact('count', 'items');
+      return $items;
     }
 
     public function show($id, Request $req){
