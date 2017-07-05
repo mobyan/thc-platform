@@ -67,7 +67,7 @@ return [
             'username'      => 'sonic513',//UserName
             'password'      => 'sonic513',//Password
             'bucket'        => 'thc-platfrom-storage',//Bucket名字
-            'timeout'       => 130,//超时时间
+            'timeout'       => 1800,//超时时间
             'endpoint'      => null,//线路
             'transport'     => 'http',//如果支持https，请填写https，如果不支持请填写http
         ],

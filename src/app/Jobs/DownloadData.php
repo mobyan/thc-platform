@@ -54,7 +54,7 @@ class DownloadData implements ShouldQueue
         $query_options = json_decode($this->options['options']);
         for ($i=0; $i < count($query_options->device_ids); $i++){
             $device_datas = DeviceData::where('device_id', $query_options->device_ids[$i])
-                                        ->whereBetween('created_at', [$query_options->start_at, $query_options->end_at])
+                                        ->whereBetween('ts', [$query_options->start_at, $query_options->end_at])
                                         ->get();
             $device_datas_image = array();
             $raw_device_datas_data = $device_datas->filter(function($item, $key) use (&$device_datas_image) {
@@ -77,7 +77,8 @@ class DownloadData implements ShouldQueue
                 foreach ($device_datas_image as $device_data_image) {
                     $image_url = $device_data_image->data[$device_data_image->image_key]['value'];
                     $res = $client->request('GET', $image_url_prefix.$image_url);
-                    $image_file_path = $image_folder_path.($device_data_image->created_at)->toDateTimeString().'.jpg';
+                    // $image_file_path = $image_folder_path.($device_data_image->created_at)->toDateTimeString().'.jpg';
+                    $image_file_path = $image_folder_path.$device_data_image->ts.'.jpg';
                     Storage::disk('local')->put($image_file_path, $res->getBody()->getContents());
                 }
             }

@@ -115,6 +115,11 @@
         query.with_image = this.with_image;
         query.start_at = this.start_at.time;
         query.end_at = this.end_at.time;
+        var time_interval = moment(query.end_at).diff(moment(query.start_at), "days");
+        if(time_interval > 30){
+          alert('下载间隔大于30天,请重新选择!');
+          return;
+        }
         var self = this;
         this.$http.post('/api/download', query, {params:{alert:'数据下载'}}).then(function(res){
           // console.log(res.data);
@@ -133,6 +138,10 @@
         var self = this;
         this.$http.get('/api/download').then(function(res){
           self.download_jobs = res.body;
+          for(var i=0; i<self.download_jobs.length; i++){
+            self.download_jobs[i].created_at = (moment(self.download_jobs[i].created_at, "YYYY-MM-DD HH:mm:ss Z").add(8, "hours")).format('YYYY-MM-DD HH:mm:ss');
+            self.download_jobs[i].updated_at = (moment(self.download_jobs[i].updated_at, "YYYY-MM-DD HH:mm:ss Z").add(8, "hours")).format('YYYY-MM-DD HH:mm:ss');
+          }
         })
       },
       delete_job: function(id){
