@@ -29,7 +29,7 @@
             <div class="custom-actions">
               <button class="btn btn-white btn-success"
                 @click="extend(props.rowData, props.rowIndex)">
-                <i class="fa fa-trash-o "></i>
+                <i class="fa fa-refresh"></i>
               </button>
               <button class="btn btn-white btn-danger"
                 @click="remove(props.rowIndex)">

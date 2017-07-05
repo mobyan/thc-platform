@@ -8,7 +8,7 @@
       <label>名称: </label>
       <input type="text" v-model="rowData.name">
     </div>
-    <button class="ui basic button inline btn-success"
+    <button class="btn-white btn-success"
       @click="onClick()">
       <i class="fa fa-refresh">更新</i>
     </button>

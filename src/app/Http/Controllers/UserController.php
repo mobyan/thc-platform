@@ -14,11 +14,11 @@ class UserController extends Controller
 
     static $permissions = [
     'all' => ['sys_r'],
-    'update' => ['app_r', 'sys_w'],
-    'store' => ['sys_w'],
+    'update' => ['app_w', 'sys_w'],
+    'store' => ['sys_w','app_w'],
     'my' => ['app_r'],
-    'index' => ['sys_w'],
-    'destroy' => ['sys_w'],
+    'index' => ['sys_w', 'app_w'],
+    'destroy' => ['sys_w','app_w'],
     'attach' => ['app_w', 'sys_w'],
     'detach' => ['app_w', 'sys_w'],
     ];

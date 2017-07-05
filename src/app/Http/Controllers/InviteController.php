@@ -65,7 +65,7 @@ class InviteController extends Controller
         // Mail::send('invite',$data, function($message)use($data){
         //   $message->to($data['email'], $data['name'])->subject('welcome to THC');
         // });
-        Mail::to($data['email'])->send(new Invitation($data['code']));
+        Mail::to($data['email'])->send(new Invitation($data['code'], $data['email']));
 
         return $refCode;
 

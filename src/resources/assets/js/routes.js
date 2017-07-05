@@ -156,22 +156,24 @@ const routes = [{
   props: {
     header: {title: '设备信息'}
   }
-},{
-  name: 'admin-users',
-  path: '/admin/user',
+},
+{
+  name: 'users',
+  path: '/user',
   components:{
     default: require('./components/users.vue'),
-    header: admin_header,
+    header: header,
   },
   props:{
     header:{ title: '用户管理'}
   }
-},{
-  name: 'admin-user',
-  path: '/admin/user/:user',
+},
+{
+  name: 'user',
+  path: '/user/:user',
   components: {
     default: require('./components/user.vue'),
-    header: admin_header,
+    header: header,
   },
   props: {
     header: {title: '用户管理'}

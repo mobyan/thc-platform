@@ -103,6 +103,7 @@
                       <a href="{{ url('/eason/logout') }}"
                       onclick="event.preventDefault();
                       document.getElementById('logout-form').submit();">
+                      <i class="ace-icon fa fa-power-off"></i>
                       退出</a>
 
                       <form id="logout-form" action="{{ url('/eason/logout') }}" method="POST" style="display: none;">
@@ -235,7 +236,7 @@
 </div>
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>
-    <!-- <script src="js/ace/jquery-2.1.4.min.js"></script> -->
+    <script src="js/ace/jquery-2.1.4.min.js"></script>
     <!-- ace scripts -->
     <!--[if lte IE 8]>
 		  <script src="assets/js/excanvas.min.js"></script>

@@ -24,7 +24,7 @@ class Controller extends BaseController
     ];
 
     static $sys_root_models = ['user', 'app', 'apply', 'role'];
-    static $app_root_models = [\App\Station::class];
+    static $app_root_models = [\App\Station::class, \App\User::class];
 
     static $permissions = [];
 
@@ -50,6 +50,7 @@ class Controller extends BaseController
             $where = ['app_id', '=', $this->user()->app_id];
             $code = Request::input('code');
             if(!$code){
+              Log::info($this->user()->code_id);
                 $code = \App\Code::find($this->user()->code_id)->code;
             }
             $whereLike = 'code like "'.$code.'%"';
@@ -69,7 +70,7 @@ class Controller extends BaseController
         if (Request::has('sort')) {
             list($sortCol, $sortDir) = explode('|', Request::input(sort));
             $items = $items->orderBy($sortCol, $sortDir);
-        } else {  
+        } else {
             $items = $items->orderBy('id', 'asc');
             //$items = call_user_func_array([static::$model,'orderBy'],array('id', 'asc'));
         }

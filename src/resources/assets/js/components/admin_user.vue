@@ -15,36 +15,36 @@
           <div class="col-md-4">
             <img src="/image/noimage.jpg" id="no-image">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-8">
               <form>
-                <div class="form-group">
+                <div class="form-group col-md-6">
                    <label for="name">名称</label>
                    <input type="text" v-model="user.name" :disabled="!editing" class="form-control" id="name" placeholder="名称">
                 </div>
-                <div class="form-group">
+                <div class="form-group  col-md-6">
                    <label for="email">邮箱</label>
                    <input type="text" v-model="user.email" :disabled="!editing" class="form-control" id="email" placeholder="邮箱">
                 </div>
-                <div class="form-group">
+                <div class="form-group  col-md-6">
                    <label for="phone">手机</label>
                    <input type="text" v-model="user.phone" :disabled="!editing" class="form-control" id="phone" placeholder="手机">
                 </div>
-                <div class="form-group" v-if="isCreate">
+                <div class="form-group col-md-6" v-if="isCreate">
                     <label for="password">密码</label>
                     <input id="password" type="password" class="form-control" name="password" v-model="user.password" required>
                 </div>
 
-                <div class="form-group" v-if="isCreate">
+                <div class="form-group col-md-6" v-if="isCreate">
                     <label for="password-confirm">密码确认</label>
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" v-model="user.password_confirmation" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group  col-md-6">
                    <label for="app_id">所属产品线</label>
                    <select class="form-control" v-model="user.app_id" :disabled="!editing">
                      <option v-for="app in apps" :value="app.id" >{{app.name}}</option>
                    </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group  col-md-12">
                    <label for="belongs_code">所属区划</label>
                    <div class="input-group">
                      <code-view :search="user.bcode" :editing="editing" @code-update="onUserCodeUpdate"></code-view>
@@ -82,35 +82,36 @@
         </div>
         <div class="panel-body">
             <div class="panel">
-              <div class="col-md-4">
-              <div class="form-group"><label>区划</label>
-                <div class="input-group">
-                  <code-view :search="code" @code-update="onCodeUpdate"></code-view>
-                  <!--<input class="form-control" v-model="code.merged_name" @keydown.enter="searchCode()"></input>
-                  <div class="input-group-btn">
-                    <button @click="searchCode()" class="btn btn-white btn-primary"><i class="fa fa-search"></button>
-                    <button @click="clearCode()" class="btn btn-white btn-primary"><i class="fa fa-refresh"></button>
+              <form class="row">
+                <div class="form-group col-md-3">
+                  <label>区划</label>
+                  <div class="input-group">
+                    <code-view :search="code" @code-update="onCodeUpdate"></code-view>
+                    <!--<input class="form-control" v-model="code.merged_name" @keydown.enter="searchCode()"></input>
+                    <div class="input-group-btn">
+                      <button @click="searchCode()" class="btn btn-white btn-primary"><i class="fa fa-search"></button>
+                      <button @click="clearCode()" class="btn btn-white btn-primary"><i class="fa fa-refresh"></button>
+                    </div>
+                    <div class="search-select">
+                        <transition-group name="itemfade" tag="ul" mode="out-in" v-cloak v-show="isShow" style="z-index: 9999; position: relative;">
+                            <li v-for="(cv,index) in codes" :class="{selectback:index==now}" :key="index" @click.prevent="selectCode(index)" class="search-select-option search-select-list">
+                                {{cv.merged_name}}
+                            </li>
+                        </transition-group>
+                    </div>-->
                   </div>
-                  <div class="search-select">
-                      <transition-group name="itemfade" tag="ul" mode="out-in" v-cloak v-show="isShow" style="z-index: 9999; position: relative;">
-                          <li v-for="(cv,index) in codes" :class="{selectback:index==now}" :key="index" @click.prevent="selectCode(index)" class="search-select-option search-select-list">
-                              {{cv.merged_name}}
-                          </li>
-                      </transition-group>
-                  </div>-->
+                  <!--<input :disabled="true" type="text" v-model="code.merged_name" class="form-control">
+                  <code_view v-on:codeChangedEvent="watchedCodeChanged"></code_view>-->
                 </div>
-                <!--<input :disabled="true" type="text" v-model="code.merged_name" class="form-control">
-                <code_view v-on:codeChangedEvent="watchedCodeChanged"></code_view>-->
-              </div>
-              <div class="form-group" v-if="code"><label>权限</label>
-                <select class="form-control" v-model="role">
-                    <option v-for="cr in code.roles" :value="cr">{{cr.display_name}}</option>
-                </select>
-              </div>
+                <div class="form-group col-md-3" v-if="code"><label>权限</label>
+                  <select class="form-control" v-model="role">
+                      <option v-for="cr in code.roles" :value="cr">{{cr.display_name}}</option>
+                  </select>
+                </div>
+
+              </form>
               <button type="submit" @click.prevent="attach" class="btn btn-primary">提交</button>
-              </div>
-            </div>
-            <div>
+
               <table class="table table-bordered table-striped table-hover" v-if="user.roles">
                 <tbody>
                   <tr class="fatal">

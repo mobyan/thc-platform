@@ -142,22 +142,12 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
       this.$http.get('/api/app').then(function(res){
         self.apps = res.body;
         self.currentApp = self.apps[0].id;
-      }).then(function(){
-        this.$http.get('/api/user?with=bcode&app_id='+self.currentApp).then(function(res){
-          self.users = res.body;
-        });
       });
 
     },
     methods: {
         go: function () {
             this.$router.push({name:'admin-user', params:{user:0}, query: {op:'create'}})
-        },
-        search: function(){
-            var self = this;
-            this.$http.get('/api/user?with=bcode&app_id='+this.currentApp).then(function(res){
-              self.users = res.body;
-            })
         },
         remove: function(usr, i){
             var self = this;
@@ -195,12 +185,6 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
         onLoaded(){
           window.app.loading = false;
         },
-        search: function(){
-            var self = this;
-            this.$http.get('/api/user?with=bcode&app_id='+this.currentApp).then(function(res){
-              self.users = res.body;
-            })
-        }
     }
   }
 </script>
