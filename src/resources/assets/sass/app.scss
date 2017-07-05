@@ -186,18 +186,17 @@ body {
 }
 
 .upic {
-  width:86%;
   margin:10% 7% 7% 10%;
-  background: #f6f7fa;
-  border: 1px solid #cacfda;
   padding:0px;
   text-align:center;
 }
 
 .upic img{
-  margin: 7% 0px -3px 0px;
+  margin: 0px;
   padding:0px;
-  width: 80%;
+  width: 100%;
+  max-width: 200px;
+  heigt: 100%;
 }
 
 .uinfo {
@@ -390,13 +389,34 @@ input::-ms-clear{display: none}
         overflow-y: scroll;
       }
 .dropzone .dz-preview {
-    margin: 0px!important;
+  margin: 0px!important;
 }
 
 .vue-dropzone {
-    text-align: center;
+  text-align: center;
 }
 
 .dropzone .dz-preview .dz-error-message {
-    top: 0px!important;
+  top: 0px!important;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename {
+  display: none!important;
+}
+
+.dropzone .dz-preview .dz-image {
+  width: 100%!important;
+}
+
+.dropzone .dz-preview .dz-image img {
+  width: 100%!important;
+}
+
+.dropzone .dz-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.dropzone .dz-preview.dz-image-preview {
+  background: #f6f6f6!important;
 }

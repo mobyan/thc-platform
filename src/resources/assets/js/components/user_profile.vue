@@ -23,19 +23,19 @@
                 <div class="col-md-6">
                   <form class="form">
                     <div class="form-group">
-                      <label>Name:</label>
+                      <label>名称</label>
                       <input class="form-control" v-model="user_profile.name">
                     </div>
                     <div class="form-group">
-                      <label>Position:</label>
+                      <label>职位</label>
                       <input type="text" class="form-control" v-model="user_profile.position">
                     </div>
                     <div class="form-group">
-                      <label>Department:</label>
+                      <label>部门</label>
                       <input type="text" class="form-control" v-model="user_profile.department">
                     </div>
                     <div class="form-group">
-                      <label>Institution:</label>
+                      <label>公司</label>
                       <input type="text" class="form-control" v-model="user_profile.institution">
                     </div>
                   </form>
@@ -43,19 +43,19 @@
                 <div class="col-md-6">
                   <form class="form">
                     <div class="form-group">
-                      <label>Email:</label>
+                      <label>邮箱</label>
                       <input class="form-control" v-model="user_profile.email">
                     </div>
                     <div class="form-group">
-                      <label>Cell:</label>
+                      <label>座机</label>
                       <input type="text" class="form-control" v-model="user_profile.cell">
                     </div>
                     <div class="form-group">
-                      <label>Phone:</label>
+                      <label>手机</label>
                       <input type="text" class="form-control" v-model="user_profile.phone">
                     </div>
                     <div class="form-group">
-                      <label>Address:</label>
+                      <label>通讯地址</label>
                       <input type="text" class="form-control" v-model="user_profile.address">
                     </div>
                   </form>
@@ -68,10 +68,10 @@
               <div class="uinfo">
                 <div class="col-md-5">
                   <dl>
-                    <dt>名称</dt>
+                    <dt>名称:</dt>
                     <dd>{{ user_profile.name }}</dd>
                     <br>
-                    <dt>职位</dt>
+                    <dt>职位:</dt>
                     <dd>{{ user_profile.position }}</dd>
                     <br>
                     <dt>部门:</dt>
@@ -128,6 +128,8 @@ import Dropzone from 'vue2-dropzone'
             acceptedFileTypes: 'image/jpeg,image/jpg,image/png',
             resizeWidth: 200,
             resizeHeight: 200,
+            resizeQuality: 100,
+            resizeMethod: 'crop',
             // resizeMimeType: 'image/jpg',
             language: {
               dictFileTooBig: '上传文件过大({{filesize}}MiB) 文件大小限制: {{maxFilesize}}MiB',
