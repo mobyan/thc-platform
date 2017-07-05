@@ -33,6 +33,7 @@ class UserProfileController extends Controller
         	$user_profile->cell = 'default';
         	$user_profile->phone = 'default';
         	$user_profile->address = 'default';
+            $user_profile->avatar_url = '/image/upic.png';
         	$user_profile->save();
         	return compact('user_profile');
         }

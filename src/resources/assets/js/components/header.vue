@@ -31,13 +31,14 @@
     created: function () {
       // Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
       console.log('header.vue created');
-      if (!isNaN(parseInt(Cookie.get('currentCode')))) {
+      if (isNaN(parseInt(Cookie.get('currentCode')))) {
         console.log('here');
-        Cookie.set('currentCode', Cookie.get('currentCode'));
-      }
-      else{
+        // Cookie.set('currentCode', Cookie.get('currentCode'));
         Cookie.set('currentCode', (thc.user.codes[0]?thc.user.codes[0].id:null));
+        
       }
+      // else{
+      // }
     },
     methods: {
       back: function () {
