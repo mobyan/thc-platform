@@ -9,16 +9,23 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>天航华创</title>
-
+    <!--[if lte IE 9]>
+ 	  <link rel="stylesheet" href="/css/ace/ace-ie.min.css" />
+ 		<![endif]-->
+    <!--[if lte IE 8]>
+ 		<script src="/js/ace/html5shiv.min.js"></script>
+ 		<script src="/js/ace/respond.min.js"></script>
+ 		<![endif]-->
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <!-- ace styles -->
-	<link rel="stylesheet" href="/css/ace/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
+	  <link rel="stylesheet" href="/css/ace/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="/css/ace/ace-skins.min.css"/>
-	<link rel="stylesheet" href="/css/ace/ace-rtl.min.css"/>
+	  <link rel="stylesheet" href="/css/ace/ace-rtl.min.css"/>
+    <script src="/js/ace/ace-extra.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -101,11 +108,11 @@
                 @endif
               </ul>
             </div>
+          </div>
         </div>
 
         <!--main-container-->
         <div class="main-container ace-save-state" id="main-container">
-<<<<<<< HEAD
           @if (!Auth::guest())
           <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
 
@@ -185,89 +192,10 @@
                 <router-view name="header"></router-view><!--page-header-->
                 <div class="container">
                   <router-view></router-view>
-=======
-            @if (!Auth::guest())
-            <div id="sidebar" class="sidebar responsive ace-save-state">
-                <ul class="nav nav-list">
-
-                    <li class="active" v-if="canAppRead()">
-    					<router-link to="/dashboard">
-    						<i class="menu-icon fa fa-tachometer"></i>
-    						<span class="menu-text"> 信息概况 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-                    <li class="active" v-if="canAppRead()">
-    					<router-link to="/map">
-    						<i class="menu-icon fa fa-tachometer"></i>
-    						<span class="menu-text"> 站点地图 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-                    <li class="active" v-if="canAppRead()">
-    					<router-link to="/station">
-    						<i class="menu-icon fa fa-tachometer"></i>
-    						<span class="menu-text"> 站点列表 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-                    <li class="" v-if="canAppRead()">
-    					<router-link to="/data_download">
-    						<i class="menu-icon fa fa-tachometer"></i>
-    						<span class="menu-text"> 数据下载 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-                    <!--app admin-->
-                    <li class="" v-if="canAppWrite()">
-    					<router-link to="/user">
-    						<i class="menu-icon fa fa-user-circle-o"></i>
-    						<span class="menu-text"> 用户管理 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-                    <!--admin part-->
-                    <li class="" v-if="canSysWrite()">
-    					<router-link to="/admin/user">
-    						<i class="menu-icon fa fa-user-circle-o"></i>
-    						<span class="menu-text"> 用户管理 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-
-                    <li class="" v-if="canSysWrite()">
-    					<router-link to="/admin/app">
-    						<i class="menu-icon fa fa-envira"></i>
-    						<span class="menu-text"> 公司管理 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-
-                    <li class="" v-if="canSysWrite()">
-    					<router-link to="/admin/station">
-    						<i class="menu-icon fa fa-tablet"></i>
-    						<span class="menu-text"> 站点管理 </span>
-    					</router-link>
-    					<b class="arrow"></b>
-    				</li>
-                </ul>
-            </div>
-            @endif
-            <div class="main-content">
-                <div class="main-content-inner">
-                    <div class="page-content">
-                        @yield('content')
-                        @if (!Auth::guest())
-                        <router-view name="header"></router-view>
-                        <div class="container">
-                            <router-view></router-view>
-                        </div>
-                        @endif
-                    </div>
->>>>>>> 17645f1639d0a894727d788d8e027b4f1dd09a57
                 </div>
+                @endif
+              </div>
             </div>
-<<<<<<< HEAD
           </div><!--main content-->
           <div class="footer">
             <div class="footer-inner">
@@ -290,30 +218,11 @@
     							</a>
     						</span>
     					</div>
-=======
-            <div class="footer">
-                <div class="footer-inner">
-    				<div class="footer-content">
-    					<span class="bigger-120">
-    						<span class="blue bolder">北京天航华创科技股份有限公司</span>
-    						&copy; 2017
-    					</span>
-    					&nbsp; &nbsp;
-    					<span class="action-buttons">
-    						<a href="#">
-    							<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-    						</a>
-    						<a href="#">
-    							<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-    						</a>
-    						<a href="#">
-    							<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-    						</a>
-    					</span>
->>>>>>> 17645f1639d0a894727d788d8e027b4f1dd09a57
     				</div>
     			</div>
-            </div>
+            <!--<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    			</a>-->
         </div>
     </div>
     <!-- Scripts -->
