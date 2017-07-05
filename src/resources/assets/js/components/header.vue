@@ -23,6 +23,7 @@
     },
     watch: {
       currentRCode: function () {
+        console.log('header.vue currentRCode');
         Cookie.set('currentCode',this.currentCode);
         location.href = '/';
       }

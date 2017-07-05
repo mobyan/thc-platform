@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -12,27 +12,13 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="/css/ace/bootstrap.min.css" />-->
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <!-- ace styles -->
-		<link rel="stylesheet" href="/css/ace/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-    <!--[if lte IE 9]>
-			<link rel="stylesheet" href="/css/ace/ace-part2.min.css" class="ace-main-stylesheet" />
-		<![endif]-->
-    <link rel="stylesheet" href="/css/ace/ace-skins.min.css" />
-		<link rel="stylesheet" href="/css/ace/ace-rtl.min.css" />
-    <!--[if lte IE 9]>
-		  <link rel="stylesheet" href="/css/ace/ace-ie.min.css" />
-		<![endif]-->
-    <!-- ace settings handler -->
-		<script src="/js/ace/ace-extra.min.js"></script>
-    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
-		<!--[if lte IE 8]>
-		<script src="/js/ace/html5shiv.min.js"></script>
-		<script src="/js/ace/respond.min.js"></script>
-		<![endif]-->
-    <!-- Scripts -->
+	<link rel="stylesheet" href="/css/ace/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
+    <link rel="stylesheet" href="/css/ace/ace-skins.min.css"/>
+	<link rel="stylesheet" href="/css/ace/ace-rtl.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -44,8 +30,8 @@
     </script>
 </head>
 <body class="no-skin">
-  <div id="app">
-        <pulse-loader id="loading" :loading="loading" color="#00aadf" ></pulse-loader>
+    <div id="app">
+        <pulse-loader id="loading" :loading="loading" color="#00aadf"></pulse-loader>
         <div id="navbar" class="navbar navbar-default ace-save-state">
           <div class="navbar-container ace-save-state" id="navbar-container">
             <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
@@ -115,11 +101,11 @@
                 @endif
               </ul>
             </div>
-          </div>
-        </div><!--nav-bar-->
+        </div>
 
         <!--main-container-->
         <div class="main-container ace-save-state" id="main-container">
+<<<<<<< HEAD
           @if (!Auth::guest())
           <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
 
@@ -199,12 +185,89 @@
                 <router-view name="header"></router-view><!--page-header-->
                 <div class="container">
                   <router-view></router-view>
-                </div>
+=======
+            @if (!Auth::guest())
+            <div id="sidebar" class="sidebar responsive ace-save-state">
+                <ul class="nav nav-list">
 
-                @endif
+                    <li class="active" v-if="canAppRead()">
+    					<router-link to="/dashboard">
+    						<i class="menu-icon fa fa-tachometer"></i>
+    						<span class="menu-text"> 信息概况 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
+                    <li class="active" v-if="canAppRead()">
+    					<router-link to="/map">
+    						<i class="menu-icon fa fa-tachometer"></i>
+    						<span class="menu-text"> 站点地图 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
+                    <li class="active" v-if="canAppRead()">
+    					<router-link to="/station">
+    						<i class="menu-icon fa fa-tachometer"></i>
+    						<span class="menu-text"> 站点列表 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
+                    <li class="" v-if="canAppRead()">
+    					<router-link to="/data_download">
+    						<i class="menu-icon fa fa-tachometer"></i>
+    						<span class="menu-text"> 数据下载 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
+                    <!--app admin-->
+                    <li class="" v-if="canAppWrite()">
+    					<router-link to="/user">
+    						<i class="menu-icon fa fa-user-circle-o"></i>
+    						<span class="menu-text"> 用户管理 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
+                    <!--admin part-->
+                    <li class="" v-if="canSysWrite()">
+    					<router-link to="/admin/user">
+    						<i class="menu-icon fa fa-user-circle-o"></i>
+    						<span class="menu-text"> 用户管理 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
 
-              </div>
+                    <li class="" v-if="canSysWrite()">
+    					<router-link to="/admin/app">
+    						<i class="menu-icon fa fa-envira"></i>
+    						<span class="menu-text"> 公司管理 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
+
+                    <li class="" v-if="canSysWrite()">
+    					<router-link to="/admin/station">
+    						<i class="menu-icon fa fa-tablet"></i>
+    						<span class="menu-text"> 站点管理 </span>
+    					</router-link>
+    					<b class="arrow"></b>
+    				</li>
+                </ul>
             </div>
+            @endif
+            <div class="main-content">
+                <div class="main-content-inner">
+                    <div class="page-content">
+                        @yield('content')
+                        @if (!Auth::guest())
+                        <router-view name="header"></router-view>
+                        <div class="container">
+                            <router-view></router-view>
+                        </div>
+                        @endif
+                    </div>
+>>>>>>> 17645f1639d0a894727d788d8e027b4f1dd09a57
+                </div>
+            </div>
+<<<<<<< HEAD
           </div><!--main content-->
           <div class="footer">
             <div class="footer-inner">
@@ -227,27 +290,40 @@
     							</a>
     						</span>
     					</div>
+=======
+            <div class="footer">
+                <div class="footer-inner">
+    				<div class="footer-content">
+    					<span class="bigger-120">
+    						<span class="blue bolder">北京天航华创科技股份有限公司</span>
+    						&copy; 2017
+    					</span>
+    					&nbsp; &nbsp;
+    					<span class="action-buttons">
+    						<a href="#">
+    							<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+    						</a>
+    						<a href="#">
+    							<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+    						</a>
+    						<a href="#">
+    							<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+    						</a>
+    					</span>
+>>>>>>> 17645f1639d0a894727d788d8e027b4f1dd09a57
     				</div>
-          </div><!--main footer-->
-          <!--<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-    				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-    			</a>-->
-        </div><!--main container-->
-</div>
+    			</div>
+            </div>
+        </div>
+    </div>
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>
-    <script src="js/ace/jquery-2.1.4.min.js"></script>
-    <!-- ace scripts -->
-    <!--[if lte IE 8]>
-		  <script src="assets/js/excanvas.min.js"></script>
-		<![endif]-->
-		<script src="/js/ace/jquery-ui.custom.min.js"></script>
-		<script src="/js/ace/jquery.ui.touch-punch.min.js"></script>
-
-
-		<script src="/js/ace/ace-elements.min.js"></script>
-		<script src="/js/ace/ace.min.js"></script>
-
+    <!-- <script src="js/ace/jquery-2.1.4.min.js"></script> -->
+	<script src="/js/ace/jquery-ui.custom.min.js"></script>
+	<script src="/js/ace/jquery.ui.touch-punch.min.js"></script>
+	<script src="/js/ace/ace-elements.min.js"></script>
+	<script src="/js/ace/ace.min.js"></script>
+    <script src="/js/ace/ace-extra.min.js"></script>
     <div class="alert alert-success" role="alert" ></div>
     <div class="alert alert-warning" role="alert" ></div>
 </body>

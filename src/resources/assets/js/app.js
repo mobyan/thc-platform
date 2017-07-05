@@ -43,6 +43,7 @@ const router = new VueRouter({
 })
 
 window.thc.can = function(permission_name, code_id) {
+  console.log('app.js window.thc.can');
   code_id = code_id !== undefined ? code_id: Cookie.get('currentCode');
   for (var r in thc.user.roles) {
     var role = thc.user.roles[r]

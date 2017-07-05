@@ -389,3 +389,14 @@ input::-ms-clear{display: none}
       body {
         overflow-y: scroll;
       }
+.dropzone .dz-preview {
+    margin: 0px!important;
+}
+
+.vue-dropzone {
+    text-align: center;
+}
+
+.dropzone .dz-preview .dz-error-message {
+    top: 0px!important;
+}

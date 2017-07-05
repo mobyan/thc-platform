@@ -34,6 +34,7 @@ Vue.http.interceptors.push((request, next) => {
 });
 
 Vue.http.interceptors.push((request, next) => {
+    console.log('Bootstrap.js');
     request.headers.set('X-CODE', Cookie.get('currentCode'));
     next();
 });

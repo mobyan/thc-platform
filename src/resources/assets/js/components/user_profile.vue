@@ -1,16 +1,21 @@
 <template>
   <div id="user_profile">
-<!--     <div class="col-md-1"></div>
-    <div class="col-sm-12"> -->
       <div class="panel panel-default panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">个人资料</h3>
         </div>
         <div class="panel-body">
-          <div class="col-md-3">
-            <div class="upic">
-              <img src="/image/upic.png">
-            </div>
+          <div class="col-md-3 col-sm-12">
+            <template v-if="!editing">
+              <div class="upic">
+                <img :src="user_profile.avatar_url">
+              </div>
+            </template>
+            <template v-if="editing">
+              <dropzone id="avatarDropzone" url="/api/avatar" @vdropzone-success="showSuccess" :dropzone-options="customOptionsObject" v-bind:use-custom-dropzone-options="true">
+                <input type="hidden" name="token" value="xxx">
+              </dropzone>
+            </template>
           </div>
           <div class="col-md-9">
             <template v-if="editing">
@@ -56,7 +61,7 @@
                   </form>
                 </div>
                 <button type="submit" @click.prevent="save()" class="btn btn-success">确定</button>
-                <button type="submit" @click.prevent="editing = !editing" class="btn btn-danger">取消</button>
+                <button type="submit" @click.prevent="editing_switch()" class="btn btn-danger">取消</button>
               </div>
             </template>
             <template v-else>
@@ -101,19 +106,39 @@
           </div>
         </div>
       </div>
-    <!-- </div> -->
-    <!-- <div class="col-md-1"></div> -->
   </div>
 </template>
 
 <script>
 import bootbox from 'bootbox'
+import Dropzone from 'vue2-dropzone'
     export default {
+      components: {
+        Dropzone,
+      },
       data: function () {
         return {
           user_profile: {
           },
           editing: false,
+          customOptionsObject: {
+            maxNumberOfFiles: 1,
+            autoProcessQueue: true,
+            maxFileSizeInMB: 2,
+            acceptedFileTypes: 'image/jpeg,image/jpg,image/png',
+            resizeWidth: 200,
+            resizeHeight: 200,
+            // resizeMimeType: 'image/jpg',
+            language: {
+              dictFileTooBig: '上传文件过大({{filesize}}MiB) 文件大小限制: {{maxFilesize}}MiB',
+              dictInvalidFileType: '非法上传文件类型',
+              dictCancelUpload: '取消上传',
+              dictCancelUploadConfirmation: '确定要取消上传',
+              dictDefaultMessage: '拖拽或点击上传新头像',
+              dictRemoveFile: '删除文件',
+              dictMaxFilesExceeded: '达到上传数量上限',
+            },
+          },
           fillable: ['name', 'position', 'department', 'institution', 
                      'email', 'cell', 'phone', 'address'],
       }
@@ -121,20 +146,28 @@ import bootbox from 'bootbox'
   methods: {
     save: function () {
       this.$http.put('/api/user_profile/' + this.user_profile.id, _.pick(this.user_profile, this.fillable), {params:{alert:'更新个人资料'}}).then(function () {
-                this.editing = !this.editing;
+                // this.editing = !this.editing;
+                this.$router.go(0);
             }
       );
     },
     get_user_profile: function(){
-        var self = this;
-        this.$http.get('/api/user_profile').then(function(res){
-          self.user_profile = res.body.user_profile;
-        })
-      },
+      var self = this;
+      this.$http.get('/api/user_profile').then(function(res){
+        self.user_profile = res.body.user_profile;
+      })
+    },
+    showSuccess(file) {
+      // console.log('A file was successfully uploaded');
+    },
+    editing_switch() {
+      // this.editing = !this.editing;
+      this.$router.go(0);
+    },
   },
   created: function()
-    {
-      this.get_user_profile();
-    },
+  {
+    this.get_user_profile();
+  },
 }
 </script>

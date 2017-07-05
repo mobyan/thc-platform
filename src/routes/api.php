@@ -77,3 +77,7 @@ Route::resource('station/{station}/alert', 'AlertController', ['only' => [
 Route::resource('download', 'DownloadController', ['only' => [
     'index', 'show', 'store', 'update', 'destroy'
 ]]);
+
+Route::resource('avatar', 'AvatarController', ['only' => [
+    'store'
+]]);

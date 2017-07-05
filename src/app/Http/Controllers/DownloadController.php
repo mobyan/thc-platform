@@ -23,7 +23,8 @@ class DownloadController extends Controller
     public function index(){
         $user = Auth::user();
         $items = $user->download_jobs;
-        return compact('items');
+        // return compact('items');
+        return $items;
     }
 
     public function store(Request $request){

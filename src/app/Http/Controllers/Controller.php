@@ -49,9 +49,11 @@ class Controller extends BaseController
         if ($this->user()->app_id != 0 && in_array(static::$model, static::$app_root_models)) {
             $where = ['app_id', '=', $this->user()->app_id];
             $code = Request::input('code');
+            Log::info($code);
             if(!$code){
-              Log::info($this->user()->code_id);
+                // Log::info($this->user()->code_id);
                 $code = \App\Code::find($this->user()->code_id)->code;
+                Log::info($code);
             }
             $whereLike = 'code like "'.$code.'%"';
             //$whereLike = isset($whereLike)? $whereLike.' or regioncode like "'.$code.'%"':'regioncode like "'.$code.'%"';

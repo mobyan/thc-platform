@@ -132,7 +132,7 @@
       get_belonged_jobs: function(){
         var self = this;
         this.$http.get('/api/download').then(function(res){
-          self.download_jobs = res.body.items;
+          self.download_jobs = res.body;
         })
       },
       delete_job: function(id){
@@ -162,14 +162,14 @@
       get_belonged_devices: function(){
         var self = this;
         this.$http.get('/api/station').then(function(res){
-          self.stations = res.body.items;
+          self.stations = res.body;
           for (var i = self.stations.length - 1; i >= 0; i--) {
             let station_name = self.stations[i].name;
             self.$http.get('/api/station/' + self.stations[i].id + '/device').then(function (res) {
-              for(var j = 0, length1 = res.body.items.length; j < length1; j++){
-                res.body.items[j].name = station_name + '-' + res.body.items[j].name;
+              for(var j = 0, length1 = res.body.length; j < length1; j++){
+                res.body[j].name = station_name + '-' + res.body[j].name;
               }
-              self.devices = self.devices.concat(res.body.items);
+              self.devices = self.devices.concat(res.body);
               let tmp_devices = _.sortBy(self.devices, function(item){
                 return item.id;
               })

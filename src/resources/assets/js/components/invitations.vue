@@ -135,10 +135,25 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
       }
     },
     created: function () {
+<<<<<<< HEAD
       this.load();
     },
     watch: {
       '$route': 'load',
+=======
+      var self = this;
+      this.createInvite();
+      this.$http.get('/api/region').then(function(res){
+        this.regions = res.body;
+        this.currentRegion = this.regions[0];
+      });
+      this.$http.get('/api/sub_region?code='+this.currentRegion.code).then(function(res){
+        this.subRegions = res.body;
+      });
+      this.$http.get('/api/invitation').then(function (res) {
+        this.invitations = res.body;
+      });
+>>>>>>> 17645f1639d0a894727d788d8e027b4f1dd09a57
     },
     methods: {
       load: function(){
