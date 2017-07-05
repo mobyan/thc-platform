@@ -83,14 +83,14 @@
     								<i class="ace-icon fa fa-caret-down"></i>
     							</a>
                   <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-    								<li>
+    								<li v-if="canAppWrite()">
     									<router-link to="/invitation">
     										<i class="ace-icon fa fa-cog"></i>
     										邀请码管理
     									</router-link>
     								</li>
 
-    								<li>
+    								<li v-if="canAppRead()">
     									<router-link to="/profile">
     										<i class="ace-icon fa fa-user"></i>
     										个人资料
@@ -119,31 +119,26 @@
 
         <!--main-container-->
         <div class="main-container ace-save-state" id="main-container">
-          <script type="text/javascript">
-    				try{ace.settings.loadState('main-container')}catch(e){}
-    			</script>
           @if (!Auth::guest())
           <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-            <script type="text/javascript">
-    					try{ace.settings.loadState('sidebar')}catch(e){}
-    				</script>
+
             <ul class="nav nav-list">
 
-              <li class="active" v-if="canAppRead()">
+              <li v-if="canAppRead()">
     						<router-link to="/dashboard">
     							<i class="menu-icon fa fa-tachometer"></i>
     							<span class="menu-text"> 信息概况 </span>
     						</router-link>
     						<b class="arrow"></b>
     					</li>
-              <li class="active" v-if="canAppRead()">
+              <li  v-if="canAppRead()">
     						<router-link to="/map">
     							<i class="menu-icon fa fa-tachometer"></i>
     							<span class="menu-text"> 站点地图 </span>
     						</router-link>
     						<b class="arrow"></b>
     					</li>
-              <li class="active" v-if="canAppRead()">
+              <li  v-if="canAppRead()">
     						<router-link to="/station">
     							<i class="menu-icon fa fa-tachometer"></i>
     							<span class="menu-text"> 站点列表 </span>
@@ -217,8 +212,6 @@
     							<span class="blue bolder">北京天航华创科技股份有限公司</span>
     							 &copy; 2017
     						</span>
-
-    						&nbsp; &nbsp;
     						<span class="action-buttons">
     							<a href="#">
     								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
@@ -242,7 +235,7 @@
 </div>
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>
-    <script src="js/ace/jquery-2.1.4.min.js"></script>
+    <!-- <script src="js/ace/jquery-2.1.4.min.js"></script> -->
     <!-- ace scripts -->
     <!--[if lte IE 8]>
 		  <script src="assets/js/excanvas.min.js"></script>

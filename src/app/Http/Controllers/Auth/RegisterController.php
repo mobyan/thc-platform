@@ -6,6 +6,8 @@ use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Log;
+use Junaidnasir\Larainvite\Facades\Invite;
 
 class RegisterController extends Controller
 {
@@ -47,12 +49,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'invite-code' => 'required',
-        ]);
+      $res = Validator::make($data, [
+          'name' => 'required|max:255|unique:users',
+          'email' => 'required|email|max:255|unique:users',
+          'password' => 'required|min:6|confirmed',
+          'invite_code' => 'required',
+          'phone' => 'required|unique:users'
+      ]);
+        return $res;
     }
 
     /**
@@ -63,15 +67,33 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $code = $data['invite-code'];
-        if(Invite::isValid($code)){
+      // Log::info("create");
+      //   Log::info($data);
+        $code = $data['invite_code'];
+        if(Invite::isAllowed($code,$data['email']))
+        {
+
           $invitation = Invite::get($code);
           $user = User::create([
               'name' => $data['name'],
               'email' => $data['email'],
+              'phone' => $data['phone'],
+              'app_id' => $invitation->app_id,
+              'code' => $invitation->regioncode,
               'password' => bcrypt($data['password']),
           ]);
-          !$user->has('apps', $invitation->app_id) && $user->apps()->attach($invitation->app_id, array('regioncode' => $invitation->regioncode));
+          $bcode = $user->bcode()->first();
+          if(count($user->codes()->where('id',$bcode->id)->get()) == 0){
+            $user->codes()->attach($bcode->id);
+          }
+          if(sizeof($bcode->roles()->get()) == 0){
+            Artisan::call('code:roles',['code_id'=> $code->id]);
+          }
+          $role = $bcode->roles()->where('name','=','app_user')->first();
+          if(count($user->roles()->where('id',$role->id)->get()) == 0){
+            $user->roles()->attach($role->id);
+          }
+          Invite::consume($code);
           return $user;
         }
 

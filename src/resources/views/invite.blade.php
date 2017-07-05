@@ -6,7 +6,7 @@
   </head>
 <body>
   <h1>welcome to THC</h1>
-  <a href="{{ url('/register') }}" target="_blank">点击注册你的账号</a>
-  <p>{{code}}</p>
+  <a href="{{ url('/eason/register') }}" target="_blank">点击注册你的账号</a>
+  <p>{{$refCode}}</p>
 </body>
 </html>

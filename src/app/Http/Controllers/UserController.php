@@ -129,8 +129,14 @@ class UserController extends Controller
 
     public function attach(Request $req){
         $this->assertPermissions('attach');
-        static::$model::find($req['user_id'])->roles()->attach($req['role_id']);
-        static::$model::find($req['user_id'])->codes()->attach($req['code_id']);
+        $user = static::$model::find($req['user_id']);
+        if(count($user->roles()->where('id',$req['role_id'])->get()) == 0){
+          static::$model::find($req['user_id'])->roles()->attach($req['role_id']);
+        }
+        if(count($user->codes()->where('id',$req['code_id'])->get()) == 0){
+          static::$model::find($req['user_id'])->codes()->attach($req['code_id']);
+        }
+
         $user = static::$model::with('roles.code')->find($req['user_id']);
         //$user->load('roles.code');
         return $user;

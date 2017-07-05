@@ -28,7 +28,10 @@
       }
     },
     created: function () {
-      Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+      if (isNaN(parseInt(Cookie.get('currentCode')))) {
+        Cookie.set('currentCode',(thc.user.codes[0]?thc.user.codes[0].id:null));
+      }
+      // Cookie.set('currentCode', =='null' || (thc.user.codes[0]?thc.user.codes[0].id:null));
     },
     methods: {
       back: function () {

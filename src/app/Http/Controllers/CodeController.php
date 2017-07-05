@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use TomLingham\Searchy\Facades\Searchy;
 use Artisan;
+use Illuminate\Support\Facades\Log;
 
 class CodeController extends Controller
 {
@@ -24,10 +25,27 @@ class CodeController extends Controller
 
     public function search(Request $request){
       $this->assertPermissions('search');
-      $content = $request->input('content')? $request->input('content'):'';
-      $items = Searchy::codes("merged_name")->query("$content")->getQuery()->limit(5)->get();
-      $count = count($items);
-      return compact('count', 'items');
+      $content = $request->input('content');
+      Log::info($content);
+      $items = Searchy::codes("merged_name")->query($content)->getQuery()->limit(5)->get();
+      // $with = $request->input('with');
+      //
+      // if ($with) {
+      //     if (str_contains($with,',')) {
+      //         $with = explode(',', $with);
+      //     }
+      //     $items = $items->with($with);
+      // }
+      // $items = $items->get();
+
+      return $items;
+      //$count = count($items);
+      //return compact('count', 'items');
+    }
+
+    public function subs(Request $request){
+        $code = static::$model::find($this->user()->code_id);
+        return static::$model::where('code','like',$code->code."%")->get();
     }
 
     public function show($id, Request $req){

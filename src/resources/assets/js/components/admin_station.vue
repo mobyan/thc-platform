@@ -15,10 +15,10 @@
           <div class="col-md-4">
             <img src="/image/noimage.jpg" id="no-image">
           </div>
-          <div class="col-md-8 col-xs-12">
+          <div class="col-md-4 col-xs-12">
             <form>
               <div class="form-group"><label>产品线</label>
-                  <select v-model="station.app_id" style="z-index: 9999; position: relative;"><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>
+                  <select v-model="station.app_id" style="z-index: 9999; position: relative;" :disabled="!editing"><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>
               </div>
               <div class="form-group"><label>名称</label><input :disabled="!editing" type="text" class="form-control" v-model="station.name"></div>
               <div class="form-group"><label>地址</label><input :disabled="!editing" type="text" class="form-control" v-model="station.location"></div>
@@ -26,8 +26,21 @@
               <div class="form-group"><label>经度</label><input :disabled="!editing" type="text" class="form-control" v-model="station.lon"></div>
               <div class="form-group"><label>高度</label><input :disabled="!editing" type="text" class="form-control" v-model="station.alt"></div>
               <div class="form-group"><label>区划</label>
-                <input :disabled="true" type="text" v-model="station.code" class="form-control">
-                <code_view v-show="editing" v-on:codeChangedEvent="codeChanged"></code_view>
+                <div class="input-group">
+                  <code-view :search="station.bcode" :editing="editing" @code-update="onCodeUpdate"></code-view>
+                  <!-- <input class="form-control" id="address" :disabled="!editing" v-model="station.bcode.merged_name" @keydown.enter="searchCode()"></input>
+                  <div class="input-group-btn" v-show="editing">
+                    <button @click="searchCode()" class="btn btn-white btn-primary"><i class="fa fa-search"></button>
+                    <button @click="clearCode()" class="btn btn-white btn-primary"><i class="fa fa-refresh"></button>
+                  </div>
+                  <div class="search-select">
+                      <transition-group name="itemfade" tag="ul" mode="out-in" v-cloak v-show="isShow" style="z-index: 9999; position: relative;">
+                          <li v-for="(cv,index) in codes" :class="{selectback:index==now}" :key="index" @click.prevent="selectCode(index)">
+                              {{cv.merged_name}}
+                          </li>
+                      </transition-group>
+                  </div> -->
+                </div>
               </div>
               <div class="form-group"><label>状态</label><input disabled type="text" class="form-control" v-model="station.status"></div>
               <template v-if="editable">
@@ -61,7 +74,7 @@ import code_view from './code_view.vue'
     export default {
       data: function () {
         return {
-          station: {code:{merged_name:""}},
+          station: {bcode:{merged_name:""}},
           apps: [],
           editing: false,
           editable: thc.can('sys_w',0),
@@ -74,9 +87,29 @@ import code_view from './code_view.vue'
     code_view,
   },
   methods: {
-    codeChanged: function(data){
+    onCodeUpdate: function(data){
       this.station.code = data.code;
+      this.station.bcode = data;
     },
+    get: function() {
+        this.$http.get('/api/code/search?content='+this.station.code.merged_name).then(function(res) {
+            this.codes = res.body;
+            this.isShow = !this.isShow;
+        });
+    },
+    // searchCode: function(){
+    //     this.get();
+    // },
+    // clearCode: function(){
+    //     this.isShow = false;
+    //     this.station.bcode.merged_name = "";
+    //     this.station.code = null;
+    // },
+    // selectCode: function(index){
+    //   this.station.bcode = this.codes[index];
+    //   this.station.code = this.station.bcode.code;
+    //   this.isShow=!this.isShow;
+    // },
     save: function () {
         if (this.isCreate) {
             this.$http.post('/api/station', this.station, {params:{alert:'新建站点'}}).then(function (res) {
@@ -89,7 +122,7 @@ import code_view from './code_view.vue'
                 })
             });
         } else {
-            this.$http.put('/api／station/'+this.station.id, _.pick(this.station, this.fillable), {params:{alert:'更新站点信息'}}).then(function () {
+            this.$http.put('/api/station/'+this.station.id, _.pick(this.station, this.fillable), {params:{alert:'更新站点信息'}}).then(function () {
                 this.editing = !this.editing;
             });
         }
@@ -125,7 +158,7 @@ import code_view from './code_view.vue'
         return;
       }
       else{
-        this.$http.get('/api/station/'+this.$route.params.station).then(function (res) {
+        this.$http.get('/api/station/'+this.$route.params.station+'?with=bcode').then(function (res) {
           this.station = res.body;
         })
       }

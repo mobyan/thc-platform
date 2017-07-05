@@ -17,7 +17,8 @@ class StationController extends Controller
     'all' => ['app_w','sys_w'],
     'index' => ['app_r','sys_r'],
     'show' => ['app_r','sys_r'],
-    'update' => ['app_w', 'sys_w']
+    'update' => ['app_w', 'sys_w'],
+    'store' =>['app_w','sys_w']
     ];
 
     /**
@@ -30,7 +31,7 @@ class StationController extends Controller
         if($req->input('app_id')){
           return $this->_index(['app_id','=',$req->input('app_id')]);
         }
-        
+
         return $this->_index();
     }
 

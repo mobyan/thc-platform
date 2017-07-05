@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Invite;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use App\Mail\Invitation;
 
 class InviteController extends Controller
 {
-    //static $model = \Junaidnasir\Larainvite\Models\LaraInviteModel::class;
+    static $model = \App\Invitation::class;
 
     /*static $permissions = [
     'all' => ['sys_r'],
@@ -21,7 +26,7 @@ class InviteController extends Controller
      */
     public function index()
     {
-        return $this->user()->invitations;
+        return $this->_index(['user_id','=',$this->user()->id]);
     }
 
     /**
@@ -43,9 +48,11 @@ class InviteController extends Controller
     public function store(Request $request)
     {
         //
-        $email = $request->input('email');
+        // Log::info($request->all());
+        $body = $request->all();
+        $email = $body['email'];
         $app_id = $this->user()->app_id;
-        $regioncode = $request->input('regioncode');
+        $regioncode = $body['regioncode'];
         $refCode = Invite::invite($email, $this->user()->id, Carbon::now()->addYear(1),
         function(/* InvitationModel, see Configurations */ $invitation) use ($app_id, $regioncode) {
           $invitation->app_id = $app_id;
@@ -54,10 +61,13 @@ class InviteController extends Controller
         );
 
         //send email
-        $data = ['email'=>$email, 'code'=>$refCode, 'name'=> '用户']
-        Mail::send('invite',$data, function($message)use($data){
-          $message->to($data['email'], $data['name'])->subject('welcome to THC');
-        });
+        $data = ['email'=>$email, 'code'=>$refCode, 'name'=> '用户'];
+        // Mail::send('invite',$data, function($message)use($data){
+        //   $message->to($data['email'], $data['name'])->subject('welcome to THC');
+        // });
+        Mail::to($data['email'])->send(new Invitation($data['code']));
+
+        return $refCode;
 
 
     }
@@ -112,5 +122,12 @@ class InviteController extends Controller
     {
         //
         return $this->_destroy($id);
+    }
+
+    public function extend($id){
+        $invit = static::$model::find($id);
+        $invit->valid_till = Carbon::now()->addYear(1);
+        $invit->save();
+        return $invit;
     }
 }

@@ -69,7 +69,7 @@ class Controller extends BaseController
         if (Request::has('sort')) {
             list($sortCol, $sortDir) = explode('|', Request::input(sort));
             $items = $items->orderBy($sortCol, $sortDir);
-        } else {
+        } else {  
             $items = $items->orderBy('id', 'asc');
             //$items = call_user_func_array([static::$model,'orderBy'],array('id', 'asc'));
         }

@@ -10,7 +10,7 @@
     </div>
     <button class="ui basic button inline btn-success"
       @click="onClick()">
-      <i class="fa ">更新</i>
+      <i class="fa fa-refresh">更新</i>
     </button>
   </div>
 </template>

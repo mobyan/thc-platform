@@ -13,7 +13,8 @@
         "upyun/sdk": "^2.2",
         "yangyifan/upload": "v0.2",
         "junaidnasir/larainvite": "^0.1.9",
-        "tom-lingham/searchy" : "2.*"
+        "tom-lingham/searchy" : "2.*",
+        "nesbot/carbon": "^1.22"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

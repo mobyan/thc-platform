@@ -80,7 +80,7 @@ window.app = new Vue({
   router,
   created: function() {
     if(this.user){
-      Cookie.set('currentCode', Cookie.get('currentCode') || (thc.user.codes[0]?thc.user.codes[0].id:null));
+      Cookie.set('currentCode', (thc.user.codes[0]?thc.user.codes[0].id:null));
       if(this.canSysWrite()){
         this.$router.push({name: 'admin-app'});
       }

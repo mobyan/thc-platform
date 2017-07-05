@@ -28,7 +28,7 @@ class Invitation extends Model
         return $this->hasOne('App\App','id','app_id');
     }
 
-    public function regioncode(){
-      return $this->hasOne('App\RegionCode', 'code','regioncode');
+    public function rcode(){
+      return $this->hasOne('App\Code', 'code','regioncode');
     }
 }

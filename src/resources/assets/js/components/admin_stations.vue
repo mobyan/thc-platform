@@ -2,19 +2,20 @@
 <div class="">
     <!--search part-->
     <div class="row">
-        <div class="col-md-7 form-inline">
+        <div class="col-md-5 col-sm-5 form-inline">
           <div class="form-inline form-group">
             <label>产品线</label>
-            <select v-model="currentApp" class="form-control" style="z-index: 9999;"><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>
+            <select v-model="currentApp" class="form-control input-sm" style="z-index: 9999;"><option v-for="(app, index) in apps" :value="app.id">{{app.id}} - {{app.name}}</option></select>
           </div>
-        </div>
-        <div class="col-md-5 form-inline">
           <div class="form-inline form-group">
             <label>搜索</label>
-            <input v-model="searchFor" class="form-control" @keyup.enter="setFilter">
-            <button class="btn btn-white btn-primary" @click="setFilter"><i class="fa fa-search"></i></button>
-            <button class="btn btn-white btn-default" @click="resetFilter"><i class="fa fa-refresh"></i></button>
+            <input v-model="searchFor" class="form-control input-sm" @keyup.enter="setFilter">
+            <button class="btn btn-white btn-primary btn-xs" @click="setFilter"><i class="fa fa-search"></i></button>
+            <button class="btn btn-white btn-default btn-xs" @click="resetFilter"><i class="fa fa-refresh"></i></button>
           </div>
+        </div>
+        <div class="form-inline pull-right">
+          <button class="btn btn-primary btn-xs" @click="go">添加</button>
         </div>
     </div>
     <div v-if="editable" class="row">
@@ -56,7 +57,6 @@
               @vuetable-pagination:change-page="onChangePage"
             ></vuetable-pagination>
         </div>
-
     </div>
   </div>
 </template>
@@ -81,7 +81,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
         currentApp: null,
         searchFor:'',
         params:{
-          with: 'app,code',
+          with: 'app,bcode',
           app_id: '',
           filter: ''
         },
@@ -100,19 +100,13 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
             dataClass:'text-center'
           },
           {
-            name:'type',
-            title:'类型',
-            titleClass:'text-center',
-            dataClass:'text-center'
-          },
-          {
             name:'location',
             title:'地址',
             titleClass:'text-center',
             dataClass:'text-center'
           },
           {
-            name:'code.merged_name',
+            name:'bcode.merged_name',
             title:'区划',
             titleClass:'text-center',
             dataClass:'text-center'
@@ -159,7 +153,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
         self.apps = res.body;
         self.currentApp = self.apps[0].id;
       }).then(function(){
-        this.$http.get('/api/station?with=app,code&app_id='+self.currentApp).then(function (res) {
+        this.$http.get('/api/station?with=app,bcode&app_id='+self.currentApp).then(function (res) {
           self.stations = res.body;
         });
       });
@@ -219,7 +213,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
         },
         search: function(){
             var self = this;
-            this.$http.get('/api/station?with=app,code&app_id='+this.currentApp).then(function(res){
+            this.$http.get('/api/station?with=app,bcode&app_id='+this.currentApp).then(function(res){
               self.stations = res.body;
             })
         }

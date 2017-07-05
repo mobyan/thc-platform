@@ -1,106 +1,185 @@
 <template>
 <div>
-  <div v-if="regions.length > 1" style="float: right;">
-    <label>当前管理地区：</label><select v-if="user" v-model="currentRegion" style="z-index: 9999; position: relative;"><option v-for="(region, index) in regions" :value="region.code">{{region.code}} - {{region.merged_name}}</option></select>&nbsp;&nbsp;&nbsp;
+  <div class="row">
+    <div class="form-inline pull-right">
+      <label>邮箱</label>
+      <input v-model="invitation.email" class="form-control input-sm"></input>
+      <label>区划</label>
+      <select v-model="invitation.regioncode"><option v-for="(rc, index) in subs" :value="rc.code">{{rc.merged_name}}</option></select>
+      <button class="btn btn-primary btn-xs" @click="go">添加</button>
+    </div>
   </div>
-
-  <div v-if="editable" style="margin-bottom: 10px;">
-    <form class="form">
-      <div class="form-group">
-        <label>email</label><input :disabled="!editing" type="text" class="form-control" v-model="invite.email">
+  <div v-if="editable" class="row">
+    <div class="table-responsive">
+      <vuetable
+        ref="vuetable"
+        api-url="/api/invitation"
+        :fields="columns"
+        pagination-path=""
+        data-path="data"
+        :per-page="2"
+        :css="css.table"
+        :append-params="params"
+        table-class="table table-bordered table-striped table-hover"
+        @vuetable:loading="onLoading"
+        @vuetable:loaded="onLoaded"
+        @vuetable:pagination-data="onPaginationData"
+        >
+        <template slot="actions" scope="props">
+            <div class="custom-actions">
+              <button class="btn btn-white btn-success"
+                @click="extend(props.rowData, props.rowIndex)">
+                <i class="fa fa-trash-o "></i>
+              </button>
+              <button class="btn btn-white btn-danger"
+                @click="remove(props.rowIndex)">
+                <i class="fa fa-trash-o "></i>
+              </button>
+            </div>
+          </template>
+      </vuetable>
       </div>
-      <div class="form-group">
-          <label>地区</label>
-          <select class="form-control" :disabled="!editing" v-model="invite.regioncode">
-          <option v-for="reg in subRegions" :value="reg.code">{{reg.merged_name}}</option>
+      <div class="vuetable-pagination">
+          <vuetable-pagination-info ref="paginationInfo"
+          info-class="pagination-info"
+          ></vuetable-pagination-info>
+          <vuetable-pagination ref="pagination"
+            :css="css.pagination"
+            @vuetable-pagination:change-page="onChangePage"
+          ></vuetable-pagination>
       </div>
-      <button type="submit" v-if="!editing" @click.prevent="createInvite" class="btn btn-default">添加</button>
-      <button type="submit" v-if="editing" @click.prevent="saveInvite" class="btn btn-default">保存</button>
-    </form>
-  </div>
-
-  <div class="">
-    <table class="table table-bordered table-striped table-hover">
-      <tbody>
-        <tr class="fatal">
-          <th>email</th>
-          <th>邀请码</th>
-          <th>地区</th>
-          <th>产品线</th>
-          <th>过期时间</th>
-          <th>状态</th>
-          <th>操作</th>
-        </tr>
-        <tr v-for="invitation in invitations" class="">
-          <td>{{ invitation.email }}</td>
-          <td>{{ invitation.code }}</td>
-          <td>{{ invitation.regioncode.merged_name }}</td>
-          <td>{{ invitation.app.name }}</td>
-          <td>{{ invitation.valid_till }}</td>
-          <td><img height="20" :src="'/image/'+ invitation.status+'.png'" class="signal"></td>
-          <td>
-            <span @click="delete_invitation(invitation.id)"><img height="20" src="/image/remove.png" class="signal"></span>
-            <span @click="extend_expire_data(invitation.id)"><img height="20" src="/image/dashboard.png" class="signal"></span>
-          </td>
-        </tr>
-        <tr v-if="editable">
-          <td style="text-align: right;" colspan="7">
-          <button class="btn btn-primary" @click="go">添加</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>
 </template>
 
 <script>
+import Vuetable from 'vuetable-2/src/components/Vuetable.vue'
+import VuetablePagination from 'vuetable-2/src/components/VuetablePagination.vue'
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo.vue'
+
   export default {
+    components: {
+      Vuetable,
+      VuetablePagination,
+      VuetablePaginationInfo
+    },
     data: function () {
       return {
         editable: thc.can('app_w'),
-        editing: false,
-        regions: [],
-        currentRegion: null,
-        subRegions:[],
         invitations: [],
-        invite: null,
+        invitation: {email:"",regioncode:""},
+        subs:[],
+        params:{
+          with: 'rcode',
+          app_id: '',
+          filter: ''
+        },
+        columns:[
+          {
+            name:'email',
+            title:'邮箱',
+            titleClass:'text-center',
+            dataClass:'text-center'
+          },
+          {
+            name:'code',
+            title:'邀请码',
+            titleClass:'text-center',
+            dataClass:'text-center'
+          },
+          {
+            name:'rcode.merged_name',
+            title:'区划',
+            titleClass:'text-center',
+            dataClass:'text-center'
+          },
+          {
+            name:'valid_till',
+            title:'有效期',
+            titleClass:'text-center',
+            dataClass:'text-center'
+          },
+          {
+            name:'status',
+            title:'状态',
+            titleClass:'text-center',
+            dataClass:'text-center'
+          },
+          {
+            name: '__slot:actions',
+            title: '操作',
+            titleClass: 'center aligned',
+            dataClass: 'center aligned',
+          }
+        ],
+        css: {
+          table: {
+            tableClass: 'table table-bordered table-striped table-hover table-condensed',
+            ascendingIcon: 'glyphicon glyphicon-chevron-up',
+            descendingIcon: 'glyphicon glyphicon-chevron-down'
+          },
+          pagination: {
+            wrapperClass: 'pagination pull-right no-margin',
+            activeClass: 'active',
+            disabledClass: 'disabled',
+            pageClass: 'page',
+            linkClass: 'link',
+            icons: {
+              first: 'fa fa-angle-double-left ace-icon',
+              prev: 'prev fa fa-angle-left ace-icon',
+              next: 'next fa fa-angle-right ace-icon',
+              last: 'fa fa-angle-double-right ace-icon',
+            }
+          },
+        }
       }
     },
     created: function () {
-      var self = this;
-      this.createInvite();
-      this.$http.get('/api/region').then(function(res){
-        this.regions = res.body.items;
-        this.currentRegion = this.regions[0];
-      });
-      this.$http.get('/api/sub_region?code='+this.currentRegion.code).then(function(res){
-        this.subRegions = res.body.items;
-      });
-      this.$http.get('/api/invitation').then(function (res) {
-        this.invitations = res.body.items;
-      });
+      this.load();
+    },
+    watch: {
+      '$route': 'load',
     },
     methods: {
-      saveInvite: function(){
-        this.$http.post('/api/invitation', this.invite, {params:{alert:'新建邀请码'}}).then(function (res) {
-            this.editing = !this.editing;
-            this.$router.push({
-                name: 'station',
-                params: {
-                    station: res.body.id,
-                }
-            })
+      load: function(){
+        this.$http.get('/api/code/subs').then(function(res){
+          this.subs = res.body;
         });
       },
-      createInvite: function(){
-        this.invite = _.reduce(this.invite, function (carry, v) {
-            carry[v] = '';
-            return carry;
-        }, {});
-        this.editing = !this.editing;
+      go: function(){
+        this.$http.post('/api/invitation', this.invitation, {params:{alert:"添加邀请码"}}).then(function(res){
+          this.invitations.push(res.body);
+        });
+
+        //this.$router.push({name:'invitation', params:{invitation:0}, query: {op:'create'}});
+      },
+      onLoading: function(){
+        window.app.loading = true;
+      },
+      onLoaded: function(){
+        window.app.loading = false;
+      },
+      onPaginationData (paginationData) {
+
+        this.$refs.pagination.setPaginationData(paginationData);
+        this.$refs.paginationInfo.setPaginationData(paginationData);
+      },
+      onChangePage (page) {
+        this.$refs.vuetable.changePage(page);
+      },
+      remove: function(data, i){
+        var self = this;
+        this.$http.delete('/api/invitation/'+data.id).then(function(res){
+          self.invitations.splice(i, 1);
+        })
+      },
+      extend: function(data, index){
+        this.$http.get('/api/invitation/extend/'+data.id, {params:{alert:'延长有效期'}}).then(function(res){
+          Vue.set(this.invitations, index, res.body);
+        });
 
       }
+
     }
   }
 </script>

@@ -12,7 +12,6 @@ import map from './components/map.vue'
 import user from './components/user.vue'
 import user_profile from './components/user_profile.vue'
 import index from './components/index.vue'
-import invitation from './components/invitation.vue'
 import invitations from './components/invitations.vue'
 var apply = require('./components/apply.vue');
 var apply_audit = require('./components/apply_audit.vue');
@@ -72,7 +71,7 @@ const routes = [{
   children: [
   {
     path: '',
-    component: devices,
+    component: require('./components/admin_devices.vue'),
     props:  true,
   }
   ],
@@ -146,7 +145,18 @@ const routes = [{
   props: {
     header: {title: '设备信息'}
   }
-}, {
+},
+{
+  name: 'admin-device',
+  path: '/admin/station/:station/device/:device',
+  components: {
+    default: require('./components/admin_device.vue'),
+    header: header,
+  },
+  props: {
+    header: {title: '设备信息'}
+  }
+},{
   name: 'admin-users',
   path: '/admin/user',
   components:{
@@ -290,15 +300,5 @@ const routes = [{
   props: {
     header: {title: '邀请码列表'},
   }
-}, {
-  name: 'invitation',
-  path: '/invitation/:invitation',
-  components: {
-    default: invitation,
-    header: header,
-  },
-  props: {
-    header: {title: '邀请码信息'}
-  }
-}, ]
+},  ]
 module.exports = routes

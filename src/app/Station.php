@@ -16,7 +16,7 @@ class Station extends Base
     public function app(){
         return $this->hasOne('App\App','id','app_id');
     }
-    public function code(){
+    public function bcode(){
       return $this->hasOne('App\Code','code','code');
     }
     public function getAllDataKeys() {

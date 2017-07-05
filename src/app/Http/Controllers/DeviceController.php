@@ -14,6 +14,7 @@ class DeviceController extends Controller
     'all' => ['app_w','sys_w'],
     'index' => ['app_r','sys_r'],
     'show' => ['app_r','sys_r'],
+    'store'=>['app_w','sys_w']
     ];
 
     /**

@@ -294,3 +294,95 @@ input::-ms-clear{display: none}
 .itemfade-leave-active{
     position: absolute;
 }
+
+.pagination {
+  margin: 0;
+  float: right;
+}
+.pagination a.page {
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin-right: 2px;
+}
+.pagination a.page.active {
+  color: white;
+  background-color: #337ab7;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin-right: 2px;
+}
+.pagination a.btn-nav {
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin-right: 2px;
+}
+.pagination a.btn-nav.disabled {
+  color: lightgray;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin-right: 2px;
+  cursor: not-allowed;
+}
+.pagination-info {
+  float: left;
+}
+.ui.vertical.stripe h3 {
+        font-size: 2em;
+      }
+      .secondary.pointing.menu .toc.item {
+        display: none;
+      }
+      .vuetable {
+        margin-top: 1em !important;
+      }
+      .vuetable-wrapper.ui.basic.segment {
+        padding: 0em;
+      }
+      .vuetable button.ui.button {
+        padding: .5em .5em;
+        font-weight: 400;
+      }
+      .vuetable button.ui.button i.icon {
+        margin: 0;
+      }
+      .vuetable td i.handle-icon:hover {
+        cursor: pointer;
+      }
+      .vuetable-actions {
+        width: 15%;
+        padding: 12px 0px;
+        text-align: center;
+      }
+      .vuetable-pagination {
+        background: #f9fafb !important;
+      }
+      .vuetable-pagination-info {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      .highlight {
+        background-color: yellow;
+      }
+      .vuetable-detail-row {
+        height: 200px;
+      }
+      .detail-row {
+        margin-left: 40px;
+      }
+      .expand-transition {
+        transition: all .5s ease;
+      }
+      .expand-enter, .expand-leave {
+        height: 0;
+        opacity: 0;
+      }
+      tr.odd {
+        background-color: #e6f5ff;
+      }
+      body {
+        overflow-y: scroll;
+      }

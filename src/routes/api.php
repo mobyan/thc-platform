@@ -34,7 +34,7 @@ Route::resource('user_profile', 'UserProfileController', ['only' => [
     'index', 'update',
 ]]);
 
-
+Route::get('invitation/extend/{invitation}', 'InviteController@extend');
 Route::resource('invitation','InviteController',['only' => ['index','show','update','store','destroy',
 ]]);
 
@@ -51,6 +51,7 @@ Route::resource('app', 'AppController', ['only' => [
 //  'index','show'
 //  ]]);
 Route::get('code/search', 'CodeController@search');
+Route::get('code/subs', 'CodeController@subs');
 Route::resource('code','CodeController',['only'=>['index', 'show']]);
 
 

@@ -14,6 +14,7 @@ class DeviceConfigController extends Controller
     'all' => ['app_w'],
     'index' => ['app_r'],
     'show' => ['app_r'],
+    'store' =>['app_w','sys_w']
     ];
     /**
      * Display a listing of the resource.

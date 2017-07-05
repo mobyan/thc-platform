@@ -15,7 +15,7 @@
           <div class="col-md-4">
             <img src="/image/noimage.jpg" id="no-image">
           </div>
-          <div class="col-md-8">
+          <div class="col-md-4">
               <form>
                 <div class="form-group">
                    <label for="name">名称</label>
@@ -46,8 +46,22 @@
                 </div>
                 <div class="form-group">
                    <label for="belongs_code">所属区划</label>
-                   <input :disabled="true" type="text" v-model="user.code" class="form-control">
-                   <code_view v-show="editing" v-on:codeChangedEvent="codeChanged"></code_view>
+                   <div class="input-group">
+                     <code-view :search="user.bcode" :editing="editing" @code-update="onUserCodeUpdate"></code-view>
+
+                     <!-- <input class="form-control" :disabled="!editing" id="address" v-model="user.bcode.merged_name" @keydown.enter="searchbCode()"></input>
+                     <div class="input-group-btn" v-show="editing">
+                       <button @click="searchbCode()"  class="btn btn-white btn-primary"><i class="fa fa-search"></button>
+                       <button @click="clearbCode()" class="btn btn-white btn-primary"><i class="fa fa-refresh"></button>
+                     </div>
+                     <div class="search-select">
+                         <transition-group name="itemfade" tag="ul" mode="out-in" v-cloak v-show="isBShow" style="z-index: 9999; position: relative;">
+                             <li v-for="(cv,index) in codes" :class="{selectback:index==now}" :key="index" @click.prevent="selectBCode(index)" @mouseover="selectBHover(index)" class="search-select-option search-select-list">
+                                 {{cv.merged_name}}
+                             </li>
+                         </transition-group>
+                     </div> -->
+                   </div>
                 </div>
               </form>
               <template v-if="editable">
@@ -68,9 +82,25 @@
         </div>
         <div class="panel-body">
             <div class="panel">
+              <div class="col-md-4">
               <div class="form-group"><label>区划</label>
-                <input :disabled="true" type="text" v-model="code.merged_name" class="form-control">
-                <code_view v-on:codeChangedEvent="watchedCodeChanged"></code_view>
+                <div class="input-group">
+                  <code-view :search="code" @code-update="onCodeUpdate"></code-view>
+                  <!--<input class="form-control" v-model="code.merged_name" @keydown.enter="searchCode()"></input>
+                  <div class="input-group-btn">
+                    <button @click="searchCode()" class="btn btn-white btn-primary"><i class="fa fa-search"></button>
+                    <button @click="clearCode()" class="btn btn-white btn-primary"><i class="fa fa-refresh"></button>
+                  </div>
+                  <div class="search-select">
+                      <transition-group name="itemfade" tag="ul" mode="out-in" v-cloak v-show="isShow" style="z-index: 9999; position: relative;">
+                          <li v-for="(cv,index) in codes" :class="{selectback:index==now}" :key="index" @click.prevent="selectCode(index)" class="search-select-option search-select-list">
+                              {{cv.merged_name}}
+                          </li>
+                      </transition-group>
+                  </div>-->
+                </div>
+                <!--<input :disabled="true" type="text" v-model="code.merged_name" class="form-control">
+                <code_view v-on:codeChangedEvent="watchedCodeChanged"></code_view>-->
               </div>
               <div class="form-group" v-if="code"><label>权限</label>
                 <select class="form-control" v-model="role">
@@ -78,6 +108,7 @@
                 </select>
               </div>
               <button type="submit" @click.prevent="attach" class="btn btn-primary">提交</button>
+              </div>
             </div>
             <div>
               <table class="table table-bordered table-striped table-hover" v-if="user.roles">
@@ -98,7 +129,8 @@
               </table>
             </div>
         </div>
-</div>
+      </div>
+    </div>
 </template>
 <script >
     import utils from '../utils'
@@ -108,22 +140,25 @@
         data : () => {
             return {
                 editable: thc.can('sys_w',0),
-                user: {app_id:1, roles:[]},
+                user: {app_id:1, roles:[], bcode:{merged_name:""}},
                 apps:[],
                 roles:[],
-                code: {"merged_name":"  "},
+                code: {merged_name:"  "},
                 role: null,
                 isCreate:false,
-                editing: false
+                editing: false,
+                isShow: false,
+                isBShow: false,
+                now: -1,
             }
         },
         components:{
-          code_view
+          'code-view': code_view
         },
         created: function () {
             var self = this;
             this.$http.get('/api/app').then(function(res){
-              self.apps = res.body.items;
+              self.apps = res.body;
             });
         },
         mounted: function () {
@@ -137,6 +172,52 @@
           '$route': 'load',
         },
         methods: {
+            onCodeUpdate: function(code){
+              this.code = code;
+            },
+            onUserCodeUpdate: function(code){
+              this.user.bcode = code;
+            },
+            get: function(merged_name) {
+                console.log(merged_name);
+                this.$http.get('/api/code/search?content='+merged_name).then(function(res) {
+                    this.codes = res.body;
+
+                });
+            },
+            // searchCode: function(){
+            //     this.get(this.code.merged_name);
+            //     this.isShow = !this.isShow;
+            // },
+            // clearCode: function(){
+            //     this.isShow = false;
+            //     this.code.merged_name = "";
+            // },
+            // selectCode: function(index){
+            //   this.code = this.codes[index];
+            //   this.isShow=!this.isShow;
+            // },
+            //
+            // selectHover: function(index){
+            //   this.now = index;
+            // },
+            // selectBHover: function(index){
+            //
+            // },
+            // searchbCode: function(){
+            //     this.get(this.user.bcode.merged_name);
+            //     this.isBShow = !this.isBShow;
+            // },
+            // clearbCode: function(){
+            //     this.isBShow = false;
+            //     this.user.bcode.merged_name = "";
+            //     this.user.code=null;
+            // },
+            // selectbCode: function(index){
+            //   this.user.bcode = this.codes[index];
+            //   this.user.code = this.user.bcode.code;
+            //   this.isBShow=!this.isBShow;
+            // },
             save: function () {
                 if (this.isCreate) {
                     this.$http.post('/api/user', this.user, {params:{alert:'新建用户'}}).then(function (res) {
@@ -149,7 +230,7 @@
                         })
                     });
                 } else {
-                    this.$http.put('/api／user/'+this.user.id, _.pick(this.user, this.fillable), {params:{alert:'更新用户信息'}}).then(function () {
+                    this.$http.put('/api/user/'+this.user.id, _.pick(this.user, this.fillable), {params:{alert:'更新用户信息'}}).then(function () {
                         this.editing = !this.editing;
                     });
                 }
@@ -190,16 +271,16 @@
                 })
               }
             },
-            codeChanged: function(data){
-              this.user.code = data.code;
-              this.user.bcode = data;
-            },
-            watchedCodeChanged: function(data){
-              var code = data;
-              this.$http.get('/api/code/'+code.id+'?with=roles').then(function(res){
-                this.code = res.body;
-              });
-            },
+            // codeChanged: function(data){
+            //   this.user.code = data.code;
+            //   this.user.bcode = data;
+            // },
+            // watchedCodeChanged: function(data){
+            //   var code = data;
+            //   this.$http.get('/api/code/'+code.id+'?with=roles').then(function(res){
+            //     this.code = res.body;
+            //   });
+            // },
             detach: function (role, index) {
                 var self = this;
                 bootbox.confirm('确认删除？', function (result) {
