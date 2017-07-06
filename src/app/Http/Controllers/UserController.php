@@ -17,6 +17,7 @@ class UserController extends Controller
     'update' => ['app_w', 'sys_w'],
     'store' => ['sys_w','app_w'],
     'my' => ['app_r'],
+    'show' => ['app_w','sys_w'],
     'index' => ['sys_w', 'app_w'],
     'destroy' => ['sys_w','app_w'],
     'attach' => ['app_w', 'sys_w'],

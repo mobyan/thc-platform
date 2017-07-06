@@ -44,7 +44,7 @@
                      <option v-for="app in apps" :value="app.id" >{{app.name}}</option>
                    </select>
                 </div>
-                <div class="form-group  col-md-12">
+                <div class="form-group  col-md-6">
                    <label for="belongs_code">所属区划</label>
                    <div class="input-group">
                      <code-view :search="user.bcode" :editing="editing" @code-update="onUserCodeUpdate"></code-view>
@@ -148,9 +148,6 @@
                 role: null,
                 isCreate:false,
                 editing: false,
-                isShow: false,
-                isBShow: false,
-                now: -1,
             }
         },
         components:{
@@ -186,39 +183,7 @@
 
                 });
             },
-            // searchCode: function(){
-            //     this.get(this.code.merged_name);
-            //     this.isShow = !this.isShow;
-            // },
-            // clearCode: function(){
-            //     this.isShow = false;
-            //     this.code.merged_name = "";
-            // },
-            // selectCode: function(index){
-            //   this.code = this.codes[index];
-            //   this.isShow=!this.isShow;
-            // },
-            //
-            // selectHover: function(index){
-            //   this.now = index;
-            // },
-            // selectBHover: function(index){
-            //
-            // },
-            // searchbCode: function(){
-            //     this.get(this.user.bcode.merged_name);
-            //     this.isBShow = !this.isBShow;
-            // },
-            // clearbCode: function(){
-            //     this.isBShow = false;
-            //     this.user.bcode.merged_name = "";
-            //     this.user.code=null;
-            // },
-            // selectbCode: function(index){
-            //   this.user.bcode = this.codes[index];
-            //   this.user.code = this.user.bcode.code;
-            //   this.isBShow=!this.isBShow;
-            // },
+
             save: function () {
                 if (this.isCreate) {
                     this.$http.post('/api/user', this.user, {params:{alert:'新建用户'}}).then(function (res) {

@@ -46,7 +46,15 @@ class CodeController extends Controller
 
     public function subs(Request $request){
         $code = static::$model::find($this->user()->code_id);
-        return static::$model::where('code','like',$code->code."%")->get();
+        $items = static::$model::where('code','like',$code->code."%");
+        $with = $request->input('with');
+        if ($with) {
+            if (str_contains($with,',')) {
+                $with = explode(',', $with);
+            }
+            $items = $items->with($with);
+        }
+        return $items->get();
     }
 
     public function show($id, Request $req){
