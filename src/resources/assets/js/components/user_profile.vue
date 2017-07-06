@@ -12,8 +12,8 @@
               </div>
             </template>
             <template v-if="editing">
-              <dropzone id="avatarDropzone" url="/api/avatar" @vdropzone-success="showSuccess" :dropzone-options="customOptionsObject" v-bind:use-custom-dropzone-options="true">
-                <input type="hidden" name="token" value="xxx">
+              <dropzone id="userAvatar" url="/api/avatar" @vdropzone-success="showSuccess" :dropzone-options="customOptionsObject" v-bind:use-custom-dropzone-options="true">
+                <input type="hidden" name="token" value="user">
               </dropzone>
             </template>
           </div>
@@ -147,10 +147,13 @@ import Dropzone from 'vue2-dropzone'
   },
   methods: {
     save: function () {
-      this.$http.put('/api/user_profile/' + this.user_profile.id, _.pick(this.user_profile, this.fillable), {params:{alert:'更新个人资料'}}).then(function () {
-                // this.editing = !this.editing;
-                this.$router.go(0);
-            }
+      var self = this;
+      this.$http.put('/api/user_profile/' + this.user_profile.id, _.pick(this.user_profile, this.fillable), {params:{alert:'更新个人资料'}}).then( function(){
+          self.editing = !self.editing;
+          self.$http.get('/api/user_profile').then(function(res){
+            self.user_profile = res.body.user_profile;
+          })
+        }
       );
     },
     get_user_profile: function(){
@@ -163,8 +166,12 @@ import Dropzone from 'vue2-dropzone'
       // console.log('A file was successfully uploaded');
     },
     editing_switch() {
-      // this.editing = !this.editing;
-      this.$router.go(0);
+      this.editing = !this.editing;
+      // this.$router.go(0);
+      var self = this;
+      this.$http.get('/api/user_profile').then(function(res){
+        self.user_profile = res.body.user_profile;
+      })
     },
   },
   created: function()

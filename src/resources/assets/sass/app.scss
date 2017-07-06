@@ -406,10 +406,12 @@ input::-ms-clear{display: none}
 
 .dropzone .dz-preview .dz-image {
   width: 100%!important;
+  text-align: -webkit-center;
+  background: #f6f6f6;
 }
 
 .dropzone .dz-preview .dz-image img {
-  width: 100%!important;
+  max-width: 100%!important;
 }
 
 .dropzone .dz-preview {
@@ -417,6 +419,6 @@ input::-ms-clear{display: none}
   height: 100%;
 }
 
-.dropzone .dz-preview.dz-image-preview {
+.dropzone .dz-preview .dz-image-preview {
   background: #f6f6f6!important;
 }
