@@ -394,6 +394,7 @@ input::-ms-clear{display: none}
 
 .vue-dropzone {
   text-align: center;
+  background-color: #fff!important;
 }
 
 .dropzone .dz-preview .dz-error-message {
@@ -407,7 +408,7 @@ input::-ms-clear{display: none}
 .dropzone .dz-preview .dz-image {
   width: 100%!important;
   text-align: -webkit-center;
-  background: #f6f6f6;
+  background: #fff;
 }
 
 .dropzone .dz-preview .dz-image img {
@@ -420,5 +421,5 @@ input::-ms-clear{display: none}
 }
 
 .dropzone .dz-preview .dz-image-preview {
-  background: #f6f6f6!important;
+  background: #fff!important;
 }

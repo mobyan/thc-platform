@@ -20,9 +20,9 @@
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <!-- ace styles -->
-	  <link rel="stylesheet" href="/css/ace/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
+	<link rel="stylesheet" href="/css/ace/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="/css/ace/ace-skins.min.css"/>
-	  <link rel="stylesheet" href="/css/ace/ace-rtl.min.css"/>
+	<link rel="stylesheet" href="/css/ace/ace-rtl.min.css"/>
     <script src="/js/ace/ace-extra.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
@@ -67,7 +67,7 @@
                 @else
                 <li class="light-blue dropdown-modal">
                   <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-    								<img class="nav-user-photo" src="image/user.jpg" alt="Jason's Photo" />
+    								<img class="nav-user-photo" src="{{ Auth::user()->user_profile->avatar_url }}" alt="Jason's Photo" />
     								<span class="user-info">
     									<small>欢迎,</small>
     									{{ Auth::user()->name }}
