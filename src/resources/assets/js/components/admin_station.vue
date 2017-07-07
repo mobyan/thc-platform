@@ -12,9 +12,18 @@
           <h3 class="panel-title">基本信息</h3>
         </div>
         <div class="panel-body">
-          <div class="col-md-4">
-            <img src="/image/noimage.jpg" id="no-image">
-          </div>
+          <template v-if="!editing">
+            <div class="col-md-4">
+              <img :src="station.avatar_url" id="no-image">
+            </div>          
+          </template>
+          <template v-else>
+            <div class="col-md-3">
+              <dropzone id="stationAvatar" :url='avatar_push_url' @vdropzone-success="showSuccess" :dropzone-options="customOptionsObject" v-bind:use-custom-dropzone-options="true">
+                <input type="hidden" name="token" value="station">
+              </dropzone>              
+            </div>
+          </template>
           <div class="col-md-4 col-xs-12">
             <form>
               <div class="form-group"><label>产品线</label>
@@ -71,6 +80,7 @@
 <script>
 import bootbox from 'bootbox'
 import code_view from './code_view.vue'
+import Dropzone from 'vue2-dropzone'
     export default {
       data: function () {
         return {
@@ -81,10 +91,31 @@ import code_view from './code_view.vue'
           isCreate: false,
           fillable: ['name', 'location', 'lon', 'lat', 'alt', 'app_id', 'code'],
           dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
+          avatar_push_url: '/api/avatar?station_id='+this.$route.params.station,
+          customOptionsObject: {
+            maxNumberOfFiles: 1,
+            autoProcessQueue: true,
+            maxFileSizeInMB: 3,
+            acceptedFileTypes: 'image/jpeg,image/jpg,image/png',
+            resizeWidth: 350,
+            resizeHeight: 350,
+            resizeQuality: 100,
+            resizeMethod: 'crop',
+            language: {
+              dictFileTooBig: '上传文件过大({{filesize}}MiB) 文件大小限制: {{maxFilesize}}MiB',
+              dictInvalidFileType: '非法上传文件类型',
+              dictCancelUpload: '取消上传',
+              dictCancelUploadConfirmation: '确定要取消上传',
+              dictDefaultMessage: '拖拽或点击上传新头像',
+              dictRemoveFile: '删除文件',
+              dictMaxFilesExceeded: '达到上传数量上限',
+            },
+          },
       }
   },
   components:{
-    code_view,
+    'code-view':code_view,
+    Dropzone,
   },
   methods: {
     onCodeUpdate: function(data){
@@ -112,19 +143,24 @@ import code_view from './code_view.vue'
     // },
     save: function () {
         if (this.isCreate) {
-            this.$http.post('/api/station', this.station, {params:{alert:'新建站点'}}).then(function (res) {
-                this.editing = !this.editing;
-                this.$router.push({
-                    name: 'admin-station',
-                    params: {
-                        station: res.body.id,
-                    }
-                })
-            });
+          this.$http.post('/api/station', this.station, {params:{alert:'新建站点'}}).then(function (res) {
+              this.editing = !this.editing;
+              this.$router.push({
+                  name: 'admin-station',
+                  params: {
+                      station: res.body.id,
+                  }
+              })
+          });
         } else {
-            this.$http.put('/api/station/'+this.station.id, _.pick(this.station, this.fillable), {params:{alert:'更新站点信息'}}).then(function () {
-                this.editing = !this.editing;
-            });
+          var self = this;
+          this.$http.put('/api/station/'+this.station.id, _.pick(this.station, this.fillable), {params:{alert:'更新站点信息'}}).then(function () {
+              self.editing = !self.editing;
+              // this.$router.go(0);
+              self.$http.get('/api/station/'+self.$route.params.station+'?with=bcode').then(function (res) {
+                self.station = res.body;
+              });
+          });
         }
     },
     create: function () {
@@ -141,6 +177,10 @@ import code_view from './code_view.vue'
       }
       else{
         this.editing = !this.editing;
+        var self = this;
+        this.$http.get('/api/station/'+this.$route.params.station+'?with=bcode').then(function (res) {
+          self.station = res.body;
+        });
       }
     },
     remove: function (id) {
@@ -162,7 +202,10 @@ import code_view from './code_view.vue'
           this.station = res.body;
         })
       }
-    }
+    },
+    showSuccess(file) {
+      // console.log('A file was successfully uploaded');
+    },
   },
   created:function(){
     var self = this;

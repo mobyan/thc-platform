@@ -2,8 +2,8 @@
   <div class="input-group">
     <input v-model="search.merged_name" :disabled="!editing" @keydown.enter="searchInput()" class="form-control"/>
     <div class="input-group-btn">
-      <button @click="searchInput()" :disabled="!editing" class="btn btn-white btn-primary"><i class="fa fa-search"></button>
-      <button @click="clearInput()" :disabled="!editing" class="btn btn-white btn-primary"><i class="fa fa-refresh"></button>
+      <button @click="searchInput()" :disabled="!editing" class="btn btn-white btn-primary"><i class="fa fa-search"/></button>
+      <button @click="clearInput()" :disabled="!editing" class="btn btn-white btn-primary"><i class="fa fa-refresh"/></button>
     </div>
       <div class="search-select">
           <transition-group name="itemfade" tag="ul" mode="out-in" v-cloak v-show="isShow">

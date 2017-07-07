@@ -16,9 +16,18 @@
           <h3 class="panel-title">基本信息</h3>
         </div>
         <div class="panel-body">
-          <div class="col-md-4">
-            <img src="/image/noimage.jpg" id="no-image">
-          </div>
+          <template v-if="!editing">
+            <div class="col-md-4">
+              <img src="/image/noimage.jpg" id="no-image">
+            </div>            
+          </template>
+          <template v-else>
+            <div class="col-md-4">
+              <dropzone id="avatarDropzone" url="/api/avatar" @vdropzone-success="showSuccess" :dropzone-options="customOptionsObject" v-bind:use-custom-dropzone-options="true">
+                <input type="hidden" name="token" value="station">
+              </dropzone>              
+            </div>
+          </template>
           <div class="col-md-8">
             <form>
               <div class="form-group"><label>ID</label><input disabled type="text" class="form-control" v-model="station.id"></div>
@@ -56,7 +65,11 @@
 
 <script>
 import bootbox from 'bootbox'
+import Dropzone from 'vue2-dropzone'
     export default {
+      components: {
+        Dropzone,
+      },
       data: function () {
         return {
           station: {},
@@ -65,6 +78,25 @@ import bootbox from 'bootbox'
           isCreate: false,
           fillable: ['name', 'type', 'location', 'lon', 'lat', 'alt'],
           dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
+          customOptionsObject: {
+            maxNumberOfFiles: 1,
+            autoProcessQueue: true,
+            maxFileSizeInMB: 3,
+            acceptedFileTypes: 'image/jpeg,image/jpg,image/png',
+            resizeWidth: 350,
+            resizeHeight: 350,
+            resizeQuality: 100,
+            resizeMethod: 'crop',
+            language: {
+              dictFileTooBig: '上传文件过大({{filesize}}MiB) 文件大小限制: {{maxFilesize}}MiB',
+              dictInvalidFileType: '非法上传文件类型',
+              dictCancelUpload: '取消上传',
+              dictCancelUploadConfirmation: '确定要取消上传',
+              dictDefaultMessage: '拖拽或点击上传新头像',
+              dictRemoveFile: '删除文件',
+              dictMaxFilesExceeded: '达到上传数量上限',
+            },
+          },
       }
   },
   methods: {
@@ -115,7 +147,10 @@ import bootbox from 'bootbox'
       this.$http.get('/api/station/'+this.$route.params.station).then(function (res) {
         this.station = res.body;
       })
-    }
+    },
+    showSuccess(file) {
+      // console.log('A file was successfully uploaded');
+    },
   },
   watch: {
     '$route': 'load',
