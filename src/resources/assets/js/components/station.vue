@@ -18,14 +18,14 @@
         <div class="panel-body">
           <template v-if="!editing">
             <div class="col-md-4">
-              <img src="/image/noimage.jpg" id="no-image">
-            </div>            
+              <img :src="station.avatar_url" id="no-image">
+            </div>
           </template>
           <template v-else>
             <div class="col-md-4">
-              <dropzone id="avatarDropzone" url="/api/avatar" @vdropzone-success="showSuccess" :dropzone-options="customOptionsObject" v-bind:use-custom-dropzone-options="true">
+              <dropzone id="avatarDropzone" :url="avatar_push_url" @vdropzone-success="showSuccess" :dropzone-options="customOptionsObject" v-bind:use-custom-dropzone-options="true">
                 <input type="hidden" name="token" value="station">
-              </dropzone>              
+              </dropzone>
             </div>
           </template>
           <div class="col-md-8">
@@ -78,6 +78,7 @@ import Dropzone from 'vue2-dropzone'
           isCreate: false,
           fillable: ['name', 'type', 'location', 'lon', 'lat', 'alt'],
           dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
+          avatar_push_url: '/api/avatar?station_id='+this.$route.params.station,
           customOptionsObject: {
             maxNumberOfFiles: 1,
             autoProcessQueue: true,
@@ -101,6 +102,7 @@ import Dropzone from 'vue2-dropzone'
   },
   methods: {
     save: function () {
+        this.station.app_id = thc.user.app_id;
         if (this.isCreate) {
             this.$http.post('/api/station', this.station, {params:{alert:'新建站点'}}).then(function (res) {
                 this.editing = !this.editing;
