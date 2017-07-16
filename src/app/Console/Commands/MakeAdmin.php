@@ -58,11 +58,14 @@ class MakeAdmin extends Command
             'email' => 'admin@thcreate.com.cn',
             'phone' => '13466654933',
             'app_id' => 0,
-            'belongs_code' => '0',
+            'code' => '0',
             'password' => bcrypt('password'),
         ]);
         $user->roles()->sync([$super->id]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> a5463e375bbf13adbc68a10724366cfb3ce5aef2
         $user_profile = new UserProfile;
         $user_profile->user_id = $user->id;
         $user_profile->name = $user->name;

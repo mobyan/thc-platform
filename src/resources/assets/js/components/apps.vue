@@ -16,7 +16,7 @@
         :fields="columns"
         pagination-path=""
         data-path="data"
-        :per-page="2"
+        :per-page="10"
         :css="css.table"
         detail-row-component="app-detail-row"
         @vuetable:loading="onLoading"
