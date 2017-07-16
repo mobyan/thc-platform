@@ -2,7 +2,7 @@ import defaultOptions from './chartOptions'
 import translations from './translations'
 function data2lists (device, data) {
     var keys = {};
-    _.forIn(data.items, function(item) {
+    _.forIn(data, function(item) {
         var config = item.config ? item.config.data : {};
         _.forIn(item.data, function(value, key) {
             item.data[key] = _.assign(item.data[key], config[key], {
@@ -34,6 +34,7 @@ export default {
         }
         var requests = _.map(devices, function (device) {
             var uri = '/api/station/'+device.station_id+'/device/'+device.id+'/data';
+            console.log('requests!');
             return Vue.http.get(uri, options).then(function (res) {
                 return _.values(data2lists(device, res.body))
             });

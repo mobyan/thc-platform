@@ -4,18 +4,20 @@
       <form class="form">
         <div class="form-group">
           <label style="width: 100%;">站点-设备：</label>
-          <select v-model="selected_device_ids" multiple="true" style="width: 100%;" class="form-control">
+          <select v-model="selected_device_ids" multiple="true" style="width: 100%;" class="form-control col-md-6">
             <option v-for="device in devices" :value="device.id">
               {{ device.name }}
             </option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
           <label style="width: 100%;">时间：</label>
           <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> to
           <date-picker id="end_at" :date="end_at" :option="dp.option" :limit="limit"></date-picker>
         </div>
-        <button type="button" class="btn btn-default" v-for="shortcut in shortcuts" @click="linkWithDatepicker(shortcut.offset)" style="margin-right: 5px;" >{{shortcut.name}}</button>
+        <div class="btn-group col-md-6">
+          <button type="button" class="btn btn-default" v-for="shortcut in shortcuts" @click="linkWithDatepicker(shortcut.offset)" style="margin-right: 5px;" >{{shortcut.name}}</button>
+        </div>
         <div class ="form-group">
           <label>下载内容：</label>
           <!-- <label class="btn btn-primary"> -->

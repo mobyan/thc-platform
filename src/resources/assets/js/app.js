@@ -17,8 +17,11 @@ import VueRouter from 'vue-router'
 import routes from './routes'
 import AMap from 'vue-amap';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import VueImg from 'v-img';
+
 
 Vue.use(AMap);
+Vue.use(VueImg);
 
 AMap.initAMapApiLoader({
   key: '5d7513412b713a3d6daf2fa69bc31c6e',

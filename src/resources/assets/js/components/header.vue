@@ -1,7 +1,15 @@
 <template>
   <div class="page-header">
-    <h1>{{titile}}
-    </h1>
+    <div id="head" style="border-bottom: 1px solid #cacfda;margin-bottom: 1em;">
+      <div >
+        <div id="title" style="float: left;">
+        <span style="font-weight:bold; font-size: 16px;">{{title}} </span>
+        </div>
+        <div style="clear:both;"></div>
+
+      </div>
+
+    </div>
     <div v-if="user.codes.length > 1 && currentRCode" class="btn-group">
       <label>当前区域</label>
       <select v-if="user" v-model="currentRCode">

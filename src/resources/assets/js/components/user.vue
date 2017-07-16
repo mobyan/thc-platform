@@ -1,7 +1,7 @@
 <template>
     <div>
       <div id='qlink'>
-        <router-link to="/users">
+        <router-link to="/user">
                 <img src="/image/tableg.png">
                 用户列表
               </router-link>
@@ -118,6 +118,7 @@
             </div>
         </div>
       </div>
+    </div>
 </template>
 <script >
     import utils from '../utils'

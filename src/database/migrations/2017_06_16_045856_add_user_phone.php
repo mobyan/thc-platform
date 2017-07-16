@@ -15,7 +15,7 @@ class AddUserPhone extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('phone')->unique();
+            //$table->string('phone')->unique();
         });
     }
 

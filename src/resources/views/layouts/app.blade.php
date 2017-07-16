@@ -54,7 +54,7 @@
     					<a href="/eason" class="navbar-brand">
     						<small>
     							<i class="fa fa-leaf"></i>
-    							Eason Admin
+    							Tianon Admin
     						</small>
     					</a>
     				</div>
@@ -127,21 +127,21 @@
     					</li>
               <li  v-if="canAppRead()">
     						<router-link to="/map">
-    							<i class="menu-icon fa fa-tachometer"></i>
+    							<i class="menu-icon fa fa-map-o"></i>
     							<span class="menu-text"> 站点地图 </span>
     						</router-link>
     						<b class="arrow"></b>
     					</li>
               <li  v-if="canAppRead()">
     						<router-link to="/station">
-    							<i class="menu-icon fa fa-tachometer"></i>
+    							<i class="menu-icon fa fa-list-ul"></i>
     							<span class="menu-text"> 站点列表 </span>
     						</router-link>
     						<b class="arrow"></b>
     					</li>
               <li class="" v-if="canAppRead()">
     						<router-link to="/data_download">
-    							<i class="menu-icon fa fa-tachometer"></i>
+    							<i class="menu-icon fa fa-download"></i>
     							<span class="menu-text"> 数据下载 </span>
     						</router-link>
     						<b class="arrow"></b>

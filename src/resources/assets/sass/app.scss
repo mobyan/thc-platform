@@ -22,114 +22,7 @@ body {
     background-color: #fff;
     font-family: "open-sans","Lucida Sans","Lucida Grande", sans-serif!important;
 }
-/*
-.navbar-custom {
-    color: #FFF;
-    background: linear-gradient(to bottom, #00aadf 0%,#0d98c7 98%);
-}
-#header > nav > div > div.navbar-header > a {
-    color: #fff;
-}
 
-.navbar-nav > li > a {
-    color: #fff !important;
-}
-*/
-/*$bgDefault      : #00aadf;
-$bgHighlight    : #3697ce;
-$colDefault     : #fff;
-$colHover       : #e0e0e0;
-*/
-/* --- Style --- */
-/*
-.navbar-default {
-    background: linear-gradient(to bottom, #00aadf 0%,#0d98c7 98%);
-    border-color: $bgHighlight;
-    .navbar-brand {
-        color: $colDefault;
-        &:hover, &:focus {
-            color: $colHover; }}
-    .navbar-nav {
-        > li {
-            > a {
-                color: $colDefault;
-                &:hover, &:focus {
-                    color: $colHover;   }}}
-        .active {
-            > a, > a:hover, > a:focus {
-                color: $colHover;
-                background-color: $bgHighlight; }}
-        .open {
-            > a, > a:hover, > a:focus {
-                color: $colHover;
-                background-color: $bgHighlight;
-                .caret {
-                    border-top-color: $colHover;
-                    border-bottom-color: $colHover; }}}
-        > .dropdown {
-            > a {
-                .caret {
-                    border-top-color: $colDefault;
-                    border-bottom-color: $colDefault; }
-                &:hover, &:focus {
-                    .caret {
-                        border-top-color: $colHover;
-                        border-bottom-color: $colHover; }}}}}
-    .navbar-toggle {
-        border-color: $bgHighlight;
-        &:hover, &:focus {
-            background-color: $bgHighlight; }
-        .icon-bar {
-            background-color: $colDefault; }}}
-@media (max-width: 767px) {
-    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-        color: $colDefault;
-        &:hover, &:focus {
-            color: $colHover;
-            background-color: $bgHighlight; }}
-}
-
-
-.container {
-    width: 90%;
-    margin: auto;
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-#content-container {
-    max-width: 1000px;
-}
-
-#header-container {
-    max-width: 1000px;
-}
-
-html,
-body {
-  height: 100%;
-
-}
-*/
-/* Wrapper for page content to push down footer */
-
-//#app {
-//  min-height: 100%;
-//  height: auto;
-  /* Negative indent footer by its height */
-//  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-//  padding: 0 0 60px;
-//}
-
-/* Set the fixed height of the footer here */
-//#footer {
-//  height: 60px;
-//}
-//#header {
-//    width: 100%;
-//    padding: 0;
-//}
 .alert {
   display:block;
   position: fixed;
@@ -422,4 +315,70 @@ input::-ms-clear{display: none}
 
 .dropzone .dz-preview .dz-image-preview {
   background: #fff!important;
+}
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
+// .gallery-container {
+//   margin: 0 auto;
+//   width: 100%;
+//   max-width: 500px;
+// }
+.container .search-box {
+  padding: 10px;
+  margin: 20px 0;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.container .timeline {
+  position: relative;
+  border-left: 1px solid black;
+}
+.container .timeline .date {
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  position: relative;
+  left: 15px;
+  margin: 15px 0;
+}
+.container .timeline .date:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -16px;
+  border: 1px solid black;
+  width: 14px;
+}
+.container .timeline .gallery {
+  position: relative;
+  left: 20px;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+.container .timeline .gallery:hover {
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.4);
+}
+.container .timeline .gallery a {
+  color: green;
+  text-decoration: none;
+}
+.container .timeline .gallery .gallery-date {
+  font-weight: 300;
+  font-size: 14px;
+}
+.container .timeline .gallery .dot {
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: green;
+  left: -25.5px;
+  top: calc(50% - 5px);
 }

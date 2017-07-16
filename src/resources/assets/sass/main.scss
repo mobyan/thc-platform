@@ -14,11 +14,47 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
 /*
 @import "node_modules/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf";
 */
 body {
     background-color: #fff;
     font-family: "open-sans","Lucida Sans","Lucida Grande", sans-serif!important;
+}
+@media(max-width: 768px){
+  .product {
+    line-height:200%;
+    font-size: 8px;
+    margin-top: 5%;
+    margin-left:5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+
+  }
+}
+
+
+.product {
+  line-height:200%;
+  margin-top: 5%;
+  margin-left:5%;
+  margin-right: 5%;
+  margin-bottom: 5%;
+
+}
+
+.center {
+  width: auto;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5%;
+}
+
+.blank{
+  margin: 50px;
+}
+
+#slider{
+  margin-top: 55px;
 }

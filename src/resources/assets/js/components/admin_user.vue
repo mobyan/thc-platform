@@ -175,6 +175,7 @@
             },
             onUserCodeUpdate: function(code){
               this.user.bcode = code;
+              this.user.code = code.code;
             },
             get: function(merged_name) {
                 console.log(merged_name);
@@ -210,10 +211,10 @@
               }
             },
             create: function () {
-                this.user = _.reduce(this.user, function (carry, v) {
-                    carry[v] = '';
-                    return carry;
-                }, {});
+                // this.user = _.reduce(this.user, function (carry, v) {
+                //     carry[v] = '';
+                //     return carry;
+                // }, {});
                 this.isCreate = true;
                 this.editing = !this.editing;
             },
@@ -234,6 +235,7 @@
               else{
                 this.$http.get('/api/user/'+this.$route.params.user+"?with=roles.code,bcode").then(function (res) {
                   this.user = res.body;
+                  this.isCreate = false;
                 })
               }
             },

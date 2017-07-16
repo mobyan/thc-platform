@@ -10,7 +10,7 @@
             <input type="checkbox" :id="device.id" :value="device" v-model="selectedDevices">
             <label :for="device.id">{{device.name}}</label>
           </template>
-          </div>          
+          </div>
           <div class="form-group">
 
           <label>类型：</label>
@@ -20,9 +20,10 @@
           </div>
         <div class="form-group">
           <label style="width: 100%;">时间：</label>
-          <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> to  
+          <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> to
           <date-picker id="end_at" :date="end_at" :option="dp.option" :limit="limit"></date-picker>
         </div>
+
         <button type="button" class="btn btn-primary" @click="loadDeviceData(selectedType)">确定</button>
         <button type="button" class="btn btn-default" v-for="shortcut in shortcuts" @click="loadDeviceData(selectedType, shortcut.offset)" style="margin-right: 5px;" >{{shortcut.name}}</button>
       </form>
@@ -74,7 +75,7 @@
         // var d2 = _.cloneDeep(d1);
         // d2.name += '复制';
         // this.devices = [d1,d2];
-        this.devices = res.body.items;
+        this.devices = res.body;
         this.selectedDevices = _.filter(this.devices, {id: parseInt(this.$route.query.device_id)}) || [this.devices[0]];
         this.loadDeviceData(type);
 

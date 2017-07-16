@@ -1,14 +1,14 @@
 <template>
-  <div>
+<div class="container">
+  <div class="timeline">
     <div v-for="device in devices">
-      <div v-for="gallery in device.galleries">
-        <div>
-        <h4>Date: {{gallery.date}} {{device.name}}</h4>
-        </div>
-        <div class="row">
-          <div v-for="image in gallery.images" class="col-xs-6 col-md-3">
+      <div v-for="gallery in device.galleries" class="clearfix">
+        <p class="date">{{gallery.date}} {{device.name}}</p>
+        <div class="gallery row">
+          <span class="dot"></span>
+          <div v-for="image in gallery.images" class="col-xs-12 col-md-6 col-lg-3">
             <div class="thumbnail">
-              <img :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt" >
+              <img v-img:group :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt" >
               <div><span>{{image.ts}}</span><span style="float: right;" @click="download" ><img height="16px" width="16px" src="/image/dl.png"></span></div>
             </div>
           </div>
@@ -17,6 +17,7 @@
     </div>
     <!-- <viewer :images="testImages" index="1"></viewer> -->
   </div>
+</div>
 </template>
 
 <script >

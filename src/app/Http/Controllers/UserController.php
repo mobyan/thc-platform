@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
+use \App\UserProfile;
 
 
 class UserController extends Controller
@@ -68,7 +69,20 @@ class UserController extends Controller
 
         $body = $request->all();
         $body['password']= bcrypt($body['password']);
-        return $this->_store($body);
+        $user = $this->_store($body);
+        $user_profile = new UserProfile;
+        $user_profile->user_id = $user->id;
+        $user_profile->name = $user->name;
+        $user_profile->position = 'default';
+        $user_profile->department = 'default';
+        $user_profile->institution = 'default';
+        $user_profile->email = $user->email;
+        $user_profile->cell = 'default';
+        $user_profile->phone = 'default';
+        $user_profile->address = 'default';
+        $user_profile->avatar_url = '/image/upic.png';
+        $user_profile->save();
+        return $user;
     }
 
     /**
