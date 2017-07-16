@@ -25,7 +25,7 @@
         :fields="columns"
         pagination-path=""
         data-path="data"
-        :per-page="2"
+        :per-page="10"
         :css="css.table"
         :append-params="params"
         table-class="table table-bordered table-striped table-hover"
@@ -40,7 +40,7 @@
                 <i class="fa fa-pencil-square-o "></i>
               </button>
               <button class="btn btn-white btn-danger"
-                @click="remove(props.rowIndex)">
+                @click="remove(props.rowData, props.rowIndex)">
                 <i class="fa fa-trash-o "></i>
               </button>
             </div>

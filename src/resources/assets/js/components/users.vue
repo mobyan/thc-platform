@@ -21,7 +21,7 @@
         :fields="columns"
         pagination-path=""
         data-path="data"
-        :per-page="2"
+        :per-page="10"
         :css="css.table"
         :append-params="params"
         table-class="table table-bordered table-striped table-hover"
