@@ -8,6 +8,7 @@ use App\App;
 use App\User;
 use App\Role;
 use App\Permission;
+use App\UserProfile;
 
 class MakeAdmin extends Command
 {
@@ -61,6 +62,19 @@ class MakeAdmin extends Command
             'password' => bcrypt('password'),
         ]);
         $user->roles()->sync([$super->id]);
+
+        $user_profile = new UserProfile;
+        $user_profile->user_id = $user->id;
+        $user_profile->name = $user->name;
+        $user_profile->position = 'default';
+        $user_profile->department = 'default';
+        $user_profile->institution = 'default';
+        $user_profile->email = $user->email;
+        $user_profile->cell = 'default';
+        $user_profile->phone = 'default';
+        $user_profile->address = 'default';
+        $user_profile->avatar_url = '/image/upic.png';
+        $user_profile->save();
     }
 
 }

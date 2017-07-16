@@ -40,7 +40,7 @@
                 <i class="fa fa-pencil-square-o "></i>
               </button>
               <button class="btn btn-white btn-danger"
-                @click="remove(props.rowIndex)">
+                @click="remove(props.rowData, props.rowIndex)">
                 <i class="fa fa-trash-o "></i>
               </button>
             </div>
