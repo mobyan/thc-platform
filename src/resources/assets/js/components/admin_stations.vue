@@ -167,9 +167,7 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
     methods: {
         setFilter: function() {
           this.params.filter =this.searchFor;
-            this.$nextTick(function() {
-                this.$broadcast('vuetable:refresh')
-            })
+            this.$refs.vuetable.refresh();
         },
         resetFilter: function() {
             this.searchFor = '';
