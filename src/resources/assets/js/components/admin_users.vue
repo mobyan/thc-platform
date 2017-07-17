@@ -151,15 +151,17 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
         },
         remove: function(usr, i){
             var self = this;
-            this.$http.delete('/api/user/'+usr.id).then(function(res){
-              self.users.splice(i, 1);
-            })
+            bootbox.confirm('确认删除？', function (result) {
+                if (result) {
+                    self.$http.delete('/api/user/' + usr.id).then(function () {
+                        self.users.splice(i, 1);
+                    })
+                }
+          })
         },
         setFilter: function() {
           this.params.filter =this.searchFor;
-            this.$nextTick(function() {
-                this.$broadcast('vuetable:refresh')
-            })
+            this.$refs.vuetable.refresh();
         },
         resetFilter: function() {
             this.searchFor = '';
