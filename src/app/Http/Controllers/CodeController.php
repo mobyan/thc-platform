@@ -19,7 +19,12 @@ class CodeController extends Controller
     ];
     public function index(Request $req)
     {
-
+        if($req->input("level")){
+          return $this->_index(["level","=",$req->input("level")]);
+        }
+        if($req->input("parent_code")){
+          return $this->_index(["parent_code","=",$req->input("parent_code")]);
+        }
         return $this->_index();
     }
 

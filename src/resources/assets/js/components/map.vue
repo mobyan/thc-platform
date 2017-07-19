@@ -11,7 +11,10 @@
  -->    </div>
 </template>
 <script >
+import Vue from "vue";
+var bus = new Vue();
 export default {
+
   data() {
     return {
       zoom: 5,
@@ -24,11 +27,15 @@ export default {
   },
   created: function () {
     this.load();
+    bus.$on('ccodeChanged', this.onCodeChanged);
   },
   watch: {
     '$route': 'load',
   },
   methods: {
+    onCodeChanged:function(currentCode){
+      this.load();
+    },
     load: function () {
   	var self = this;
       this.$http.get('/api/station/').then(function (res) {
