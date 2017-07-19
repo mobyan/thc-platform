@@ -176,7 +176,8 @@ Vue.component('app-detail-row', AppDetailRow)
           bootbox.confirm('确认删除？', function(result) {
             if (result) {
                 self.$http.delete('/api/app/'+app.id).then(function() {
-                    self.apps.splice(index, 1);
+                    //self.apps.splice(index, 1);
+                    self.$ref.vuetable.reload();
                     //self.$router.go(0);
                 })
             }

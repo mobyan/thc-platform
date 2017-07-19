@@ -4,7 +4,7 @@
     <div v-for="device in devices">
       <div v-for="gallery in device.galleries" class="clearfix">
         <p class="date">{{gallery.date}} {{device.name}}</p>
-        <div class="gallery row">
+        <div class="gallery row" style="margin-right: 5%">
           <span class="dot"></span>
           <div v-for="image in gallery.images" class="col-xs-12 col-md-6 col-lg-3">
             <div class="thumbnail">

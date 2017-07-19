@@ -204,7 +204,8 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
             bootbox.confirm('确认删除？', function (result) {
                 if (result) {
                     self.$http.delete('/api/station/'+self.stations[index].id).then(function () {
-                        self.stations.splice(index, 1);
+                        //self.stations.splice(index, 1);
+                        self.$refs.vuetable.reload();
                     })
                 }
           })

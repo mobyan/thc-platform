@@ -14,7 +14,7 @@
           <div class="form-group">
 
           <label>类型：</label>
-          <select class="form-control" v-model="selectedType">
+          <select class="form-control col-xs-12 col-md-6 col-lg-3" v-model="selectedType">
             <option v-for="(v,t) in types" :value="t">{{v.type_desc}}</option>
           </select>
           </div>
@@ -25,7 +25,9 @@
         </div>
 
         <button type="button" class="btn btn-primary" @click="loadDeviceData(selectedType)">确定</button>
-        <button type="button" class="btn btn-default" v-for="shortcut in shortcuts" @click="loadDeviceData(selectedType, shortcut.offset)" style="margin-right: 5px;" >{{shortcut.name}}</button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" v-for="shortcut in shortcuts" @click="loadDeviceData(selectedType, shortcut.offset)" style="margin-right: 5px;" >{{shortcut.name}}</button>
+        </div>
       </form>
     </div>
     <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>

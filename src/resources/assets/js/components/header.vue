@@ -10,9 +10,9 @@
       </div>
 
     </div>
-    <div v-if="user.codes.length > 1 && currentRCode" class="btn-group">
+    <div v-if="user.codes.length > 1 && currentCode" class="btn-group">
       <label>当前区域</label>
-      <select v-if="user" v-model="currentRCode">
+      <select v-if="user" v-model="currentCode">
         <option v-for="(code, index) in user.codes" :value="code.id">{{code.code}} - {{code.merged_name}}</option>
       </select>
     <!--<button class="btn btn-primary btn-xs" @click="back()">
@@ -21,6 +21,8 @@
   </div>
 </template>
 <script>
+  import Vue from "vue";
+  var bus = new Vue();
   export default {
     props: ['title'],
     data: function () {
@@ -30,10 +32,11 @@
       }
     },
     watch: {
-      currentRCode: function () {
-        console.log('header.vue currentRCode');
+      currentCode: function () {
+        console.log('header.vue currentCode');
         Cookie.set('currentCode',this.currentCode);
-        location.href = '/';
+        bus.$emit('ccodeChanged',this.currentCode);
+        // location.href = '/eason';
       }
     },
     created: function () {

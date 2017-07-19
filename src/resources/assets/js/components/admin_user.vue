@@ -47,8 +47,8 @@
                 <div class="form-group  col-md-6">
                    <label for="belongs_code">所属区划</label>
                    <div class="input-group">
-                     <code-view :search="user.bcode" :editing="editing" @code-update="onUserCodeUpdate"></code-view>
-
+                     <code-view :search="user.bcode" @code-update="onUserCodeUpdate"></code-view>
+                    <!-- <code-selector :code="user.bcode" :editing="editing"></code-selector> -->
                      <!-- <input class="form-control" :disabled="!editing" id="address" v-model="user.bcode.merged_name" @keydown.enter="searchbCode()"></input>
                      <div class="input-group-btn" v-show="editing">
                        <button @click="searchbCode()"  class="btn btn-white btn-primary"><i class="fa fa-search"></button>
@@ -86,7 +86,7 @@
                 <div class="form-group col-md-3">
                   <label>区划</label>
                   <div class="input-group">
-                    <code-view :search="code" @code-update="onCodeUpdate"></code-view>
+                    <code-view :search="code" :editing="editing" @code-update="onCodeUpdate"></code-view>
                     <!--<input class="form-control" v-model="code.merged_name" @keydown.enter="searchCode()"></input>
                     <div class="input-group-btn">
                       <button @click="searchCode()" class="btn btn-white btn-primary"><i class="fa fa-search"></button>
@@ -137,6 +137,7 @@
     import utils from '../utils'
     import bootbox from 'bootbox'
     import code_view from './code_view.vue'
+    import codeSelector from "./codeSelector.vue"
     export default {
         data : () => {
             return {
@@ -151,7 +152,8 @@
             }
         },
         components:{
-          'code-view': code_view
+          'code-view': code_view,
+          'code-selector': codeSelector
         },
         created: function () {
             var self = this;
