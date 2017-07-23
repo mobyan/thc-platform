@@ -137,6 +137,7 @@
         this.end_at = {time: moment().format('YYYY-MM-DD')};
       },
       get_belonged_jobs: function(){
+	this.download_jobs = [];
         var self = this;
         this.$http.get('/api/download').then(function(res){
           self.download_jobs = res.body;
@@ -171,6 +172,8 @@
         a.remove();
       },
       get_belonged_devices: function(){
+	this.stations = [];
+	this.devices = [];
         var self = this;
         this.$http.get('/api/station').then(function(res){
           self.stations = res.body;

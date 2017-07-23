@@ -33,10 +33,11 @@
     },
     watch: {
       currentCode: function () {
-        console.log('header.vue currentCode');
+        // console.log('header.vue currentCode');
         Cookie.set('currentCode',this.currentCode);
         bus.$emit('ccodeChanged',this.currentCode);
         // location.href = '/eason';
+	this.$router.go(0);
       }
     },
     created: function () {
