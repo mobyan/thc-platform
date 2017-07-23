@@ -60,7 +60,7 @@
     methods: {
       loadDeviceData (device) {
         var query = {
-          start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
+          start_at: moment().subtract(2,'day').format('YYYY-MM-DD'),
           end_at: moment().add(1,'day').format('YYYY-MM-DD'),
           limit: 10000,
         };

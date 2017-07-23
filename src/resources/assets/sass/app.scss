@@ -326,6 +326,11 @@ input::-ms-clear{display: none}
 //   width: 100%;
 //   max-width: 500px;
 // }
+
+.container {
+  width: 100%!important;
+}
+
 .container .search-box {
   padding: 10px;
   margin: 20px 0;
