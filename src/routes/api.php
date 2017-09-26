@@ -51,6 +51,7 @@ Route::resource('app', 'AppController', ['only' => [
 //  'index','show'
 //  ]]);
 Route::get('code/search', 'CodeController@search');
+Route::get('code/searchLinkage', 'CodeController@searchLinkage');
 Route::get('code/subs', 'CodeController@subs');
 Route::resource('code','CodeController',['only'=>['index', 'show']]);
 
