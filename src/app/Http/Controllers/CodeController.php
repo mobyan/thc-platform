@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use TomLingham\Searchy\Facades\Searchy;
 use Artisan;
 use Illuminate\Support\Facades\Log;
+use App\Code;
 
 class CodeController extends Controller
 {
@@ -26,6 +27,14 @@ class CodeController extends Controller
           return $this->_index(["parent_code","=",$req->input("parent_code")]);
         }
         return $this->_index();
+    }
+
+    public function searchLinkage(Request $request){
+      $this->assertPermissions('search');
+      $content = $request->input('content');
+      // $items = Searchy::codes("parent_code")->query($content)->getQuery()->get();
+      $items = Code::where('parent_code', $content)->get();
+      return $items;
     }
 
     public function search(Request $request){
