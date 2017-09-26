@@ -52,7 +52,7 @@ export default{
       },
       searchThis: function(index) {
             this.$http.get('/api/code/'+this.codes[index].id+'?with=roles').then(function(res){
-              this.search = res.body;
+              // this.search = res.body;
               this.$emit('code-update', res.body);
               // this.$emit('code-info',this.code);
             });
