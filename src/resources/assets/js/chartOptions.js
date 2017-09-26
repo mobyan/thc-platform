@@ -248,4 +248,17 @@ export default {
             },
         }
     }),
+    'pressure': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'column'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'pa'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
 }
