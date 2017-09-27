@@ -17,22 +17,22 @@
                 {{ item.name }}
             </option>
         </select>
-        <select v-model="select_2">
+        <select v-model="select_2" v-show="(level_2 != null)">
             <option v-for="item in level_2" v-bind:value="item">
                 {{ item.name }}
             </option>
         </select>
-        <select v-model="select_3">
+        <select v-model="select_3" v-show="(level_3 != null)">
             <option v-for="item in level_3" v-bind:value="item">
                 {{ item.name }}
             </option>
         </select>
-        <select v-model="select_4">
+        <select v-model="select_4" v-show="(level_4 != null)">
             <option v-for="item in level_4" v-bind:value="item">
                 {{ item.name }}
             </option>
         </select>
-        <select v-model="select_5">
+        <select v-model="select_5" v-show="(level_5 != null)">
             <option v-for="item in level_5" v-bind:value="item">
                 {{ item.name }}
             </option>
