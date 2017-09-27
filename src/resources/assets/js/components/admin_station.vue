@@ -53,12 +53,14 @@
                             </div>
                             <div class="form-group">
                                 <label>区划</label>
-                                <div v-if="!editing" class="input-group">
-                                    <code-view :search="station.bcode" :editing="editing" @code-update="onCodeUpdate"></code-view>
+                                <!--                                 <div v-if="!editing" class="input-group">
+                                    <code-view :search="station.bcode" :editing="editing"></code-view>
                                 </div>
                                 <div v-if="editing" class="input-group">
                                     <code-linkage-view @codeChanged="onCodeUpdate"></code-linkage-view>
-                                </div>
+                                </div> -->
+                                <input v-if="!editing" :disabled="!editing" type="text" class="form-control" v-model="station.bcode.merged_name">
+                                <code-linkage-view v-if="editing" @codeChanged="onCodeUpdate"></code-linkage-view>
                             </div>
                             <div class="form-group">
                                 <label>状态</label>
@@ -176,6 +178,7 @@ export default {
                     if (self.isCreate) {
                         self.$http.post('/api/station', self.station, { params: { alert: '新建站点' } }).then(function(res) {
                             self.buttonHint = "确定";
+                            self.code = null;
                             self.editing = !self.editing;
                             self.$router.push({
                                 name: 'admin-station',
@@ -187,6 +190,7 @@ export default {
                     } else {
                         self.$http.put('/api/station/' + self.station.id, _.pick(self.station, self.fillable), { params: { alert: '更新站点信息' } }).then(function() {
                             self.buttonHint = "确定";
+                            self.code = null;
                             self.editing = !self.editing;
                             self.$http.get('/api/station/' + self.$route.params.station + '?with=bcode').then(function(res) {
                                 self.station = res.body;
@@ -208,6 +212,8 @@ export default {
             if (this.$route.params.station == '0') {
                 this.$router.go(-1);
             } else {
+                this.buttonHint = "确定";
+                this.code = null;
                 this.editing = !this.editing;
                 var self = this;
                 this.$http.get('/api/station/' + this.$route.params.station + '?with=bcode').then(function(res) {
