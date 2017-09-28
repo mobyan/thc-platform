@@ -185,7 +185,7 @@ export default {
                                 params: {
                                     user: res.body.id,
                                 }
-                            })
+                            });
                         });
                     } else {
                         self.$http.put('/api/user/' + self.user.id, _.pick(self.user, self.fillable), { params: { alert: '更新用户信息' } }).then(function() {
@@ -194,7 +194,7 @@ export default {
                             self.editing = !self.editing;
                             self.$http.get('/api/user/' + self.$route.params.user + "?with=roles.code,bcode").then(function(res) {
                                 self.user = res.body;
-                            })
+                            });
                         });
                     }
                 });
@@ -277,7 +277,9 @@ export default {
                             self.addButtonHint = "添加权限";
                             self.role = null;
                             self.code = "null";
-                            self.user = res.body;
+                            self.$http.get('/api/user/' + self.$route.params.user + "?with=roles.code,bcode").then(function(res) {
+                                self.user = res.body;
+                            });
                         })
                     }
                 });
