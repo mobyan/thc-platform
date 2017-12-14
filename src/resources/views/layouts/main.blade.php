@@ -104,12 +104,12 @@
                             <h3 class="text-center">智传100自动气象站</h3>
                             <div class="hr hr16 dotted"></div>
                             <div class="space-6"></div>
-                            <p class="product">智传100自动气象站继承太阳能循环能源，可长期于野外工作，记录作物图像和重要气象参数，利用无限物联技术上传至天航智慧农业管理平台。</p>
+                            <p class="product">智传100自动气象站采用太阳能循环能源，可长期于野外工作，记录作物图像和重要气象参数，利用无线物联技术上传至天航智慧农业管理平台。</p>
                             <ul class="list-group">
                               <li class="list-group-item list-group-item-success">太阳能循环能源供电</li>
                               <li class="list-group-item list-group-item-success">高精度气象要素</li>
                               <li class="list-group-item list-group-item-success">高分辨率作物图像信息</li>
-                              <li class="list-group-item list-group-item-success">支持多种无限传输，GPRS、LoRa、NB-IoT</li>
+                              <li class="list-group-item list-group-item-success">支持多种无线传输，GPRS、LoRa、NB-IoT</li>
                             </ul>
                           </div>
                         </div>
@@ -133,7 +133,7 @@
                             <li class="list-group-item list-group-item-success">超低功耗，4节5号碱性电池可长期检测记录</li>
                             <li class="list-group-item list-group-item-success">支持环境气象传感器和图片数据的采集和分析</li>
                             <li class="list-group-item list-group-item-success">支持多平台系统多数据浏览和下载</li>
-                            <li class="list-group-item list-group-item-success">支持多种无限传输，GPRS、LoRa、NB-IoT</li>
+                            <li class="list-group-item list-group-item-success">支持多种无线传输，GPRS、LoRa、NB-IoT</li>
                           </ul>
                         </div>
                       </div>
@@ -197,7 +197,7 @@
                       <!-- <div class="blank"></div> -->
                       <div class="text-center well well-lg" style="margin-top:5%">
                         <p class="product">天航多旋翼无人机便携易用、操作简便、安全稳定。无人机可选配RGB、多光谱、高光谱相机，为科学调研、光谱信息取证、卫星资源校准提供全套解决方案。
-                        飞控系统安全可靠，在区域光谱信息普查、生态调研等方面具有广泛易用</p>
+                        飞控系统安全可靠，在区域光谱信息普查、生态调研等方面具有广泛应用。</p>
                         <table class="table table-hover">
                           <caption>技术参数</caption>
                           <tbody>
@@ -267,7 +267,7 @@
               <div class="col-xs-12 col-md-6">
                 <div class="text-center well well-lg">
                   <p class="product">太阳能无人机采用高效柔性太阳能电池系统，可延长航时至8小时。整机模块化设计方便运输使用，机身采用
-                  碳纤维符合材料，轻质高强，飞行控制简单易操作，支持航线自动规划，在农业数据采集、国土资源普查、海洋监测、大气环境监测等领域具有广泛应用</p>
+                  碳纤维复合材料，轻质高强，飞行控制简单易操作，支持航线自动规划，在农业数据采集、国土资源普查、海洋监测、大气环境监测等领域具有广泛应用。</p>
                 </div>
               </div>
             </div>
@@ -307,9 +307,9 @@
                 <div class="col-lg-12 text-center" style="padding-top: 5%;">
                     <h2 class="white">关于公司</h2>
                     <p class="white product">北京天航华创科技股份有限公司成立于2013年，以“技术源于创新，智能改变世界”为理念，为航空航天
-                    农业、生态、环保、海洋等行业提供优质产品及解决方案。2015年公司评为国家高新技术企业，研发团队来自北京航空航天大学，目前团队50余人
-                  ，其中博士11人，硕士21人，具有丰富等研究和工程开发经验；重点发展等业务方向为先进无人飞行器、智能农业生态装备和农业大数据服务；为生态农业、生态林业、环境保护等提供从传感到测量
-              、从采集到分析、从监控到处理到成套系统与服务。</p>
+                    农业、生态、环保、海洋等行业提供优质产品及解决方案。2015年公司评为高新技术企业，研发团队来自北京航空航天大学，目前团队50余人
+                  ，其中博士11人，硕士21人，具有丰富的研究和工程开发经验；重点发展的业务方向涵盖先进无人飞行器、智能农业生态装备和农业大数据服务；为生态农业、生态林业、环境保护等提供从传感到测量
+              、从采集到分析、从监控到处理成套系统与服务。</p>
                 </div>
             </div>
             <div class="row">
@@ -329,7 +329,7 @@
                     </div>
                     <div class="footer-col col-md-4">
                         <div class="btn-social btn-outline center"><i class="fa fa-fw fa-phone"></i></div>
-                        <p>010-82338480</p>
+                        <p>010-82734680</p>
                     </div>
                     <div class="footer-col col-md-4">
                         <div class="btn-social btn-outline center"><i class="fa fa-fw fa-envelope"></i></div>
