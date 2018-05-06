@@ -51,90 +51,112 @@ class DownloadData implements ShouldQueue
         $folder_name = join('_', explode(' ', $folder_name));
         $folder_path = $folder_name.'/';
         Storage::makeDirectory($folder_path);
-        $query_options = json_decode($this->options['options']);
-        for ($i=0; $i < count($query_options->device_ids); $i++){
-            $device_datas = DeviceData::where('device_id', $query_options->device_ids[$i])
-                                        ->whereBetween('ts', [$query_options->start_at, $query_options->end_at])
-                                        ->get();
-            $device_datas_image = array();
-            $raw_device_datas_data = $device_datas->filter(function($item, $key) use (&$device_datas_image) {
-                $data = $item->data;
-                $config = $item->config->data;
-                foreach ($data as $key => $value){
-                    $type = $config[$key]['type'];
-                    if ($type == 'image'){
-                        $item->image_key = $key;
-                        array_push($device_datas_image, $item);
-                        return false;
+        try {
+            $query_options = json_decode($this->options['options']);
+            for ($i=0; $i < count($query_options->device_ids); $i++){
+                $device_datas = DeviceData::where('device_id', $query_options->device_ids[$i])
+                                            ->whereBetween('ts', [$query_options->start_at, $query_options->end_at])
+                                            ->get();
+                $device_datas_image = array();
+                $raw_device_datas_data = $device_datas->filter(function($item, $key) use (&$device_datas_image) {
+                    $data = $item->data;
+                    $config = $item->config->data;
+                    foreach ($data as $key => $value){
+                        try {
+                            $type = $config[$key]['type'];
+                            if ($type == 'image'){
+                                $item->image_key = $key;
+                                array_push($device_datas_image, $item);
+                                return false;
+                            }
+                        } catch (\Exception $e) {
+                            continue;
+                        }
+
+
+                    }
+                    return true;
+                });
+                if ($query_options->with_image){
+                    $image_folder_path = $folder_path.$query_options->device_ids[$i].'/';
+                    Storage::makeDirectory($image_folder_path);
+                    $client = new Client();
+                    foreach ($device_datas_image as $device_data_image) {
+                        $image_url = $device_data_image->data[$device_data_image->image_key]['value'];
+                        $res = $client->request('GET', $image_url_prefix.$image_url);
+                        // $image_file_path = $image_folder_path.($device_data_image->created_at)->toDateTimeString().'.jpg';
+                        $image_file_path = $image_folder_path.$device_data_image->ts.'.jpg';
+                        Storage::disk('local')->put($image_file_path, $res->getBody()->getContents());
                     }
                 }
-                return true;
-            });
-            if ($query_options->with_image){
-                $image_folder_path = $folder_path.$query_options->device_ids[$i].'/';
-                Storage::makeDirectory($image_folder_path);
-                $client = new Client();
-                foreach ($device_datas_image as $device_data_image) {
-                    $image_url = $device_data_image->data[$device_data_image->image_key]['value'];
-                    $res = $client->request('GET', $image_url_prefix.$image_url);
-                    // $image_file_path = $image_folder_path.($device_data_image->created_at)->toDateTimeString().'.jpg';
-                    $image_file_path = $image_folder_path.$device_data_image->ts.'.jpg';
-                    Storage::disk('local')->put($image_file_path, $res->getBody()->getContents());
+                if ($query_options->with_data){
+                    $device = Device::find($query_options->device_ids[$i]);
+                    $csv_file_name = $device->name.'-'.($download_job->created_at)->toDateTimeString().'.csv';
+                    $processed_data_collection = $this->data_process($raw_device_datas_data);
+                    $file = fopen($root_path.$folder_path.$csv_file_name, 'w+');
+                    foreach ($processed_data_collection as $line) {
+                        fputcsv($file, $line);
+                    }
+                    fclose($file);
                 }
             }
-            if ($query_options->with_data){
-                $device = Device::find($query_options->device_ids[$i]);
-                $csv_file_name = $device->name.'-'.($download_job->created_at)->toDateTimeString().'.csv';
-                $processed_data_collection = $this->data_process($raw_device_datas_data);
-                $file = fopen($root_path.$folder_path.$csv_file_name, 'w+');
-                foreach ($processed_data_collection as $line) {
-                    fputcsv($file, $line);
-                }
-                fclose($file);
+
+
+            $zip = new ZipArchive();
+            if ($zip->open($root_path.$folder_name.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) != true) {
+                die('An error occurred creating your zip file.');
             }
+            $this->add_file_to_zip($root_path.$folder_path, $zip);
+            $zip->close();
+
+            Storage::deleteDirectory($folder_path);
+
+            $this->push_to_upyun($root_path.$folder_name.'.zip', $folder_name.'.zip');
+
+            Storage::delete($folder_name.'.zip');
+
+            $download_job->status = 'completed';
+            $download_job->url = '/'.$folder_name.'.zip';
+            $download_job->save();
+        } catch (\Exception $e) {
+            Storage::deleteDirectory($folder_path);
+            throw $e;
+
         }
-
-
-        $zip = new ZipArchive();
-        if ($zip->open($root_path.$folder_name.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) != true) {
-            die('An error occurred creating your zip file.');
-        }
-        $this->add_file_to_zip($root_path.$folder_path, $zip);
-        $zip->close();
-
-        Storage::deleteDirectory($folder_path);
-
-        $this->push_to_upyun($root_path.$folder_name.'.zip', $folder_name.'.zip');
-
-        Storage::delete($folder_name.'.zip');
-
-        $download_job->status = 'completed';
-        $download_job->url = '/'.$folder_name.'.zip';
-        $download_job->save();
-
-
     }
 
     public function data_process($raw_data_collection){
         $processed_data_collection = array();
         $device_config_id = 0;
+        $data_keys_sequence = array();
         foreach ($raw_data_collection as $raw_data){
             if ($raw_data->device_config_id != $device_config_id) {
                 $device_config_id = $raw_data->device_config_id;
                 $title_line = array();
+                $data_keys_sequence = array();
                 array_push($title_line, 'date');
                 foreach ($raw_data->config->data as $key => $value) {
                     if ($value['type'] != 'image') {
                         array_push($title_line, $value['desc']);
+                        array_push($data_keys_sequence, $key);
                     }
                 }
                 array_push($processed_data_collection, $title_line);
             }
             $data_line = array();
             array_push($data_line, $raw_data->ts);
-            foreach ($raw_data->data as $key => $value) {
-                array_push($data_line, $value['value']);
+            foreach ($data_keys_sequence as $data_key) {
+                try {
+                    $value = $raw_data->data[$data_key]['value'];
+                    array_push($data_line, $value);
+                } catch (\Exception $e) {
+                    array_push($data_line, '');
+                    continue;
+                }
             }
+            // foreach ($raw_data->data as $key => $value) {
+            //     array_push($data_line, $value['value']);
+            // }
             array_push($processed_data_collection, $data_line);
         }
         return $processed_data_collection;
