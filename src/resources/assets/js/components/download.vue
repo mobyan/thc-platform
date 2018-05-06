@@ -12,8 +12,8 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label style="width: 100%;">时间：</label>
-                    <date-picker id="start_at" :date="start_at" :option="dp.option" :limit="limit"></date-picker> to
-                    <date-picker id="end_at" :date="end_at" :option="dp.option" :limit="limit"></date-picker>
+                    <date-picker id="start_at" :date="start_at" :option="dp.timeoption" :limit="limit"></date-picker> to
+                    <date-picker id="end_at" :date="end_at" :option="dp.timeoption" :limit="limit"></date-picker>
                 </div>
                 <div class="btn-group col-md-6">
                     <button type="button" class="btn btn-default" v-for="shortcut in shortcuts" @click="linkWithDatepicker(shortcut.offset)" style="margin-right: 5px;">{{shortcut.name}}</button>
@@ -72,8 +72,8 @@ export default {
     data: function() {
         return {
             dp: configs.datepicker,
-            start_at: { time: moment().subtract(1, 'day').format('YYYY-MM-DD') },
-            end_at: { time: moment().format('YYYY-MM-DD') },
+            start_at: { time: moment().subtract(1, 'day').hours(0).minutes(0).format('YYYY-MM-DD HH:mm') },
+            end_at: { time: moment().hours(0).minutes(0).format('YYYY-MM-DD HH:mm') },
             limit: [{
                 type: 'fromto',
                 from: '2016-01-01',
@@ -129,11 +129,11 @@ export default {
             });
         },
         linkWithDatepicker: function(offset) {
-            var query = {};
-            query.start_at = moment().subtract(offset, 'day').format('YYYY-MM-DD');
-            query.end_at = moment().add(1, 'day').format('YYYY-MM-DD');
-            this.start_at = { time: query.start_at };
-            this.end_at = { time: moment().format('YYYY-MM-DD') };
+            // var query = {};
+            // query.start_at = moment().subtract(offset, 'day').format('YYYY-MM-DD');
+            // query.end_at = moment().add(1, 'day').format('YYYY-MM-DD');
+            this.start_at = { time: moment().subtract(offset, 'day').hours(0).minutes(0).format('YYYY-MM-DD HH:mm') };
+            this.end_at = { time: moment().hours(0).minutes(0).format('YYYY-MM-DD HH:mm') };
         },
         get_belonged_jobs: function() {
             this.download_jobs = [];
