@@ -34,5 +34,11 @@ export default {
 	'pressure': '气压',
 	'Sm': '风速',
 	'Ta': '温度',
-	'Ua': '湿度'
+	'Ua': '湿度',
+	'windir': '风向',
+	'windsp':'风速',
+	'rain': '降雨量',
+	'soiltemp':'土壤温度',
+	'soilhum':'土壤湿度',
+	'rain':'降雨量'
 }
