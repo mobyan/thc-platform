@@ -161,7 +161,23 @@ export default {
                 });
             });
         },
+        checkUniqueKey: function(){
+            var data = _.reduce(this.config_data.data, function(result, value, key){
+                for(var param_index in value.params){
+                    if (_.has(result, value.params[param_index].key)) {
+                        result['unique'] = false;
+                    }
+                    result[value.params[param_index].key] = '';
+                }
+                return result;
+            }, {'unique':true});
+            return data.unique;
+        },
         updateConfig: function(){
+            if(!this.checkUniqueKey()){
+                alert('存在重复的唯一索引，可能在不同的传感器之前使用了相同的唯一索引，请检查！');
+                return;
+            }
             var data = _.reduce(_.cloneDeep(this.config_data.data), function(result, value, key){
                 result[key] = value;
                 return result;
