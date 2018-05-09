@@ -56,83 +56,86 @@
         </div>
     </div>
 <!-- 设备配置 -->
-    <div v-if="device.id" class="panel panel-default panel-primary">
-        <div class="panel-heading" >
-            <h3 class="panel-title">配置</h3>
-        </div>
-        <div class="panel-body">
-            <form>
-                <div class="form-group">
-                </div>
-                <div class="form-group">
-                    <label for="data">Data</label>
-                    <div style="overflow:auto">
-                        <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
-                            <tbody>
-                                <tr>
-                                    <th>名称</th>
-                                    <th>端口</th>
-                                    <th>传感器</th>
-                                    <th>备注</th>
-                                    <th>操作</th>
-                                </tr>
-                                <tr v-for="(v,k) in activeConfig.data">
-                                    <template v-if="v !== null">
+    <div v-if="device.id">
+        <div v-if="show_old" class="panel panel-default panel-primary">
+            <div class="panel-heading" >
+                <h3 class="panel-title">配置</h3>
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <label for="data">Data</label>
+                        <div style="overflow:auto">
+                            <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>名称</th>
+                                        <th>端口</th>
+                                        <th>传感器</th>
+                                        <th>备注</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    <tr v-for="(v,k) in activeConfig.data">
+                                        <template v-if="v !== null">
+                                            <td>{{k}}</td>
+                                            <td><select class="form-control" :disabled="!editing_config" v-model="activeConfig.data[k].port">
+                                                <option v-for="port in ports" :value="port">{{port}}</option>
+                                            </select></td>
+                                            <td>
+                                                <select :disabled="!editing_config" v-model="activeConfig.data[k].sensor_type" class="form-control">
+                                                    <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" :disabled="!editing_config" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
+                                            <td style="vertical-align: middle;"><div v-if="editing_config" @click="removeData('data', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+
+                                        </template>
+                                    </tr>
+                                    <tr><td colspan="8">
+                                        <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
+                                    </td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="control">Controller</label>
+                        <div style="overflow:auto">
+                            <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>名称</th>
+                                        <th>分</th>
+                                        <th>时</th>
+                                        <th>日</th>
+                                        <th>月</th>
+                                        <th>周</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    <tr v-for="(v,k) in activeConfig.control">
                                         <td>{{k}}</td>
-                                        <td><select class="form-control" :disabled="!editing_config" v-model="activeConfig.data[k].port">
-                                            <option v-for="port in ports" :value="port">{{port}}</option>
-                                        </select></td>
-                                        <td>
-                                            <select :disabled="!editing_config" v-model="activeConfig.data[k].sensor_type" class="form-control">
-                                                <option v-for="sensor in sensors" :value="sensor.name">{{ sensor.desc + ': ' + sensor.name}}</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" :disabled="!editing_config" v-model="activeConfig.data[k].desc" class="form-control" :id="k" :placeholder="k" ></td>
-                                        <td style="vertical-align: middle;"><div v-if="editing_config" @click="removeData('data', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
+                                        <td v-for="(v, key) in activeConfig.control[k]" ><input :disabled="!editing_config" type="text" class="form-control" name="" v-model="activeConfig.control[k][key]"></td>
+                                        <td style="vertical-align: middle;width:33px;"><div v-if="editing_config" @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
 
-                                    </template>
-                                </tr>
-                                <tr><td colspan="8">
-                                    <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('data')" width="16px" height="16px" src="/image/add.png"></div>
-                                </td></tr>
-                            </tbody>
-                        </table>
+                                    </tr>
+                                    <tr><td colspan="7">
+                                        <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
+                                    </td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="control">Controller</label>
-                    <div style="overflow:auto">
-                        <table v-if="activeConfig" class="table table-bordered table-striped table-hover">
-                            <tbody>
-                                <tr>
-                                    <th>名称</th>
-                                    <th>分</th>
-                                    <th>时</th>
-                                    <th>日</th>
-                                    <th>月</th>
-                                    <th>周</th>
-                                    <th>操作</th>
-                                </tr>
-                                <tr v-for="(v,k) in activeConfig.control">
-                                    <td>{{k}}</td>
-                                    <td v-for="(v, key) in activeConfig.control[k]" ><input :disabled="!editing_config" type="text" class="form-control" name="" v-model="activeConfig.control[k][key]"></td>
-                                    <td style="vertical-align: middle;width:33px;"><div v-if="editing_config" @click="removeData('control', k)"><img width="16px" height="16px" src="/image/remove.png"></div></td>
-
-                                </tr>
-                                <tr><td colspan="7">
-                                    <div style="text-align: right;" ><img v-if="editing_config" @click="addDataConfig('control')" width="16px" height="16px" src="/image/add.png"></div>
-                                </td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <template v-if="editable">
-                    <button type="submit" v-if="editing_config" @click.prevent="addConfig()" class="btn btn-default btn-primary">确认</button>
-                    <button type="submit" v-if="editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-default">取消</button>
-                    <button type="submit" v-if="!editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-primary">修改</button>
-                </template>
-            </form>
+                    <template v-if="editable">
+                        <button type="submit" v-if="editing_config" @click.prevent="addConfig()" class="btn btn-default btn-primary">确认</button>
+                        <button type="submit" v-if="editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-default">取消</button>
+                        <button type="submit" v-if="!editing_config" @click.prevent="editing_config = !editing_config" class="btn btn-default btn-primary">修改</button>
+                    </template>
+                </form>
+            </div>
         </div>
+        <device-config-new v-if="show_new" :data="activeConfigNew" :editable="editable" :ts="ts" @updateConfig.capture="onUpdateConfigNew"/>
     </div>
 </div>
 </template>
@@ -142,6 +145,7 @@ import sensors from '../configs/sensors'
 import ports from '../configs/ports'
 import utils from '../utils'
 import bootbox from 'bootbox'
+import device_config_new from './device_config_new.vue'
 export default {
     data: function() {
         return {
@@ -154,7 +158,13 @@ export default {
             isCreate: false,
             fillable: ['name', 'type', 'company', 'model', 'sn', 'version', 'iccid'],
             dashboard_url: '/station/'+this.$route.params.station + '/dashboard',
+            show_old: false,
+            show_new: false,
+            ts: new Date().getTime(),
         };
+    },
+    components: {
+        'device-config-new': device_config_new
     },
     computed: {
         devices_url: function(){
@@ -170,6 +180,30 @@ export default {
         },
         activeConfig: function() {
             var res = _.last(this.device.configs);
+            if (res) {
+                res.control = _.reduce(res.control, function(carry, v, k) {
+                    if (_.isObject(v)) {
+                        carry[k] = v;
+                        return carry;
+                    }
+                    var job = _.split(v, ' ');
+                    carry[k] = {
+                        minute: job[0],
+                        hour: job[1],
+                        day: job[2],
+                        month: job[3],
+                        week: job[4],
+                    }
+                    return carry;
+                }, {})
+            }
+            return res;
+        },
+        activeConfigNew: function(){
+            var res = _.last(_.cloneDeep(this.device.configs));
+            if (!_.isArray(res.data)) {
+                res.data = [];
+            }
             if (res) {
                 res.control = _.reduce(res.control, function(carry, v, k) {
                     if (_.isObject(v)) {
@@ -208,8 +242,23 @@ export default {
             this.$http.get(this.apiURI + '?with=configs').then(function(res) {
                 if (res.body.configs.length == 0) {
                     res.body.configs.push({data:{},control:{}});
+                    this.show_old = true;
+                    this.show_new = true;
+                    this.device = res.body;
                 }
-                this.device = res.body;
+                else{
+                    var device_config = _.last(res.body.configs);
+                    if (_.isArray(device_config.data)) {//判断配置协议中data是否是Array 如果有就是新版本协议就显示相应的配置界面
+                        this.show_old = false;
+                        this.show_new = true;
+                        this.device = res.body;
+                    }
+                    else{
+                        this.show_old = true;
+                        this.show_new = false;
+                        this.device = res.body;
+                    }
+                }
             })
         },
         update: function() {
@@ -323,6 +372,14 @@ export default {
                     week: '*'
                 });
             });
+        },
+        onUpdateConfigNew: function(val){
+            // console.log(val);
+            var self = this;
+            this.$http.post(this.apiURI + '/config', val, {params:{alert:'保存设备配置'}}).then(function(res) {
+                self.device.configs.push(res.body);
+                self.ts = new Date().getTime();
+            })
         }
     }
 }
