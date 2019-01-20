@@ -1,7 +1,8 @@
-export default 
+export default
 [
 "PI1",
 "PI2",
+"PI3",
 "Img1",
 "Img2",
 "AD1",

@@ -6,7 +6,56 @@ export default [{
     "max_v": 100,
     "min_v": 0,
     "type_desc": "湿度"
-}, {
+},
+{
+	"name": "zwinsoft_co",
+	"desc": "空气质量传感器",
+	"unit": "",
+    "type": "CO",
+	"max_v": 100,
+	"min_v": 0
+},
+{
+	"name": "zwinsoft_o3",
+	"desc": "空气质量传感器",
+	"unit": "",
+    "type": "O3",
+	"max_v": 100,
+	"min_v": 0
+},
+{
+	"name": "zwinsoft_so2",
+	"desc": "空气质量传感器",
+	"unit": "",
+    "type": "SO2",
+	"max_v": 100,
+	"min_v": 0
+},
+{
+	"name": "zwinsoft_no2",
+	"desc": "空气质量传感器",
+	"unit": "",
+    "type": "NO2",
+	"max_v": 100,
+	"min_v": 0
+},
+{
+	"name": "zwinsoft_pm2_5",
+	"desc": "空气质量传感器",
+	"unit": "",
+    "type": "PM2_5",
+	"max_v": 100,
+	"min_v": 0
+},
+{
+	"name": "zwinsoft_pm10",
+	"desc": "空气质量传感器",
+	"unit": "",
+    "type": "PM10",
+	"max_v": 100,
+	"min_v": 0
+},
+{
     "name": "SOILMTYXR1_T",
     "desc": "土壤传感器，采集的数据为温度T",
     "unit": "℃",
@@ -46,7 +95,62 @@ export default [{
     "max_v": 60,
     "min_v": 0,
     "type_desc": "风速"
-}, {
+},
+{
+    "name": "CO",
+    "desc": "一氧化碳浓度",
+    "unit": "mg/m3",
+    "type": "CO",
+    "max_v": 0,
+    "min_v": 0,
+    "type_desc": "一氧化碳"
+},
+{
+    "name": "O3",
+    "desc": "臭氧浓度",
+    "unit": "ug/m3",
+    "type": "O3",
+    "max_v": 0,
+    "min_v": 0,
+    "type_desc": "臭氧浓度"
+},
+{
+    "name": "NO2",
+    "desc": "二氧化氮浓度",
+    "unit": "ug/m3",
+    "type": "NO2",
+    "max_v": 0,
+    "min_v": 0,
+    "type_desc": "二氧化氮浓度"
+},
+{
+    "name": "SO2",
+    "desc": "二氧化硫浓度",
+    "unit": "ug/m3",
+    "type": "SO2",
+    "max_v": 0,
+    "min_v": 0,
+    "type_desc": "二氧化硫浓度"
+},
+{
+    "name": "PM2_5",
+    "desc": "PM2.5",
+    "unit": "ug/m3",
+    "type": "PM2_5",
+    "max_v": 0,
+    "min_v": 0,
+    "type_desc": "PM2.5"
+},
+{
+    "name": "PM10",
+    "desc": "PM10",
+    "unit": "ug/m3",
+    "type": "PM10",
+    "max_v": 0,
+    "min_v": 0,
+    "type_desc": "PM10"
+},
+ {
     "name": "NHFX46A1_WD",
     "desc": " 风向传感器, 采集的数据为风向WD",
     "unit": "°",
@@ -63,6 +167,15 @@ export default [{
     "min_v": 0,
     "type_desc": "电压"
 }, {
+	"name": "DIAMS",
+	"desc":"树木径向传感器",
+	"unit":"V",
+	"type":"voltage",
+	"max_v": 3.3,
+	"min_v": 0,
+	"type_desc": "电压"
+},
+{
     "name": "DAVIS785_R",
     "desc": "雨量传感器，采集的数据为降雨量R",
     "unit": "mm",

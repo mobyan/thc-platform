@@ -261,4 +261,96 @@ export default {
             },
         }
     }),
+    'CO': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'mg/m3'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'O3': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'ug/m3'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'SO2': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'ug/m3'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'NO2': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'ug/m3'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'PM2_5': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'ug/m3'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'PM10': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'ug/m3'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'diams': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'v'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+
 }

@@ -26,6 +26,10 @@ class DownloadData implements ShouldQueue
 
     protected $options;
 
+    protected $image_url_prefix;
+
+    protected $root_path;
+
     /**
      * Create a new job instance.
      *
@@ -34,7 +38,10 @@ class DownloadData implements ShouldQueue
     public function __construct($options)
     {
         $this->options = $options;
+        $this->image_url_prefix = 'http://thc-platfrom-storage.b0.upaiyun.com';
+        $this->root_path = storage_path().'/app/';
     }
+
 
     /**
      * Execute the job.
@@ -43,8 +50,6 @@ class DownloadData implements ShouldQueue
      */
     public function handle()
     {
-        $image_url_prefix = 'http://thc-platfrom-storage.b0.upaiyun.com';
-        $root_path = storage_path().'/app/';
         $unique_key = md5(uniqid());
         $download_job = DownloadJob::find($this->options['id']);
         $folder_name = (string)($download_job->user_id).'-'.($download_job->created_at)->toDateTimeString().'-'.$unique_key;
@@ -54,64 +59,119 @@ class DownloadData implements ShouldQueue
         try {
             $query_options = json_decode($this->options['options']);
             for ($i=0; $i < count($query_options->device_ids); $i++){
+
+                $device = Device::find($query_options->device_ids[$i]);
+
+                $image_folder_path = $folder_path.$query_options->device_ids[$i].'/';
+                $csv_file_name = $device->name.'-'.($download_job->created_at)->toDateTimeString().'.csv';
+                $csv_file_path = $this->root_path.$folder_path.$csv_file_name;
+                $device_config_id = 0;
+                $data_keys_sequence = array();
+
+                if ($query_options->with_image) {
+                    Storage::makeDirectory($image_folder_path);
+                }
+
                 $device_datas = DeviceData::where('device_id', $query_options->device_ids[$i])
                                             ->whereBetween('ts', [$query_options->start_at, $query_options->end_at])
                                             ->get();
-                $device_datas_image = array();
-                $raw_device_datas_data = $device_datas->filter(function($item, $key) use (&$device_datas_image) {
-                    $data = $item->data;
-                    $config = $item->config->data;
-                    foreach ($data as $key => $value){
-                        try {
-                            $type = $config[$key]['type'];
-                            if ($type == 'image'){
-                                $item->image_key = $key;
-                                array_push($device_datas_image, $item);
-                                return false;
-                            }
-                        } catch (\Exception $e) {
-                            continue;
+                for ($i=0; $i < count($device_datas); $i++) {
+                    // echo "3--------".memory_get_usage()."\n";
+                    $is_image_data = $this->check_is_image_data($device_datas[$i]->data, $device_datas[$i]->config->data);
+                    // echo "4--------".memory_get_usage()."\n";
+                    if ($query_options->with_image)
+                    {
+                        if ($is_image_data) {
+                            $client = new Client();
+                            $image_url = current($device_datas[$i]->data)['value'];
+                            $res = $client->request('GET', $this->image_url_prefix.$image_url);
+                            $image_file_path = $image_folder_path.$device_datas[$i]->ts.'.jpg';
+                            Storage::disk('local')->put($image_file_path, $res->getBody()->getContents());
+                            // $image_file_path = null;
+                            // $res = null;
+                            // $image_url = null;
+                            // $client = null;
+                            unset($image_file_path);
+                            unset($res);
+                            unset($image_url);
+                            unset($client);
                         }
+                    }
+                    // echo "5--------".memory_get_usage()."\n";
+                    if (!$is_image_data) {
+                        if ($device_datas[$i]->device_config_id != $device_config_id) {
+                            $device_config_id = $device_datas[$i]->device_config_id;
+                            $title_line = array();
+                            $data_keys_sequence = array();
+                            array_push($title_line, 'date');
+                            foreach ($device_datas[$i]->config->data as $key => $value) {
+								array_push($title_line, iconv("UTF-8", "GB2312//IGNORE", $value['desc']));
+								// array_push($title_line, $value['desc']);
+                                array_push($data_keys_sequence, $key);
+                            }
+                            $this->save_csv($title_line, $csv_file_path);
+                            // $title_line = null;
+                            // unset($title_line);
+                        }
+                        $this->save_csv($this->get_data($device_datas[$i], $data_keys_sequence), $csv_file_path);
+                    }
+                    // echo "6--------".memory_get_usage()."\n";
+                    // unset($device_datas[$i]->device_config_id);
+                    // unset($device_datas[$i]->ts);
+                    // unset($device_datas[$i]->data);
+                    unset($device_datas[$i]->config);
+                    // unset($is_image_data);
 
-
-                    }
-                    return true;
-                });
-                if ($query_options->with_image){
-                    $image_folder_path = $folder_path.$query_options->device_ids[$i].'/';
-                    Storage::makeDirectory($image_folder_path);
-                    $client = new Client();
-                    foreach ($device_datas_image as $device_data_image) {
-                        $image_url = $device_data_image->data[$device_data_image->image_key]['value'];
-                        $res = $client->request('GET', $image_url_prefix.$image_url);
-                        // $image_file_path = $image_folder_path.($device_data_image->created_at)->toDateTimeString().'.jpg';
-                        $image_file_path = $image_folder_path.$device_data_image->ts.'.jpg';
-                        Storage::disk('local')->put($image_file_path, $res->getBody()->getContents());
-                    }
                 }
-                if ($query_options->with_data){
-                    $device = Device::find($query_options->device_ids[$i]);
-                    $csv_file_name = $device->name.'-'.($download_job->created_at)->toDateTimeString().'.csv';
-                    $processed_data_collection = $this->data_process($raw_device_datas_data);
-                    $file = fopen($root_path.$folder_path.$csv_file_name, 'w+');
-                    foreach ($processed_data_collection as $line) {
-                        fputcsv($file, $line);
-                    }
-                    fclose($file);
-                }
+                // foreach ($device_datas as $device_data) {
+                //     echo "3--------".memory_get_usage()."\n";
+                //     $is_image_data = $this->check_is_image_data($device_data->data, $device_data->config->data);
+                //     echo "4--------".memory_get_usage()."\n";
+                //     if ($query_options->with_image)
+                //     {
+                //         if ($is_image_data) {
+                //             $client = new Client();
+                //             $image_url = current($device_data->data)['value'];
+                //             $res = $client->request('GET', $this->image_url_prefix.$image_url);
+                //             $image_file_path = $image_folder_path.$device_data->ts.'.jpg';
+                //             Storage::disk('local')->put($image_file_path, $res->getBody()->getContents());
+                //             unset($image_file_path);
+                //             unset($res);
+                //             unset($image_url);
+                //             unset($client);
+                //         }
+                //     }
+                //     echo "5--------".memory_get_usage()."\n";
+                //     if (!$is_image_data) {
+                //         if ($device_data->device_config_id != $device_config_id) {
+                //             $device_config_id = $device_data->device_config_id;
+                //             $title_line = array();
+                //             $data_keys_sequence = array();
+                //             array_push($title_line, 'date');
+                //             foreach ($device_data->config->data as $key => $value) {
+                //                 array_push($title_line, $value['desc']);
+                //                 array_push($data_keys_sequence, $key);
+                //             }
+                //             $this->save_csv($title_line, $csv_file_path);
+                //             unset($title_line);
+                //         }
+                //         $this->save_csv($this->get_data($device_data, $data_keys_sequence), $csv_file_path);
+                //     }
+                //     echo "6--------".memory_get_usage()."\n";
+                //     unset($device_data->config);
+                //     unset($is_image_data);
+                // }
             }
-
-
             $zip = new ZipArchive();
-            if ($zip->open($root_path.$folder_name.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) != true) {
+            if ($zip->open($this->root_path.$folder_name.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) != true) {
                 die('An error occurred creating your zip file.');
             }
-            $this->add_file_to_zip($root_path.$folder_path, $zip);
+            $this->add_file_to_zip($this->root_path.$folder_path, $zip);
             $zip->close();
 
             Storage::deleteDirectory($folder_path);
 
-            $this->push_to_upyun($root_path.$folder_name.'.zip', $folder_name.'.zip');
+            $this->push_to_upyun($this->root_path.$folder_name.'.zip', $folder_name.'.zip');
 
             Storage::delete($folder_name.'.zip');
 
@@ -120,46 +180,60 @@ class DownloadData implements ShouldQueue
             $download_job->save();
         } catch (\Exception $e) {
             Storage::deleteDirectory($folder_path);
+            echo var_dump($e->getTrace());
             throw $e;
-
         }
     }
 
-    public function data_process($raw_data_collection){
-        $processed_data_collection = array();
-        $device_config_id = 0;
-        $data_keys_sequence = array();
-        foreach ($raw_data_collection as $raw_data){
-            if ($raw_data->device_config_id != $device_config_id) {
-                $device_config_id = $raw_data->device_config_id;
-                $title_line = array();
-                $data_keys_sequence = array();
-                array_push($title_line, 'date');
-                foreach ($raw_data->config->data as $key => $value) {
-                    if ($value['type'] != 'image') {
-                        array_push($title_line, $value['desc']);
-                        array_push($data_keys_sequence, $key);
-                    }
+    protected function check_is_image_data($data, $config) {
+        if (count($data) > 0) {
+            $key = key($data);
+            try {
+                $type = $config[$key]['type'];
+                if ($type == 'image') {
+                    // $data = null;
+                    // $config = null;
+                    return true;
+                } else {
+                    // $data = null;
+                    // $config = null;
+                    return false;
                 }
-                array_push($processed_data_collection, $title_line);
+            } catch (Exception $e) {
+                // $data = null;
+                // $config = null;
+                return false;
             }
-            $data_line = array();
-            array_push($data_line, $raw_data->ts);
-            foreach ($data_keys_sequence as $data_key) {
-                try {
-                    $value = $raw_data->data[$data_key]['value'];
-                    array_push($data_line, $value);
-                } catch (\Exception $e) {
-                    array_push($data_line, '');
-                    continue;
-                }
-            }
-            // foreach ($raw_data->data as $key => $value) {
-            //     array_push($data_line, $value['value']);
-            // }
-            array_push($processed_data_collection, $data_line);
+        } else {
+            // $data = null;
+            // $config = null;
+            return false;
         }
-        return $processed_data_collection;
+
+    }
+
+    protected function save_csv($data, $file_name) {
+        $file = fopen($file_name, 'a+');
+        fputcsv($file, $data);
+        fclose($file);
+        // unset($file);
+        return;
+    }
+
+    public function get_data($raw_data, $data_keys){
+        $data_line = array();
+        array_push($data_line, $raw_data->ts);
+        foreach ($data_keys as $data_key) {
+            try {
+                $value = $raw_data->data[$data_key]['value'];
+                array_push($data_line, $value);
+            } catch (\Exception $e) {
+                // echo "3333";
+                array_push($data_line, '');
+                continue;
+            }
+        }
+        return $data_line;
     }
 
     public function add_file_to_zip($path, $zip){
