@@ -8,6 +8,15 @@ export default [{
     "type_desc": "湿度"
 },
 {
+	"name": "PAR_Y",
+	"desc": "光合作用传感器",
+	"unit": "w/m2",
+	"type": "par",
+	"max_v": 100,
+	"min_v": 0,
+	"type_sesc": "光合有效"
+},
+{
 	"name": "zwinsoft_co",
 	"desc": "空气质量传感器",
 	"unit": "",

@@ -67,6 +67,7 @@
         var self = this;
         var station = this.$route.params.station;
         api.getDeviceData(device , query, function (err, data) {
+	      console.log(data)
           self.charts = api.data2charts(data);
           self.images = _.filter(data, {type:'image'});
         });

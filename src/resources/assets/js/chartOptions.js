@@ -128,6 +128,139 @@ export default {
             },
         }
     }),
+    'soilhumility': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '湿度'
+        // },
+        yAxis: {
+            title_v: {
+                text: '%'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'solar-radiation': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '光照'
+        // },
+        yAxis: {
+            title_v: {
+                text: 'lux'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'wind-velocity': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '风速'
+        // },
+        yAxis: {
+            title_v: {
+                text: 'm/s'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'wind-speed': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '风速'
+        // },
+        yAxis: {
+            title_v: {
+                text: 'm/s'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'wind-direction': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '风向'
+        // },
+        yAxis: {
+            title_v: {
+                text: '°'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'solar radiation': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '光照'
+        // },
+        yAxis: {
+            title_v: {
+                text: 'lux'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'wind velocity': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '风速'
+        // },
+        yAxis: {
+            title_v: {
+                text: 'm/s'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'wind direction': _.merge({}, defaultOption, {
+        // title: {
+        //     text: '风向'
+        // },
+        yAxis: {
+            title_v: {
+                text: '°'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'rainfall': _.merge({}, defaultOption, {
+        chart: {
+            type: 'column'
+        },
+        // title: {
+        //     text: '降雨量'
+        // },
+        yAxis: {
+            title_v: {
+                text: 'mm'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'pressure': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'column'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'pa'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
     'humility': _.merge({}, defaultOption, {
         // title: {
         //     text: '湿度'
@@ -345,12 +478,83 @@ export default {
 	},
 	yAxis: {
 	    title_v: {
-                text: 'v'
+                text: 'mm'
             },
             title: {
                 text: ''
             },
         }
     }),
-
+    'par': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'umol/m2.s'
+            },
+            title: {
+                text: ''
+            },
+	}}),
+    'cond': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'ms/cm'
+            },
+            title: {
+                text: ''
+            },
+	}}),
+    'ph': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'PH'
+            },
+            title: {
+                text: ''
+            },
+	}}),
+    'volt': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'v'
+            },
+            title: {
+                text: ''
+            },
+	}}),
+    'do': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'DO'
+            },
+            title: {
+                text: ''
+            },
+	}}),
+    'turb': _.merge({}, defaultOption, {
+	chart: {
+	    type: 'spline'
+	},
+	yAxis: {
+	    title_v: {
+                text: 'NTU'
+            },
+            title: {
+                text: ''
+            },
+	}})
 }

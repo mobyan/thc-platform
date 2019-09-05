@@ -38,7 +38,7 @@ class DownloadData implements ShouldQueue
     public function __construct($options)
     {
         $this->options = $options;
-        $this->image_url_prefix = 'http://thc-platfrom-storage.b0.upaiyun.com';
+        $this->image_url_prefix = 'http://images.thcreate.com';
         $this->root_path = storage_path().'/app/';
     }
 

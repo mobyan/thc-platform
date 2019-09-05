@@ -162,7 +162,7 @@ export default {
                 alert('no valid url !');
                 return;
             }
-            var url = 'http://thc-platfrom-storage.b0.upaiyun.com' + relative_url;
+            var url = 'http://images.thcreate.com' + relative_url;
             console.log(url);
             var a = $("<a>")
                 .attr("href", url)

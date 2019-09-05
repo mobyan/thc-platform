@@ -227,7 +227,7 @@
     </div>
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>
-    <!-- <script src="js/ace/jquery-2.1.4.min.js"></script> -->
+    <!--<script src="js/ace/jquery-2.1.4.min.js"></script>-->
 	<script src="/js/ace/jquery-ui.custom.min.js"></script>
 	<script src="/js/ace/jquery.ui.touch-punch.min.js"></script>
 	<script src="/js/ace/ace-elements.min.js"></script>
